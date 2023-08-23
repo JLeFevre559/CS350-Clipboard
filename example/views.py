@@ -8,7 +8,8 @@ def index(request):
     html = f'''
     <html>
         <body>
-            <h1>Hello from Vercel!</h1>
+            <h1>Hello from Clipboard!</h1>
+            <h1>This is the hosted website for the TaskBoard team from UNCO for CS350</h1>
             <p>The current time is { now }.</p>
         </body>
     </html>
