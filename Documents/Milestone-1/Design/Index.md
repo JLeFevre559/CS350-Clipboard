@@ -1,4 +1,4 @@
-# Design - Mark Seaman
+# Design - Alexander Hart
 
 **Designer Responsibilities**
 
@@ -14,20 +14,19 @@
 - Create "Hello World"
 - Decide on App deployment
 
-**Ghost Writer Technology**
+**ClipBoard Technology**
 
-* [Technology selection](Technology.md)
-    * [Technology Selection and Setup](Technology.md)
-    * [Setup Guide for Tools](Tools.md)
-    * [Application Code for "Hello World"](AppCode.md)
-    * [Application Hosting Environment](Budget.md)
+* [Technology selection](Design.md)
+    * Technology Selection and Setup
+    * Setup Guide for Tools
+    * Application Code for "Hello World"
+    * Application Hosting Environment
 * [Engineering Report](Report.md)
     * What did I do?
     * What will I do?
     * What challenges do I have?
     * Engineering investment
 * [AI Playbook](AI.md)
-    - Select a web framework and development tools for Ghost Writer
-    - Write a Setup Guide for Development Tools
-    - Write a simple app using Django
-    - Recommend four web hosting services for Django applications
+    - Describe any issues that could arise with building an application with django
+    - What are some web hosting websites that work well with django
+    - Is Vercel a good web hosting site?

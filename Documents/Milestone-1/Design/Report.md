@@ -1,18 +1,17 @@
 # Engineering Report
 
-## Milestone 1 - Design - Mark Seaman
+## Milestone 1 - Design - Alexander Hart
 
 * What did I do?
-    * Decided on technology and tools for Ghost Writer
-    * Setup dev tools and train team
-    * Work with team
+    * Decided on technology and tools for ClipBoard
+    * Setup dev tools and train team, although the team was fairly familiar with the tech already
+    * Work with team, regarding vision and design documents 
 * What will I do?  Design for Milestone 2
-    * Integrate Open AI into app
+    * Design the architecture and user interface
 * What challenges do I have?
-    * Need to get an Open AI key
+    * Understanding all the requirements and what is expected for the next Milestone
 * Engineering investment
-    * I spent about 10 hours on Design for Milestone 1
-    * Our team met for 0 hours (I'm working alone) 
+    * I spent about 6 hours on Design for Milestone 1
+    * Our team met for 4 hours 45 mins (all in class).
 * 5-minute Video Demo
-    * I may record a video later but am skipping it for now
-
+	See [Design.md](Design.md) for link
