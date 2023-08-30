@@ -3,9 +3,10 @@ from datetime import datetime
 
 from django.http import HttpResponse
 
-def index(request):
+
+def landing(request):
     now = datetime.now()
-    html = f'''
+    html = f"""
     <html>
         <body>
             <h1>Hello from Clipboard!</h1>
@@ -13,5 +14,5 @@ def index(request):
             <p>The current time is { now }.</p>
         </body>
     </html>
-    '''
+    """
     return HttpResponse(html)
