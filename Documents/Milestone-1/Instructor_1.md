@@ -1,17 +1,16 @@
-# Ghost Writer - Milestone 1 - Project Charter
+# Clipboard - Milestone 1 - Project Charter
 
-Ghost Writer is an application to help authors by adding a direct connection
-to AI for assisted writing.
+Clipboard is a application for scheduling tasks for individuals on a project
 
 Milestone 1 is the check point for launching a new project with a clear understanding
 of the business proposition, scope and priorities of the project, and the technology
 that will be used to create the desired solution.
 
-**Team Github Repo**:  [Ghost Writer Repo](../..)
+**Team Github Repo**:  [ClipBoard Repo](../..)
 
-**Team Application Server**:  [https://shrinking-world.com/sweng](https://shrinking-world.com/sweng)
+**Team Application Server**:  [https://clipboard-unco-cs350.vercel.app/](https://clipboard-unco-cs350.vercel.app/)
 
-**Team Status Website**:  [GhostWriter Team Documents](..)
+**Team Status Website**:  [Clipboard Team Documents](..)
 
 ---
 
