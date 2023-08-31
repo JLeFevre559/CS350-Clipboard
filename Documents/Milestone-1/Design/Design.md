@@ -15,7 +15,7 @@ Choose the technology to use for the project.
 
 ### Status Video 
 
-I've generated a synopsis of the finished design tasks. Watch the video here:
+I've generated a synopsis of the finished design tasks. Watch the video here: https://youtu.be/edNtALAU618
 
 ## What I will do for Milestone 2
 
