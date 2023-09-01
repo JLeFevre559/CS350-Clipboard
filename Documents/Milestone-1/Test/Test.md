@@ -12,8 +12,7 @@ I selected Vercel for hosting our app using Django as our framework.
 
 ### Status Video 
 
-I created a summary of the test and deployment work completed.  View the video at 
-** VIDEO NOT CREATED YET **
+I created a summary of the test and deployment work completed.  View the video at https://youtu.be/tH1JQeyDWrY
 
 
 ## What I will do for Milestone 2

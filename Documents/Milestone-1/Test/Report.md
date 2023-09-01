@@ -20,5 +20,5 @@
     * I spent about 6 hours on Test for Milestone 1
     * Our team met for 4 hours
 * 5-minute Video Demo
-    * I recorded a video and the link to it is in the Test.md file ** IN PROGRESS **
+    * I recorded a video and the link to it is in the Test.md file
 
