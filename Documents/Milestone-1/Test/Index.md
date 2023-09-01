@@ -1,4 +1,4 @@
-# Test - Mark Seaman
+# Test - Joel LeFevre
 
 **QA Engineer Responsibilities**
 
@@ -20,8 +20,8 @@
 * [Github Repo for Clipboard](https://github.com/JLeFevre559/CS350-Clipboard)
     * [Select a hosting service provider](https://vercel.com/)
     * [Create a simple app at hosting provider](https://clipboard-unco-cs350.vercel.app/)
-    * [Register app server URL with client](ClientURL.md)*** NOT DONE ***
-    * [Write deployment guide for dev team](Deploy.md) *** NOT DONE ***
+    * [Register app server URL with client](https://clipboard-unco-cs350.vercel.app/)
+    * [Write deployment guide for dev team](Deploy.md)
 * [Engineering Report](Report.md)
     * What did I do?
     * What will I do?
