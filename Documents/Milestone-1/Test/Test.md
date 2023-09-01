@@ -1,4 +1,4 @@
-# Milestone 1 - Test 
+# Milestone 1 - Test - Joel LeFevre
 
 Setup the initial web hosting for the project.
 
@@ -18,12 +18,10 @@ I created a summary of the test and deployment work completed.  View the video a
 
 ## What I will do for Milestone 2
 
-I am not sure what role I will be for milestone 2, but if I were to still be the testing role I would ***develop a comprehensive test plan (including Web Testing, System Testing, Unit Testing)*** This needs to be changed after you can see what the expectations are on the website again
+* I am not sure what role I will be for milestone 2, but if I were to still be the testing role I would develop a comprehensive test plan (including Web Testing, System Testing, Unit Testing.) I would also test and research our hosting service to minimize or avoid future issues with our project.
 
 
 ## Concerns and Challenges
 
-Need to do Git Pull and Git Push on server.
-
-Need to set up new database for production.
+* I'm concerned because I've noticed some odd behavior with the .gitignore since we migrated the files into the application folder. This may be a local issue on my end, but if it persists it is something that we will need to look into fixing.
 
