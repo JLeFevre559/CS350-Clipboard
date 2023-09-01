@@ -7,20 +7,18 @@ Setup the initial web hosting for the project.
 
 ### Web Hosting
 
-I Selected Digital Ocean for hosting my Django app using App Platform.
-
-[Ghost Writer Hosting](https://seamanslog.com/pubs/blog)
+I selected Vercel for hosting our app using Django as our framework.
 
 
 ### Status Video 
 
 I created a summary of the test and deployment work completed.  View the video at 
-[Milestone 1 - Test](Video.md)
+** VIDEO NOT CREATED YET **
 
 
 ## What I will do for Milestone 2
 
-Develop a comprehensive test plan (including Web Testing, System Testing, Unit Testing)
+I am not sure what role I will be for milestone 2, but if I were to still be the testing role I would ***develop a comprehensive test plan (including Web Testing, System Testing, Unit Testing)*** This needs to be changed after you can see what the expectations are on the website again
 
 
 ## Concerns and Challenges
