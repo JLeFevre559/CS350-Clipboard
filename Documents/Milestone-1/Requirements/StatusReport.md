@@ -1,58 +1,33 @@
-
 ## What I did for Milestone 1
 
-1. Requirement Gathering: 
+1. **Requirement Gathering**: 
 
-The requirements of the Ghost Writer applications were defined by the needs of potential authors
-that need support in the overall process of writing.  The results of the  Requirement Gathering
-are documented in the [Ghost Writer - Product Features](GhostWriter-ProductFeatures.md).
+The requirements of the ClipBoard application were defined by the needs of potential users who require a streamlined and intuitive task management system. The results of the Requirement Gathering are documented in the [ClipBoard - Product Features](ClipBoard-ProductFeatures.md).
 
+2. **Prioritization and Scope Definition**: 
 
-2. Prioritization and Scope Definition: 
+The product features support the goals of users who want an organized system to manage tasks and projects. The project scope, priorities, and feature set are all documented in the [ClipBoard - Product Features](ClipBoard-ProductFeatures.md).
 
-The product features support goals of writers who want guidance during development and instant
-publishing of the result. The project scope and priorities and feature set are all documented
-in the [Ghost Writer - Product Features](GhostWriter-ProductFeatures.md).
+3. **Stakeholder Review and Approval**: 
 
+Since the start of this project, I've been reviewing the features and project plans with individuals who could be potential users of ClipBoard. I plan on continuing this review process and will allow feedback to shape the development throughout the entirety of the project.
 
-3. Stakeholder Review and Approval: 
+I also aim to produce a video at every development stage to explain how the system functions. This might spark additional feedback and foster interest in the project.
 
-Since this project has started I have been reviewing the features and  project plans with
-people that would be potential customers for this project.  I plan on continuing this 
-review process and intend to allow feedback to influence the development throughout the
-entire project.
+4. **Milestone Review**: 
 
-I also intend to produce a video at every stage of the development to explain how the
-system works.  This may spark some additional feedback and renewed interest in the project.
+Given that this project is not being conducted for external stakeholders, there's no formal milestone review meeting or presentation. However, in a conventional project setting, this step is essential for a thorough assessment of completed tasks, progress, and stakeholder satisfaction. It offers an opportunity to address any potential concerns or discrepancies before proceeding, ensuring that the project stays on track and adheres to the initial requirements.
 
+5. **Status Video**: 
 
-4. Milestone Review: 
-
-Because this project is not being done to satisfy external stakeholders there is no formal
-milestone review meeting or presentation.  On a more typical project this is important
-for a comprehensive assessment of the completed tasks, progress, and stakeholder satisfaction. 
-It provides an opportunity to address any potential issues or gaps before moving forward, 
-ensuring that the project remains on track and that everyone is aligned on the initial requirements.
-
-
-5. Status Video 
-
-I created a summary of the requirements work completed.  View the video at 
-[Milestone 1 - Requirements](Video.md)
-
+I compiled a summary of the finished requirements work. View the video at [Milestone 1 - Requirements](Video.md).
 
 ## What I will do for Milestone 2
 
-Plan out 3 phases of implmentation (core features, full features, bonus features).
-
-Build customer/stakeholder communication
-
-Create team project communication and planning
-
-Update product requirements
-
+- Plan out 3 phases of implementation (core features, full features, bonus features).
+- Establish team project communication and planning.
+- Revise product requirements.
 
 ## Concerns and Challenges
 
-I am not quite sure about how integrate ChatGPT into Ghost Writer.
-
+I have reservations about how to integrate specific features and functions into ClipBoard.
