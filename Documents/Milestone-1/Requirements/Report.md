@@ -1,26 +1,31 @@
 # Engineering Report
 
-## Milestone 1 - Requirements - Mark Seaman
+## Milestone 1 - Requirements - Conner Hubbell
 
-* What did I do?
-    * Decided on value proposition for Ghost Writer
-    * Research work for milestone 1 requirements
-    * Experiment with AI for requirements gathering
-    * Create a project charter with budget and scope
-    * Identify essential features
-    * Project Priorities
-        1. Schedule
-        2. Effort
-        3. Functionality
-* What will I do?  Requirements for Milestone 2
-    * Create initial product features list
-    * Discuss scope with team
-    * Review proposal with client and get approval
-* What challenges do I have?
-    * Controlling scope will be necessary to get the project done on time
-* Engineering investment
-    * I spent about 10 hours on Requirements for Milestone 1
-    * Our team met for 0 hours (I'm working alone) 
-* 5-minute Video Demo
-    * I may record a video later but am skipping it for now
+* **What did I do?**
+    * Decided on value proposition for ClipBoard
+    * Conducted research for milestone 1 requirements specific to task management apps
+    * Experimented with AI for requirements gathering in task management
+    * Created a project charter detailing budget and scope for ClipBoard
+    * Identified essential features resembling Trello’s
+* **Project Priorities**
+    1. Schedule
+    2. Effort
+    3. Functionality
+  
+* **What will I do? Requirements for Milestone 2**
+    * Draft an initial list of product features inspired by Trello
+    * Discuss project scope with the team
+    * Review the proposal with the client and seek approval
+
+* **What challenges do I have?**
+    * Keeping the scope under control is pivotal for timely completion, especially given the depth of features Trello has
+  
+* **Engineering investment**
+    * I dedicated approximately 10 hours to the Requirements for Milestone 1
+    * Team meetings totaled 0 hours (since I'm working solo)
+  
+* **5-minute Video Demo**
+    * I'm considering recording a video later, but I'll set it aside for the moment
+
 
