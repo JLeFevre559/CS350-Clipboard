@@ -1,59 +1,58 @@
-# Application Project
+# ClipBoard Application Project
 
-Throughout this course, you will build a medium-sized application with the following guidelines:
+Throughout this course, we aim to develop `ClipBoard`, a project management tool patterned after popular web-based applications. The project guidelines are:
 
-- Patterned after a popular web-based application
-- Build software with a team of four people
-- Deliver code on a fixed schedule with 7 milestones
-- Each milestone, every member will be assigned a unique role (requirements, design, code, test) that rotates
+- Built collaboratively by a team of four members.
+- Delivered in a fixed schedule spanning 7 milestones.
+- In each milestone, every team member rotates through a unique role (requirements, design, code, test).
 
 ## Milestone 1: Project Charter
 
 In this milestone, the team will:
-- Work together to identify the app requirements.
-- Work with stakeholders to gather and analyze requirements for the web-based software app.
-- Create a detailed requirements document outlining the app's scope, features, and functionality.
+- Collaborate to identify the specific requirements for `ClipBoard`.
+- Engage with potential users and stakeholders to gather and analyze detailed requirements.
+- Produce a comprehensive requirements document, pinpointing `ClipBoard`'s scope, features, and desired functionalities.
 
 ## Milestone 2: Software Design and Architecture
 
-In this milestone, we will:
-- Design the architecture and user interface of the web-based software app.
-- Create a detailed software design document, including the high-level architecture, UI design, and technology stack.
-- Begin an early version of the application hosting.
+For `ClipBoard`, this milestone involves:
+- Crafting a unique architecture and user interface tailored to our user's needs.
+- Compiling a detailed software design document, which elaborates on the high-level architecture, UI/UX designs, and the chosen technology stack.
+- Initiating the hosting framework for `ClipBoard`.
 
 ## Milestone 3: Implementation and Coding
 
-In this milestone, the team will:
-- Collaborate to code the app.
-- Develop a functional prototype of the web-based software app using an agile development approach.
-- Build the minimum viable product (MVP) that includes the core features and functionality.
-- Produce a fully functional app with all core features implemented.
+In this crucial phase, the team will:
+- Dive into coding `ClipBoard`.
+- Deploy an agile development approach to create a functional prototype.
+- Develop the Minimum Viable Product (MVP) emphasizing `ClipBoard`'s core features.
+- Present a fully operational version of `ClipBoard` with all integral features in place.
 
 ## Milestone 4: Testing and Quality Assurance
 
-In this milestone, we will:
-- Test the web-based software app ensuring it meets the requirements document specifications.
-- Use automated testing tools and manual testing for verification.
-- Identify and rectify any defects or issues that arise during testing.
-- Ensure 50% of all code written is test code and achieve a code coverage over 95%.
+For ensuring the robustness of `ClipBoard`, this milestone covers:
+- Comprehensive testing against the detailed requirements.
+- Utilizing automated tools alongside manual testing procedures to ensure optimal user experiences.
+- Addressing and rectifying any discrepancies or issues discovered.
+- Ensuring that at least 50% of all written code is dedicated to testing, aiming for a code coverage exceeding 95%.
 
 ## Milestone 5: Deployment and Release Management
 
-In this milestone, we will:
-- Integrate the web-based software app with third-party services or APIs.
-- Deploy it to a production environment using CI/CD tools.
-- Ensure the app is available to users with the outcome being a live app accessible to them.
+As `ClipBoard` takes shape, this milestone emphasizes:
+- Seamless integration with any third-party tools or APIs that enhance `ClipBoard`'s functionality.
+- Transitioning to a production environment using streamlined CI/CD methodologies.
+- Making `ClipBoard` accessible and user-ready.
 
 ## Milestone 6: User Feedback and Enhancement
 
-In this milestone, we will:
-- Collect user feedback and identify enhancement areas.
-- Update and improve the web-based software app based on this feedback.
-- Monitor the app's performance and usage, identifying and addressing any issues.
+In response to real-world usage, this milestone involves:
+- Actively collecting feedback from `ClipBoard` users.
+- Implementing updates and refinements based on this invaluable feedback.
+- Monitoring `ClipBoard`'s performance metrics and addressing any emerging concerns or areas ripe for enhancement.
 
 ## Milestone 7: Project Closeout
 
-In this milestone, we will:
-- Conduct a project review and analyze performance.
-- Document lessons learned and draft a final report.
-- Celebrate successes and pinpoint areas for future project improvements.
+As we wrap up, this milestone sees the team:
+- Engaging in a comprehensive review of the `ClipBoard` project.
+- Documenting insights and lessons gathered throughout the development journey.
+- Celebrating the successful creation of `ClipBoard` while brainstorming areas for potential future refinements.
