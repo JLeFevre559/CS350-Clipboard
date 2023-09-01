@@ -17,7 +17,7 @@
 **Ghost Writer Project Charter**
 
 * Project Charter
-    * [Project Requirement](Requirements.md)
+    * [Project Requirements](Requirements.md)
 * [Engineering Report](Report.md)
     * What did I do?
     * What will I do?
