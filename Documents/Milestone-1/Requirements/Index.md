@@ -16,11 +16,8 @@
 
 **Ghost Writer Project Charter**
 
-* [Project Charter](Index.md)
-    * [Project Objectives](Objectives.md)
-    * [Project Scope](Scope.md)
-    * [Stakeholders](Stakeholders.md)
-    * [Timeline and Budget](Budget.md)
+* Project Charter
+    * [Project Requirement](Requirements.md)
 * [Engineering Report](Report.md)
     * What did I do?
     * What will I do?
