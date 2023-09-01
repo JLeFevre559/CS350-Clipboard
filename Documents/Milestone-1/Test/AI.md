@@ -1,55 +1,79 @@
-# AI Learning
+# AI Learning - Milestone 1 - Joel LeFevre
 
 Things I learned from ChatGPT
 
+## How can I run a local version of my django web app hosted on vercel?
 
-## Where are the four most popular places to host a Django applications?
+As of my last knowledge update in September 2021, Vercel is a platform primarily designed for deploying frontend applications and serverless functions. It's not a common choice for hosting Django web applications, as Django typically requires a more traditional web server setup. However, if you're looking to run a local version of your Django web app that's hosted on Vercel (assuming you mean the frontend part of your app), you can follow these general steps:
 
-There are several popular places to host a Django application. Here are four commonly used options:
+Clone your repository: Make sure you have a local copy of your project's repository on your computer. You can use Git to clone the repository if it's not already on your machine.
 
-1. Heroku: Heroku is a cloud platform that offers an easy and convenient way to deploy and host Django applications. It supports Django out of the box and provides a streamlined deployment process. Heroku takes care of server management, scaling, and monitoring, allowing developers to focus on the application itself. It also integrates well with Git for seamless deployment.
+Install dependencies: Navigate to your project's root directory and install any required dependencies using a package manager like npm or yarn (for frontend) and pip (for Django backend). Run the following commands:
 
-2. AWS (Amazon Web Services): AWS provides a comprehensive suite of cloud services that can be used to host Django applications. Services like Amazon EC2 (Elastic Compute Cloud) and Amazon RDS (Relational Database Service) can be utilized to set up and manage the application infrastructure. AWS Elastic Beanstalk offers a platform-as-a-service (PaaS) option for deploying Django applications with automated scaling and load balancing.
+For frontend (assuming you have a package.json):
 
-3. DigitalOcean: DigitalOcean is a cloud infrastructure provider that offers virtual private servers (Droplets) to host web applications. It provides a simple and developer-friendly interface for deploying Django applications. With DigitalOcean, you have control over your server configuration, and you can easily scale your infrastructure as needed.
+bash
+Copy code
+npm install
+For backend (assuming you have a requirements.txt):
 
-4. PythonAnywhere: PythonAnywhere is a platform specifically designed for hosting Python-based applications. It provides an environment for running Django applications in the cloud. PythonAnywhere takes care of the server setup, and you can deploy your Django application with just a few clicks. It also provides a web-based code editor and terminal for easy development and maintenance.
+bash
+Copy code
+pip install -r requirements.txt
+Start the frontend locally: If your frontend is a React or Vue.js app, you can start a development server using the respective package manager:
 
-These are just a few popular options for hosting Django applications, and there are many other hosting providers available. When choosing a hosting provider, consider factors such as cost, scalability, reliability, performance, support, and the specific needs of your application. It's also important to review the documentation and community support for each hosting platform to ensure they meet your requirements and integrate well with Django.
+For React:
 
+bash
+Copy code
+npm start
+For Vue.js:
 
-## Give Me a Cookbook for Setting Up a Django app using App Platform at Digital Ocean.
+bash
+Copy code
+npm run serve
+This will start a local development server that you can access in your web browser.
 
-Certainly! Here's a step-by-step "cookbook" guide for setting up a Django app using the App Platform at DigitalOcean:
+Connect to the Django backend: You would need to run your Django development server locally. Navigate to your Django project directory and run the following command:
 
-1. Sign in to your DigitalOcean account or create a new account if you don't have one already.
+bash
+Copy code
+python manage.py runserver
+This will start the Django development server, and your Django app should be accessible at http://127.0.0.1:8000/.
 
-2. Once logged in, navigate to the DigitalOcean App Platform dashboard.
+Remember that Vercel primarily deals with frontend deployment and is not typically used for Django backend deployment. If your Django app relies on backend functionality that's hosted on Vercel (such as serverless functions), you might need to rethink your deployment strategy for a local setup.
 
-3. Click on the "Create App" button to start the app creation process.
+Also, keep in mind that software tools and platforms may have changed or evolved since my last update in September 2021. Always refer to the latest official documentation for accurate and up-to-date information on deploying and running your applications.
 
-4. Select your preferred region and then click on "Next."
+## my front end is also django
 
-5. Choose the repository where your Django app's code is hosted. You can connect to a Git repository on GitHub, GitLab, or Bitbucket. You can also choose to deploy from a Docker image or a source code archive.
+If both your frontend and backend are built using Django, you can follow these steps to run a local version of your Django web app that's hosted on Vercel:
 
-6. Configure the deployment settings:
-   - Choose your repository and branch.
-   - Set the build command as `python manage.py collectstatic` to collect static files during the deployment process.
-   - Set the run command as `gunicorn myproject.wsgi:application` to start the Gunicorn web server.
+Clone your repository: Make sure you have a local copy of your project's repository on your computer.
 
-7. Configure the environment variables, if needed. You can set environment variables required for your Django app, such as database connection details or any other custom variables.
+Install dependencies: Navigate to your project's root directory and install the required Python dependencies from the requirements.txt file:
 
-8. Click on "Next" and review the app's details.
+bash
+Copy code
+pip install -r requirements.txt
+Set up your local environment variables: Your Django app might have environment variables that are required for configuration. Create a .env file in your project's root directory and set the necessary environment variables. Refer to your app's documentation or configuration files to know what environment variables are needed.
 
-9. Click on "Launch App" to start the deployment process.
+Run migrations: If your app uses a database, you need to run the migrations to set up the database schema:
 
-10. DigitalOcean App Platform will automatically build and deploy your Django app based on the provided configuration. You can monitor the progress on the deployment page.
+bash
+Copy code
+python manage.py migrate
+Start the local development server: Run the following command to start the Django development server:
 
-11. Once the deployment is complete, you will receive a URL for your Django app. You can access your app by visiting that URL.
+bash
+Copy code
+python manage.py runserver
+Your Django app should now be accessible locally at http://127.0.0.1:8000/.
 
-That's it! You have successfully set up a Django app using the App Platform at DigitalOcean. You can make changes to your code, and the App Platform will automatically rebuild and redeploy your app when you push changes to the connected repository.
+Access the frontend: Since your frontend is also built using Django, you can access it through the same local development server that you started in the previous step.
 
-Remember to refer to the DigitalOcean App Platform documentation for detailed instructions and any updates to the setup process.
+Test your app: Open your web browser and navigate to http://127.0.0.1:8000/ to interact with your local Django app.
 
+It's important to note that Vercel is primarily designed for deploying frontend applications and serverless functions, and Django is often deployed on more traditional web hosting platforms like Heroku, AWS, or DigitalOcean. Running Django on Vercel might involve unconventional setups and configurations, and you might encounter limitations due to the nature of Vercel's platform.
 
-...  Response Omitted ...
+As of my last update in September 2021, this information might not be the latest or most accurate, so I recommend referring to Vercel's and Django's official documentation for any recent changes or updates.

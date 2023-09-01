@@ -15,20 +15,17 @@
 - Write deployment guide for dev team
 
 
-**Ghost Writer Application Hosting**
+**Clipboard Application Hosting**
 
-* [Github Repo for Ghost Writer](Index.md)
-    * [Select a hosting service provider](Hosting.md)
-    * [Create a simple app at hosting provider](DigitalOcean.md)
-    * [Register app server URL with client](ClientURL.md)
-    * [Write deployment guide for dev team](Deploy.md)
+* [Github Repo for Clipboard](https://github.com/JLeFevre559/CS350-Clipboard)
+    * [Select a hosting service provider](https://vercel.com/)
+    * [Create a simple app at hosting provider](https://clipboard-unco-cs350.vercel.app/)
+    * [Register app server URL with client](ClientURL.md)*** NOT DONE ***
+    * [Write deployment guide for dev team](Deploy.md) *** NOT DONE ***
 * [Engineering Report](Report.md)
     * What did I do?
     * What will I do?
     * What challenges do I have?
     * Engineering investment
 * [AI Playbook](AI.md)
-    - Select a hosting service provider
-    - Create a simple app at hosting provider
-    - Register app server URL with client
-    - Write deployment guide for dev team
+    - Setup a local version of a django server
