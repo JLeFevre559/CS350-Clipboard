@@ -1,20 +1,4 @@
-# Requirements - Mark Seaman
-
-**Project Manager Responsibilities**
-
-* Define project goals and objectives: The project manager must clearly articulate the purpose and desired outcomes of the project.
-* Define project scope and deliverables: The project manager needs to establish the boundaries and specific deliverables of the project.
-* Identify project stakeholders: Identifying all stakeholders involved in the project is essential for effective communication and collaboration.
-* Develop project timeline and budget: The project manager should create a timeline that outlines the project's milestones and a budget that outlines the estimated costs.
-
-**Project Charter**
-
-- Business proposition
-- Project scope & budget
-- Client communication
-- Sprint Planning meetings
-
-**Ghost Writer Project Charter**
+**ClipBoard Project Charter**
 
 * Project Charter
     * [Project Requirements](Requirements.md)
