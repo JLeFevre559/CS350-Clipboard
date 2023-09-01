@@ -22,10 +22,10 @@
     * Keeping the scope under control is pivotal for timely completion, especially given the depth of features Trello has
   
 * **Engineering investment**
-    * I dedicated approximately 10 hours to the Requirements for Milestone 1
-    * Team meetings totaled 0 hours (since I'm working solo)
+    * I dedicated approximately 6 hours to the Requirements for Milestone 1
+    * Team meetings totaled 4 hours 
   
 * **5-minute Video Demo**
-    * I'm considering recording a video later, but I'll set it aside for the moment
+    * 
 
 
