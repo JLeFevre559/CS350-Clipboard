@@ -2,6 +2,9 @@
 
 * Project Charter
     * [Project Requirements](Requirements.md)
+    * [Project Scope](Scope.md)
+    * [Stakeholders](Stakeholders.md)
+    * [Timeline](Timeline.md)
 * [Engineering Report](Report.md)
     * What did I do?
     * What will I do?
