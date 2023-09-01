@@ -1,4 +1,4 @@
-# Code - Mark Seaman
+# Code - Shane Loewe
 
 **Programmer Responsibilities**
 
@@ -15,9 +15,9 @@
 - User Guide for development workflow
 
 
-**Ghost Writer Github Repo**
+**Clipboard Github Repo**
 
-* [Github Repo for Ghost Writer](Index.md)
+* [Github Repo for Clipboard](Index.md)
     * [Setup Github account](GithubRepo.md)
     * [Setup Github Pages repository](Documents.md)
     * [Build app code directory structure](AppCode.md)

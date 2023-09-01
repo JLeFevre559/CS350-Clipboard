@@ -1,22 +1,22 @@
 # Engineering Report
 
-## Milestone 1 - Code - Mark Seaman
+## Milestone 1 - Code - Shane Loewe
 
 * What did I do?
-    * I experimented with different forms of documentation for the project
-    * Build a Github repo with directory structure
+    * I set up the documentation provided by Mark Seaman in our Git Repo by downloading and importing the Milestone-1 folder from his GitHub
+    * Although the repo is under Joel's name given the nature of Vercel and how they set-up projects for you, I organized and rearranged the Project files and structure from the Vercel default as detailed below.
         * Documents - project documentation
-        * Application - source code for the Ghost Writer app
-    * Experiment with AI for coding
+        * Application - source code for the Clipboard app
+    * Experiment with AI (ChatGPT) for coding
 * What will I do?  Code for Milestone 2
-    * Create initial prototype
-    * Work with team
-    * Demonstrate the core feature of Ghost Writer (Open AI API integration)
+    * Create initial prototype for pages laid out by Requirements and Design Team 
+    * Work with team on design and scalable code 
+    * Demonstrate the core feature of Clipboard: Interactive and responsive Cards in flexboxes
 * What challenges do I have?
     * No challenges outstanding
 * Engineering investment
-    * I spent about 10 hours on Code for Milestone 1
-    * Our team met for 0 hours (I'm working alone) 
+    * I spent about 2 or 3 hours on Code for Milestone 1
+    * Our team met for 3 or 4 hours in class 
 * 5-minute Video Demo
-    * I may record a video later but am skipping it for now
+    * https://www.youtube.com/watch?v=-afZ3K8YGNc
 
