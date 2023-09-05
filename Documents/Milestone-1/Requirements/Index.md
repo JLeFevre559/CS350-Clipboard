@@ -12,8 +12,8 @@
     * Engineering investment
     * 5-minute Video Demo
 * [AI Playbook](AI.md)
-    * Write a project charter for the Ghost Writer app
+    * Write a project charter for the ClipBoard app
     * Requirements gathering process for Milestone 1
     * Job Description for Project Manager
-    * Draft the functional requirements for Ghost Writer
+    * Draft the functional requirements for ClipBoard
 
