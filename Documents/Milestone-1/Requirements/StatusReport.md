@@ -17,7 +17,7 @@ I also aim to produce a video at every development stage to explain how the syst
 
 4. **Status Video**: 
 
-I compiled a summary of the finished requirements work. View the video at [Milestone 1 - Requirements](Video.md).
+I compiled a summary of the finished requirements work. View the video at [Video](Video.md).
 
 ## What I will do for Milestone 2
 
