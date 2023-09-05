@@ -26,6 +26,6 @@
     * Team meetings totaled 4 hours 
   
 * **[5-minute Video Demo](Video.md)**
-    * 
+
 
 
