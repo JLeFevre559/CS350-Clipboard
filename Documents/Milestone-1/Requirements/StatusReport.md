@@ -14,9 +14,6 @@ Since the start of this project, I've been reviewing the features and project pl
 
 I also aim to produce a video at every development stage to explain how the system functions. This might spark additional feedback and foster interest in the project.
 
-4. **Milestone Review**: 
-
-Given that this project is not being conducted for external stakeholders, there's no formal milestone review meeting or presentation. However, in a conventional project setting, this step is essential for a thorough assessment of completed tasks, progress, and stakeholder satisfaction. It offers an opportunity to address any potential concerns or discrepancies before proceeding, ensuring that the project stays on track and adheres to the initial requirements.
 
 5. **Status Video**: 
 
