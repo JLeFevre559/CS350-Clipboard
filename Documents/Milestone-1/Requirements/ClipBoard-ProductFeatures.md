@@ -12,7 +12,7 @@ Managing tasks and projects in an organized manner is pivotal for teams and indi
 ## Priorities
 
 * **Features** - As a beginner-friendly project, the primary focus is on ensuring clarity, usability, and a foundational understanding of project management principles.
-* **Time** - The timeline for this project is flexible, aiming to balance learning with feature development.
+* **Time** - The timeline for this project is not very flexible, aiming to balance learning with feature development but also deliver the milestones on time.
 * **Money** - The investment is primarily in terms of time and effort. No external resources are budgeted for this initial phase.
 
 ## Features
