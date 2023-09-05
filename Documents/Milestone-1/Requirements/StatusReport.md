@@ -15,7 +15,7 @@ Since the start of this project, I've been reviewing the features and project pl
 I also aim to produce a video at every development stage to explain how the system functions. This might spark additional feedback and foster interest in the project.
 
 
-5. **Status Video**: 
+4. **Status Video**: 
 
 I compiled a summary of the finished requirements work. View the video at [Milestone 1 - Requirements](Video.md).
 
