@@ -25,7 +25,7 @@
     * I dedicated approximately 6 hours to the Requirements for Milestone 1
     * Team meetings totaled 4 hours 
   
-* **5-minute Video Demo**
+* **[5-minute Video Demo]{Video.md}**
     * 
 
 
