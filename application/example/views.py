@@ -4,10 +4,9 @@ from django.views.generic import TemplateView
 from django.http import HttpResponse
 
 class IndexView(TemplateView):
-    template_name = 'navbar.html'
+    template_name = '_navbar.html'
 
-''' commented out for testing of new views url landing page
-def landing(request):
+def index(request):
     now = datetime.now()
     html = f"""
     <html>
@@ -19,4 +18,3 @@ def landing(request):
     </html>
     """
     return HttpResponse(html)
-'''
