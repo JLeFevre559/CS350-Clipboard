@@ -1,9 +1,7 @@
 # example/urls.py
 from django.urls import path
-
-from example.views import landing
-
+from .views import IndexView
 
 urlpatterns = [
-    path("", landing),
+    path("", IndexView.as_view()),
 ]

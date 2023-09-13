@@ -1,0 +1,50 @@
+<style>
+/*Until we get a style sheet this will be used for very messy prototyping*/
+a:link, a:visited {
+font-weight: bold;
+border-radius: 25px;
+background-color: #3045fe;
+color: rgb(254, 254, 254);
+padding: 25px 25px;
+text-align: center;
+margin:10px;
+text-decoration: none;
+display: inline-block;
+max-height: 20px;
+}
+
+a:hover, a:active {
+background-color: rgb(0, 0, 146);
+}
+
+div{
+display: flex;
+justify-content: space-between;
+}
+
+.Outlined-box{
+border: 2px solid rgb(204, 204, 204);
+text-align: center;
+padding: 10px;
+margin: 20px;
+}
+
+.centered-text {
+  text-align: center;
+  padding: 20px;
+}
+
+</style>
+<nav class="Outlined-box">
+    <div class="container">
+        <a href="/calendar" class="btn btn-dark">Calendar</a>
+        <div class="container">
+            <img src="../static/images/Clipboard-Icon.png" alt="Clipboard Icon" width="254" height="68">
+        </div>
+        <div class="container">
+            <a href="/project" class="btn btn-dark">Project</a>
+            <div></div>
+            <a href="/profile" class="btn btn-dark"> Profile</a>
+        </div>
+    </div>
+</nav>
