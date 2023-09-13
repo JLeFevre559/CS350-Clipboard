@@ -1,9 +1,12 @@
 # example/views.py
 from datetime import datetime
-
+from django.views.generic import TemplateView
 from django.http import HttpResponse
 
+class IndexView(TemplateView):
+    template_name = 'navbar.html'
 
+''' commented out for testing of new views url landing page
 def landing(request):
     now = datetime.now()
     html = f"""
@@ -16,3 +19,4 @@ def landing(request):
     </html>
     """
     return HttpResponse(html)
+'''
