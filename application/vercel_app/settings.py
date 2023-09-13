@@ -57,6 +57,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
         'APP_DIRS': True,
+        'navbar.html': 'example/Templates/navbar.html'
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
