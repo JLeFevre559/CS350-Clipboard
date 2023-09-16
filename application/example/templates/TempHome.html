@@ -1,0 +1,27 @@
+{% extends 'theme.html' %}
+
+
+{% block title %}
+Clipboard
+{% endblock title %}
+
+
+{% block content %}
+<h1>Hello from Clipboard!</h1>
+<h1>This is the hosted website for the TaskBoard team from UNCO for CS350</h1>
+<p>The current date and time is <span id="currentDateTime"></span></p>
+
+<script>
+    // Function to update the current date and time
+    function updateCurrentDateTime() {
+        const currentDateTimeElement = document.getElementById('currentDateTime');
+        const now = new Date();
+        const formattedDateTime = now.toLocaleString();
+        currentDateTimeElement.textContent = formattedDateTime;
+    }
+
+    // Call the function initially and set it to update every second
+    updateCurrentDateTime();
+    setInterval(updateCurrentDateTime, 1000); // Update every 1 second
+</script>
+{% endblock content %}

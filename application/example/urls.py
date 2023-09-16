@@ -1,8 +1,7 @@
 # example/urls.py
 from django.urls import path
-from example.views import index, IndexView
+from example.views import Index
 
 urlpatterns = [
-    path('', index),
-    path('_navbar', IndexView.as_view()),
+    path('', Index.as_view()),
 ]
