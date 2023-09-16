@@ -3,9 +3,12 @@ from datetime import datetime
 from django.views.generic import TemplateView
 from django.http import HttpResponse
 
-class IndexView(TemplateView):
-    template_name = '_navbar.html'
+class Index(TemplateView):
+    template_name = 'TempHome.html'
 
+'''Round two lets gooooooooo!!!!!!'''
+
+'''
 def index(request):
     now = datetime.now()
     html = f"""
@@ -18,3 +21,4 @@ def index(request):
     </html>
     """
     return HttpResponse(html)
+'''
