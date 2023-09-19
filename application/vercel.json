@@ -10,8 +10,5 @@
       "src": "/(.*)",
       "dest": "vercel_app/wsgi.py"
     }
-  ],
-
-  "outputDirectory": "staticfiles_build"
-
+  ]
 }
