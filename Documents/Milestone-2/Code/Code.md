@@ -21,7 +21,7 @@ Test-Driven Development Workflow: Test stuff by making some prototypes
 
 I've generated a synopsis of the finished Code tasks. Watch the video here: 
 
-## What I will do for Milestone 2
+## What I will do for Milestone 3
 
 Demonstrate the technological validity by creating a prototype showcasing the key feature.
 
