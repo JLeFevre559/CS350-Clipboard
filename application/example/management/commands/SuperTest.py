@@ -1,11 +1,9 @@
-import unittest
-from django.test.runner import DiscoverRunner
+from django.core.management.base import BaseCommand
+from django.core.management import call_command
 
-class AllTests(unittest.TestCase): ## To be tested later DON'T RUN
-    def test_run_all_tests(self):
-        runner = DiscoverRunner()
-        failures = runner.run_tests(["app_name.tests"])
-        self.assertEqual(failures, 0, f"Test suite failed with {failures} test(s) failing")
+class Command(BaseCommand): ## To be tested later DON'T RUN
+    help = 'Runs all current Test which are ModelTEST'
 
-if __name__ == "__main__":
-    unittest.main()
+    def handle(self, *args, **options):
+        call_command('ModelTEST')
+
