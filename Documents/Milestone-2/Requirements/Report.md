@@ -24,4 +24,4 @@
     * Our team met for 6 hours
 
 * 5-minute Video Demo
-    * Unfinished
+    * https://youtu.be/18vV-jQPBnk
