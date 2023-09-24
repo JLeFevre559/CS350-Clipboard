@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
+import uuid
 
 class Project(models.Model):
     name = models.CharField(max_length=200)
@@ -29,10 +30,14 @@ class Tasks(models.Model):
     )
     priority = models.CharField(max_length=50, choices=PRIORITY_CHOICES, default='None')
 
+class ClipboardUser(User):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(ClipboardUser, on_delete=models.CASCADE)
     bio = models.TextField(max_length=1000, default="None")
     profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
     email = models.EmailField(max_length=200, default="None")
     date_of_birth = models.DateField(blank=True, null=True)
     projectlist = models.ForeignKey(Project, on_delete=models.CASCADE, blank=True, null=True)
+
