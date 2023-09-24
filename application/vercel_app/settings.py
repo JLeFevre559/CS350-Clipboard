@@ -99,8 +99,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# User Auth Model
-AUTH_USER_MODEL = 'example/model.ClipboardUser'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
