@@ -36,3 +36,4 @@ class Profile(models.Model):
     email = models.EmailField(max_length=200, default="None")
     date_of_birth = models.DateField(blank=True, null=True)
     projectlist = models.ForeignKey(Project, on_delete=models.CASCADE, blank=True, null=True)
+
