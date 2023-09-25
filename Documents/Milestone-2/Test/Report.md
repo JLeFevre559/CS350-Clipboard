@@ -20,5 +20,5 @@
     * everyday regarding changes we were making. I'd say for my own investment on this milestone, I probably put in
     * close to 5 hours of work.
 * 5-minute Video Demo
-    * 
+    * https://www.youtube.com/watch?v=abYCk2Shtxg
 

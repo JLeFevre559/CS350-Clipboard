@@ -2,13 +2,12 @@
 
 Setup automated testing for the project by integrating Checkly.
 
-
 ## What I did for Milestone 2
 
 I set up automated testing with the Playwrite framework for our site by integrating Checkly into our Vercel server.
 
 ### Status Video 
-
+https://www.youtube.com/watch?v=abYCk2Shtxg
 
 ## What I will do for Milestone 3
 I will be in the Requirements role and will plan what our sprints will look like, along with doing some data-modeling for
