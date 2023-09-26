@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
+from decouple import config
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -78,9 +80,17 @@ WSGI_APPLICATION = 'vercel_app.wsgi.app'
 # Note: Django modules for using databases are not support in serverless
 # environments like Vercel. You can use a database over HTTP, hosted elsewhere.
 
-DATABASES = {}
-
-
+DATABASES = {
+    'default':{
+        'ENGINE': 'djongo',
+        'NAME': 'clipboardDB',
+        "CLIENT":{
+            'host': config('DB_HOST'),
+                'username': config('DB_USER'),
+                'password': config('DB_PASS'),
+        }
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
