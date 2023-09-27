@@ -14,7 +14,52 @@ class Command(BaseCommand):
             
             # Check that the response status code is in the 2xx range
             if 200 <= response.status_code < 300:
-                self.stdout.write(self.style.SUCCESS('URL exists and returned a successful status code.'))
+                self.stdout.write(self.style.SUCCESS(f'{url} exists and returned a successful status code.'))
+            else:
+                self.stdout.write(self.style.ERROR(f'URL returned a {response.status_code} status code.'))
+        
+        except requests.exceptions.RequestException as e:
+            self.stdout.write(self.style.ERROR(f'Error while checking URL: {str(e)}'))
+
+        url = 'https://clipboard-unco-cs350.vercel.app/Calendar'
+        
+        try:
+            # Send a GET request to the URL
+            response = requests.get(url)
+            
+            # Check that the response status code is in the 2xx range
+            if 200 <= response.status_code < 300:
+                self.stdout.write(self.style.SUCCESS(f'{url} exists and returned a successful status code.'))
+            else:
+                self.stdout.write(self.style.ERROR(f'URL returned a {response.status_code} status code.'))
+        
+        except requests.exceptions.RequestException as e:
+            self.stdout.write(self.style.ERROR(f'Error while checking URL: {str(e)}'))
+
+        url = 'https://clipboard-unco-cs350.vercel.app/Project'
+        
+        try:
+            # Send a GET request to the URL
+            response = requests.get(url)
+            
+            # Check that the response status code is in the 2xx range
+            if 200 <= response.status_code < 300:
+                self.stdout.write(self.style.SUCCESS(f'{url} exists and returned a successful status code.'))
+            else:
+                self.stdout.write(self.style.ERROR(f'URL returned a {response.status_code} status code.'))
+        
+        except requests.exceptions.RequestException as e:
+            self.stdout.write(self.style.ERROR(f'Error while checking URL: {str(e)}'))
+
+        url = 'https://clipboard-unco-cs350.vercel.app/Profile'
+        
+        try:
+            # Send a GET request to the URL
+            response = requests.get(url)
+            
+            # Check that the response status code is in the 2xx range
+            if 200 <= response.status_code < 300:
+                self.stdout.write(self.style.SUCCESS(f'{url} exists and returned a successful status code.'))
             else:
                 self.stdout.write(self.style.ERROR(f'URL returned a {response.status_code} status code.'))
         
