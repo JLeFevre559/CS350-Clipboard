@@ -1,6 +1,6 @@
 # example/urls.py
 from django.urls import path, include
-from example.views import Index, Calendar, Project, Profile, CustomLoginView, SignupView, Home
+from example.views import Index, Calendar, Project, Profile, CustomLoginView, SignupView
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -11,5 +11,4 @@ urlpatterns = [
     path('login/', CustomLoginView.as_view(), name='login'),
     path('signup/', SignupView.as_view(), name='signup'),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('home/', Home.as_view(), name='home'),
 ]

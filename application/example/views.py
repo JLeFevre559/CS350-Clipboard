@@ -34,5 +34,3 @@ class SignupView(FormView):
         login(self.request, user)
         return super().form_valid(form)
     
-class Home(TemplateView):
-    template_name = 'TempHome.html'
