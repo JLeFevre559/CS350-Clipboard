@@ -38,6 +38,11 @@ body {
   font-family: Arial, sans-serif;
 }
 
+.center{
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+}
 .task-list {
   border: 2px solid #000000;
   padding: 10px;
