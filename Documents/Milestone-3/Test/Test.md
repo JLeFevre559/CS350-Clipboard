@@ -20,7 +20,7 @@ Test-Driven Development Workflow: Test stuff by making some tests
 
 ### Status Video 
 
-I've generated a synopsis of the finished Test tasks. Watch the video here: 
+I've generated a synopsis of the finished Test tasks. Watch the video here: https://youtu.be/82AtojYo4P0
 
 ## What I will do for Milestone 4
 
