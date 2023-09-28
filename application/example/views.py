@@ -7,9 +7,18 @@ from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.contrib.auth import get_user_model
 
 class Index(TemplateView):
     template_name = 'TempHome.html'
+    user = get_user_model()
+
+    # this redirects to the login page when a non-logged in user tries to view the home page
+    # @method_decorator(login_required)
+    # def dispatch(self, *args, **kwargs):
+    #     return super(Index, self).dispatch(*args, **kwargs)
 
 class Calendar(TemplateView):
     template_name = 'Calendar.html'

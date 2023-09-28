@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
-    <!-- Add your CSS stylesheets and scripts here -->
-</head>
+    {% extends 'theme.html' %}
+
+
+    {% block title %}
+    Clipboard
+    {% endblock title %}
+        
+        
+    {% block content %}
 <body>
     <div class="container">
         <h1>Sign Up</h1>
@@ -22,4 +25,5 @@
         <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
     </div>
 </body>
+{% endblock content %}
 </html>
