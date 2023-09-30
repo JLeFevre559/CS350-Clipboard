@@ -1,3 +1,5 @@
+# Views code - Milestone 3 - Design - Joel LeFevre (Creating these views was a team effort)
+
 # example/views.py
 from datetime import datetime
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -64,7 +66,7 @@ class ProjectUpdateView(LoginRequiredMixin, UpdateView):
 
 class ProjectDeleteView(LoginRequiredMixin, DeleteView):
     model = Project
-    template_name = 'Projects/project_confirm_delete.html'
+    template_name = 'projects/project_confirm_delete.html'
     success_url = reverse_lazy('Project')
 
     def post(self, request, *args, **kwargs):
