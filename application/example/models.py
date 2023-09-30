@@ -5,6 +5,7 @@ import uuid
 
 # stores project info and profile id of the user it belongs to
 class Project(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=200)
     description = models.TextField(default="None")
     profile_id = models.ForeignKey('Profile', on_delete=models.CASCADE)

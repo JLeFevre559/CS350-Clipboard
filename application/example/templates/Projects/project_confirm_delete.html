@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+{% extends 'theme.html' %}
+
+{% block title %}
+Clipboard
+{% endblock title %}
+
+{% block content %}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Project Delete</title>
+    </head>
+<body>
+  <h1>Confirm Deletion</h1>
+  <p>Are you sure you want to delete "{{ project.name }}"?</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" name="delete" value="yes">Yes, delete</button>
+  </form>
+  <a href="/Project">Cancel</a>
+</body>
+</html>
+{% endblock %}
