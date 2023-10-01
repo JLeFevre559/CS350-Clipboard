@@ -1,6 +1,4 @@
-# Clipboard: A Task Management System
-
-Clipboard is a web application designed for task management. It utilizes HTML, CSS, and JavaScript within a Django template.
+# Code Milestone 3
 
 ## Features and Code Snippets
 
