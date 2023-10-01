@@ -1,12 +1,12 @@
 # Clipboard: A Task Management System
 
-**Clipboard** is a web-based task management system, providing a straightforward and user-friendly interface to manage tasks efficiently. It is crafted with HTML, CSS, JavaScript, and embedded into a Django template.
+Clipboard is a web application designed for task management. It utilizes HTML, CSS, and JavaScript within a Django template.
 
 ## Features and Code Snippets
 
 ### Task Listing
 
-Tasks are distinctly listed with due dates and status, ensuring users are aware of pending work.
+The system lists tasks with associated due dates and statuses.
 
 ```html
 <h4>Tasks Due: 10/26/2023</h4>
@@ -17,7 +17,7 @@ Tasks are distinctly listed with due dates and status, ensuring users are aware 
 
 ### Snippet 2: Detailed Task Information
 ### Detailed Task Information
-Upon clicking a task, detailed information such as assignee, task specifics, and due dates are displayed in a popup.
+Detailed information of a task, such as assignee and due date, is displayed in a popup upon task selection.
 
 ```html
 <div class="popup" id="popup1">
@@ -27,7 +27,7 @@ Upon clicking a task, detailed information such as assignee, task specifics, and
 ### Snippet 3: Status Updates
 ### Status Updates
 
-Users have the ability to update task statuses within these popups, making task management convenient and fluid.
+Task statuses can be updated by users within the previously mentioned popups.
 
 ```html
 <button id="task3InProgress" class="textStatusBox" onclick="updateTaskStatus(1, 'In-progress')">In Progress</button>
@@ -37,7 +37,7 @@ Users have the ability to update task statuses within these popups, making task 
 ### Snippet 4: JavaScript Interactivity
 ### JavaScript Interactivity
 
-JavaScript is leveraged to show or hide popups and update the status of tasks and task lists dynamically, enhancing user experience by providing real-time feedback and interaction without requiring page reloads.
+JavaScript functions manage popup visibility and dynamic task status updating without page reloads.
 
 ```javascript
 function showPopup(popupId) { /* ... */ }
