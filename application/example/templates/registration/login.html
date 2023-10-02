@@ -4,23 +4,24 @@
 
 
 {% block title %}
-Clipboard
+Login
 {% endblock title %}
     
     
 {% block content %}
 <body>
-    <div class="container">
-        <h1>Login</h1>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.username.label_tag }} {{ form.username }}
-            <br>
-            {{ form.password.label_tag }} {{ form.password }}
-            <br>
-            <button type="submit">Login</button>
-        </form>
-        <p>Don't have an account? <a href="{% url 'signup' %}">Sign up</a></p>
+    <div class="SignUpBox">
+        <ul>
+            <form method="post">
+                {% csrf_token %}
+                <b>{{ form.username.label_tag }}</b><br> {{ form.username }}
+                <br>
+                <b>{{ form.password.label_tag }}</b><br> {{ form.password }}
+                <br>
+                <button type="submit" class="loginButton">Login</button>
+            </form>
+            <p>Don't have an account? <a href="{% url 'signup' %}">Sign up</a></p>
+        </ul>
     </div>
 </body>
 </html>

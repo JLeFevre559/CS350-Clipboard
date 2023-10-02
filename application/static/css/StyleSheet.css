@@ -151,3 +151,23 @@ ul li {
   width: 10%;
   height: 10%;
 }
+
+.SignUpBox {
+  width: 50%;
+  height: 80%;
+}
+
+.loginButton{
+  font-weight: bold;
+  border-radius: 25px;
+  background-color: #3045fe;
+  color: rgb(254, 254, 254);
+  padding: 25px 25px;
+  text-align: center;
+  margin: 10px;
+  text-decoration: none;
+  display: inline-block;
+  max-height: 20px;
+  height: 0;
+  line-height: 0;
+}
