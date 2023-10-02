@@ -1,28 +1,23 @@
 # Engineering Report
 
-## Milestone 1 - Requirements - Conner Hubbell
+## Milestone 4 - Requirements - Alexander Hart
 
 * **What did I do?**
-    * Decided on value proposition for ClipBoard
-    * Conducted research for milestone 1 requirements specific to task management apps
-    * Experimented with AI for requirements gathering in task management
-    * Created a project charter detailing budget and scope for ClipBoard
-    * Identified essential features resembling Trello’s
-* **Project Priorities**
-    1. Schedule
-    2. Effort
-    3. Functionality
+    * Created a template for all of the milestones 2-7 for documentation.
+    * Created documentation for assisting in team coordination of team assets.
+    * Consolidated the current documentation that we already had for team coordination.
+    * Continued use of channels for communication between team members.
   
-* **What will I do? Requirements for Milestone 2**
-    * Draft an initial list of product features inspired by Trello
-    * Discuss project scope with the team
-    * Review the proposal with the client and seek approval
+* **What will I do? Requirements for Milestone 5**
+    * Milestone Completion: taking a look at how far we have come and how much further we have to go.
+    * Task and Subtask tracking: take a look at what tasks are done and need to be done
+    * Review progress with the client and seek approval
 
 * **What challenges do I have?**
-    * Keeping the scope under control is pivotal for timely completion, especially given the depth of features Trello has
+    * Preparing for all of the elements that are required for good team coordination
   
 * **Engineering investment**
-    * I dedicated approximately 6 hours to the Requirements for Milestone 1
+    * I dedicated approximately 6 hours to the Requirements for Milestone 4
     * Team meetings totaled 4 hours 
   
 * **[5-minute Video Demo](Video.md)**
