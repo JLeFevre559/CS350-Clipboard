@@ -20,6 +20,7 @@ Clipboard
     <!-- Add more project details here -->
     <li><a href="{% url 'project-delete' project.id %}">Delete project</a></li>
     <a href="/Project">Back to Project List</a>
+    <a href="{% url 'project-update' project.id%}">Edit Project</a>
 </body>
 </html>
 {% endblock content %}

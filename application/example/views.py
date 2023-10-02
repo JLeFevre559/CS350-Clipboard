@@ -60,7 +60,7 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
 
 class ProjectUpdateView(LoginRequiredMixin, UpdateView):
     model = Project
-    template_name = 'Project/project_form.html'
+    template_name = 'Projects/project_form.html'
     form_class = ProjectForm
 
     def get_success_url(self):
