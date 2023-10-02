@@ -4,14 +4,13 @@
 
 
     {% block title %}
-    Clipboard
+    <h1>Sign Up</h1>
     {% endblock title %}
         
         
     {% block content %}
 <body>
     <div class="container">
-        <h1>Sign Up</h1>
         <form method="post">
             {% csrf_token %}
             {{ form.username.label_tag }} {{ form.username }}
