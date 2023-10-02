@@ -1,7 +1,7 @@
 **ClipBoard Project Charter**
 
 * Project Charter
-    * [Project Requirements](Requirements.md)
+    * [Demo Video] https://youtu.be/VT_Q4JWHOUg
 * [Engineering Report](Report.md)
     * What did I do?
     * What will I do?
@@ -9,8 +9,6 @@
     * Engineering investment
     * 5-minute Video Demo
 * [AI Playbook](AI.md)
-    * Write a project charter for the ClipBoard app
-    * Requirements gathering process for Milestone 1
-    * Job Description for Project Manager
-    * Draft the functional requirements for ClipBoard
+    * Client Report
+    * Challenges
 
