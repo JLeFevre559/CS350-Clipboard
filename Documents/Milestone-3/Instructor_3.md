@@ -2,7 +2,7 @@
 
 Clipboard is a application for scheduling tasks for individuals on a project
 
-Milestone 2 is the check point for the functional prototype, testing the techinal
+Milestone 3 is the check point for the functional prototype, testing the techinal
 feasiablity of our project in a way that is easy to measure. If required we can
 reframe our scope for this project.
 

@@ -1,10 +1,11 @@
-# Clipboard - Milestone [number] - Project Charter
+# Clipboard - Milestone 4 - Project Charter
 
 [Replace]Clipboard is a application for scheduling tasks for individuals on a project
 
-Milestone 1 is the check point for launching a new project with a clear understanding
-of the business proposition, scope and priorities of the project, and the technology
-that will be used to create the desired solution.[Replace]
+Milestone 4 is the part of the project where we start refactoring code structure. 
+Write the code for the Core features of our product. Continue integration with all
+of our required elements from the project charter. All working toward our goal of finishing
+project development with strong coordination.
 
 **Team Github Repo**:  [ClipBoard Repo](../..)
 
