@@ -10,28 +10,26 @@ Sign Up
     
 {% block content %}
 <body>
-    <div class="SignUpBox">
-        <ul>
-            <form method="post">
-                {% csrf_token %}
-                <b>{{ form.username.label_tag }}</b> {{ form.username }}
-                <br>
-                <b>{{ form.email.label_tag }}</b> {{ form.email }}
-                <br>
-                <b>{{ form.first_name.label_tag }}</b> {{ form.first_name }}
-                <br>
-                <b>{{ form.last_name.label_tag }}</b> {{ form.last_name }}
-                <br>
-                <b>{{ form.birthdate.label_tag }}</b> {{ form.birthdate }}
-                <br><br>
-                <b>{{ form.password1.label_tag }}</b> {{ form.password1 }}
-                <br>
-                <b>{{ form.password2.label_tag }}</b> {{ form.password2 }}
-                <br>
-                <button type="submit">Sign Up</button>
-            </form>
-            <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
-        </ul>
+    <div class="container">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.username.label_tag }} {{ form.username }}
+            <br>
+            {{ form.email.label_tag }} {{ form.email }}
+            <br>
+            {{ form.first_name.label_tag }} {{ form.first_name }}
+            <br>
+            {{ form.last_name.label_tag }} {{ form.last_name }}
+            <br>
+            {{ form.date_of_birth.label_tag }} {{ form.date_of_birth }}
+            <br>
+            {{ form.password1.label_tag }} {{ form.password1 }}
+            <br>
+            {{ form.password2.label_tag }} {{ form.password2 }}
+            <br>
+            <button type="submit">Sign Up</button>
+        </form>
+        <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
     </div>
 </body>
 {% endblock content %}
