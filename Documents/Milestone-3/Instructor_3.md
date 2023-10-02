@@ -1,10 +1,10 @@
-# Clipboard - Milestone 3 - Project Charter
+# Clipboard - Milestone 3 - Implementation and Coding
 
-Clipboard is a application for scheduling tasks for individuals on a project
-
-Milestone 3 is the check point for the functional prototype, testing the techinal
-feasiablity of our project in a way that is easy to measure. If required we can
-reframe our scope for this project.
+In this milestone, the team will work together to write the code for the app. We will develop a
+functional prototype of the web-based software app. We will use an agile development approach and
+build the minimum viable product (MVP) that includes the core features and functionality. The
+outcome of this milestone will be a fully functional app with all the core features and
+functionality implemented.
 
 **Team Github Repo**:  [ClipBoard Repo](../..)
 

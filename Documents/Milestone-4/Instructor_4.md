@@ -1,6 +1,4 @@
-# Clipboard - Milestone 4 - Project Charter
-
-[Replace]Clipboard is a application for scheduling tasks for individuals on a project
+# Clipboard - Milestone 4 - Testing and Quality Assurance
 
 Milestone 4 is the part of the project where we start refactoring code structure. 
 Write the code for the Core features of our product. Continue integration with all
