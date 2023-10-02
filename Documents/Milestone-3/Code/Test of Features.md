@@ -1,6 +1,6 @@
 # Button Functionality Test
 
-This test script is designed to verify the functionality of two buttons on a webpage. It's written using Django's `TestCase` and Selenium WebDriver for automated browser interaction.
+This test script is designed to verify the functionality of two buttons on the webpage. It's written using Django's `TestCase` and Selenium WebDriver for automated browser interaction.
 
 ## Code Breakdown:
 
@@ -32,7 +32,7 @@ class ButtonFunctionalityTest(TestCase):
         # Clicks 'Done' button and checks the updated status
         task1_done_button.click()
         self.assertEqual(task1_status.text, 'Done')  # Verifies the status text
-
+```
 ## Explanation:
 
 ### Importing Necessary Modules:
