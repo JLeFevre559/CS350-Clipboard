@@ -34,6 +34,10 @@ class ProjectListView(LoginRequiredMixin, ListView):
     template_name = 'Projects/project.html'  
     context_object_name = 'projects'
 
+    def get_queryset(self):
+        # Filter projects to include only those with matching profile_id and id
+        return Project.objects.filter(profile_id=self.request.user)
+
 class ProjectDetailView(LoginRequiredMixin, DetailView):
     model = Project
     template_name = 'Projects/project_detail.html'  
