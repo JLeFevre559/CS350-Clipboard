@@ -5,14 +5,13 @@ from django.http import HttpResponse
 from django.contrib.auth.views import LoginView
 from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth import get_user_model
 from .models import Project
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import ProjectForm
+from .forms import ProjectForm, ProfileCreationForm
 from django.urls import reverse
 from django.shortcuts import redirect
 
@@ -88,7 +87,7 @@ class CustomLoginView(LoginView):
     template_name = 'registration/login.html'
 
 class SignupView(FormView):
-    form_class = UserCreationForm
+    form_class = ProfileCreationForm
     template_name = 'registration/signup.html'
     success_url = reverse_lazy('login')
 
