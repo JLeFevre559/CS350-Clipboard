@@ -150,12 +150,6 @@ input {
   background-color: rgb(0, 0, 146);
 }
 
-.SigninPhoto {
-  border-radius: 50%;
-  width: 10%;
-  height: 10%;
-}
-
 .SignUpBox {
   height: 80%;
 }
@@ -227,6 +221,17 @@ input {
 
 .project-buttons{
   display:flex;
+}
+
+.SignUpPhoto{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  height: 50%;
+  border-radius: 50%;
+  outline-style: solid;
+
 }
 
 .temp{
