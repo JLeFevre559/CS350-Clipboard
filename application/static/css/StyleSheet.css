@@ -1,3 +1,7 @@
+.JCSP {
+  justify-content: space-between;
+}
+
 .navbar-button {
   font-weight: bold;
   border-radius: 25px;
@@ -39,9 +43,12 @@ body {
 }
 
 .center{
+  margin-left: auto;
+  margin-right: auto;
   display: flex;
   justify-content: center;
   align-items: center; 
+  max-width: 80%;
 }
 .task-list {
   border: 2px solid #000000;
@@ -238,4 +245,9 @@ input {
   display:flex;
   flex-direction:column;
   align-items: flex-start;
+}
+
+.homeTextBox{
+  
+  text-decoration: double;
 }

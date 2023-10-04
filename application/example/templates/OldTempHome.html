@@ -1,0 +1,170 @@
+{% extends 'theme.html' %}
+
+
+{% block title %}
+Clipboard
+{% endblock title %}
+
+
+{% block content %}
+<h2>Task List : Starting out</h2>
+
+<div class="task-list">
+  <h3>Status: <span id="taskListStatus" class="status-not-started">Not Started</span></h3>
+</div>
+
+<div class="task-list">
+  <div class="tasks">
+    <h4>Tasks Due: 10/26/2023</h4>
+    <div class="task">
+      <p><span class="popup-trigger" data-popup-id="popup1">Task 1</span>:<span id="task1Status" class="status-not-started">Not Started</span></p>
+      <button id="task1InProgress" onclick="updateTaskStatus(1, 'In-progress')">In Progress</button>
+      <button id="task1Done" onclick="updateTaskStatus(1, 'Done')">Done</button>
+    </div>
+    <div class="task">
+      <p><span class="popup-trigger" data-popup-id="popup2">Task 2</span>:<span id="task2Status" class="status-not-started">Not Started</span></p>
+      <button id="task2InProgress" class="textStatusBox" onclick="updateTaskStatus(2, 'In-progress')">In Progress</button>
+      <button id="task2Done" onclick="updateTaskStatus(2, 'Done')">Done</button>
+    </div>
+    <div class="task">
+      <p><span class="popup-trigger" data-popup-id="popup3">Task 3</span>:<span id="task3Status" class="status-not-started">Not Started</span></p>
+      <button id="task3InProgress" class="textStatusBox" onclick="updateTaskStatus(3, 'In-progress')">In Progress</button>
+      <button id="task3Done" onclick="updateTaskStatus(3, 'Done')">Done</button>
+    </div>
+  </div>
+</div>
+
+<div class="popup" id="popup1">
+  <div class="popup-content">
+    <ul>
+      <li><p>Assigned To: <b>"{name}"</b></p></li>
+      <li><p>Task: <b>Content Planning and Creation</b></p></li>
+      <li>
+        <p>Details: Develop a content strategy that outlines the type of coding-related content you want to feature on your homepage. This could include coding tutorials, articles, videos, and project showcases. Create high-quality and engaging content that caters to your target audience's interests and skill levels. Organize your content into categories or sections for easy navigation and accessibility.</p>
+      </li>
+      <li>
+        <div class="container">
+          <div>
+            <button id="task3InProgress" class="textStatusBox" onclick="updateTaskStatus(1, 'In-progress')">In Progress</button>
+            <button id="task3Done" onclick="updateTaskStatus(1, 'Done')">Done</button>
+          </div>
+          <h4>Due Date: 8/18/2015</h4>
+          <button class="close-popup">Close</button>
+        </div>
+      </li>
+    </ul>   
+  </div>
+</div>
+
+<div class="popup" id="popup2">
+  <div class="popup-content">
+    <ul>
+      <li><p>Assigned To: <b>"{name}"</b></p></li>
+      <li><p>Task: <b>Design and User Experience</b></p></li>
+      <li>
+        <p>Details: Design an intuitive and user-friendly homepage layout that makes it easy for visitors to find the information they need. Ensure your website is responsive and works well on various devices, including desktops, tablets, and mobile phones. Incorporate clear and visually appealing graphics, images, and icons that enhance the overall aesthetics of your homepage.</p>
+      </li>
+      <li>
+        <div class="container">
+          <div>
+            <button id="task3InProgress" class="textStatusBox" onclick="updateTaskStatus(2, 'In-progress')">In Progress</button>
+            <button id="task3Done" onclick="updateTaskStatus(2, 'Done')">Done</button>
+          </div>
+          <h4>Due Date: 8/31/2015</h4>
+          <button class="close-popup">Close</button>
+        </div>
+      </li>
+    </ul>   
+  </div>
+</div>
+
+<div class="popup" id="popup3">
+  <div class="popup-content">
+    <ul>
+      <li><p>Assigned To: <b>"{name}"</b></p></li>
+      <li><p>Task: <b>Interactive Features and Functionality</b></p></li>
+      <li>
+        <p>Details: Implement interactive features such as search functionality, user registration, and commenting systems to enhance user engagement. Consider adding a coding sandbox or interactive coding challenges to provide hands-on coding experiences for your audience. Optimize your homepage for speed and performance to ensure a seamless user experience. Also add big chungus as an easter egg somewhere.</p>
+      </li>
+      <li>
+        <div class="container">
+          <div>
+            <button id="task3InProgress" class="textStatusBox" onclick="updateTaskStatus(3, 'In-progress')">In Progress</button>
+            <button id="task3Done" onclick="updateTaskStatus(3, 'Done')">Done</button>
+          </div>
+          <h4>Due Date: 8/28/2015</h4>
+          <button class="close-popup">Close</button>
+        </div>
+      </li>
+    </ul>   
+  </div>
+</div>
+
+<script>
+    const triggers = document.querySelectorAll('.popup-trigger');
+    const popups = document.querySelectorAll('.popup');
+    const closeButtons = document.querySelectorAll('.close-popup');
+
+    // Function to show a specific popup by ID
+    function showPopup(popupId) {
+        const popup = document.getElementById(popupId);
+        if (popup) {
+            popup.style.display = 'block';
+        }
+    }
+
+    // Function to hide a specific popup by ID
+    function hidePopup(popupId) {
+        const popup = document.getElementById(popupId);
+        if (popup) {
+            popup.style.display = 'none';
+        }
+    }
+
+    // Add click event listeners to all trigger elements
+    triggers.forEach(trigger => {
+        trigger.addEventListener('click', function () {
+            const popupId = this.getAttribute('data-popup-id');
+            showPopup(popupId);
+        });
+    });
+
+    // Add click event listeners to close buttons
+    closeButtons.forEach(closeButton => {
+        closeButton.addEventListener('click', function () {
+            const popupId = this.closest('.popup').id;
+            hidePopup(popupId);
+        });
+    });
+
+    let taskListStatus = 'not-started';
+    let taskStatus = ['not-started', 'not-started', 'not-started'];
+
+    function updateTaskListStatus(newStatus) {
+        if (newStatus === 'Done') {
+            document.getElementById('taskListStatus').textContent = 'Done';
+            taskListStatus = 'Done';
+            document.getElementById('taskListStatus').className = 'status-Done';
+        } else {
+            document.getElementById('taskListStatus').textContent = 'In Progress';
+            taskListStatus = 'In-progress';
+            document.getElementById('taskListStatus').className = 'status-In-progress';
+        }
+    }
+
+    function updateTaskStatus(taskNumber, newStatus) {
+        taskStatus[taskNumber - 1] = newStatus;
+        document.getElementById(`task${taskNumber}Status`).textContent = newStatus;
+        document.getElementById(`task${taskNumber}Status`).className = `status-${newStatus}`;
+        
+        // Check if all tasks are done and update taskListStatus accordingly
+        if (taskStatus.every(status => status === 'Done')) {
+            updateTaskListStatus('Done');
+        } else if (taskStatus.some(status => status === 'Done')) {
+            updateTaskListStatus('In-progress');
+        } else {
+            updateTaskListStatus('not-started');
+        }
+    }
+</script>
+{% endblock content %}
