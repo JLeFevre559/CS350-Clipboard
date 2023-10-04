@@ -248,6 +248,9 @@ input {
 }
 
 .homeTextBox{
-  
-  text-decoration: double;
+  font-size: larger;
+  max-width: 60%;
+  margin-right: auto;
+  margin-top: 1%;
+  margin-bottom: 1%;
 }
