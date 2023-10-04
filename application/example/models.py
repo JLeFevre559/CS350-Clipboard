@@ -12,6 +12,7 @@ class Project(models.Model):
     
 # stores tasklist info and project id of the project it belongs to
 class TaskList(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=200)
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
 

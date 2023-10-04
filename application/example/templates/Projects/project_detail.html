@@ -22,8 +22,12 @@ Clipboard
         <h2>Tasklists:</h2>
         <ul>
         {% for tasklist in tasklists %}
-            <div class="task-list">
-                <div class="tasks">
+            <div class="task-list temp">
+                <h3>{{ tasklist.name }}</h2>
+                <div class="task-list">
+                    <h3>Status: <span id="taskListStatus" class="status-not-started">Not Started</span></h3>
+                </div>
+                <div class="tasks temp">
                     {% for task in tasks %}
                         {% if task.task_list == tasklist %}
                             <div class="task">
@@ -34,17 +38,15 @@ Clipboard
                         {% endif %}
                     {% empty %}
                         <h2>No Tasks</h2>
-                        <!-- Replace href when adding tasklist CRUD -->
-                        <a href="/">Create new task</a>
                     {% endfor %}
                 </div>
+                <button href="#" class="create-task-button project-button" data-tasklist-id="{{ tasklist.id }}">Add Task</button>
             </div>
         {% empty %}
             <h2>No Tasklists available</h3>
-            <!-- Replace href when adding tasklist CRUD -->
-            <button class="project-button" href="/">Create new tasklist</button>
         {% endfor %}
         </ul>
+        <button class="create-tasklist-button project-button" data-project-id="{{ project.id }}">Create new tasklist</button>
         <div class="project-buttons">
             <button class="project-button" href="{% url 'project-update' project.id%}">Edit Project</button>
             <button class="delete-button" href="{% url 'project-delete' project.id %}">Delete project</button>
@@ -52,7 +54,7 @@ Clipboard
         
     </body>
 
-    <div class="popup" id="popup1">
+  <div class="popup" id="popup1">
     <div class="popup-content">
       <ul>
         <li><p>Assigned To: <b>{{ task.assignee }}</b></p></li>
@@ -74,10 +76,53 @@ Clipboard
     </div>
   </div>
 
+  <div class="popup" id="createTasklistPopup">
+    <div class="popup-content">
+        <h3>Create New Tasklist</h3>
+        <form method="post" action="{% url 'create-tasklist' %}">
+            {% csrf_token %}
+            <!-- Include a hidden input to store the project ID -->
+            <input type="hidden" name="project_id" value="">
+            <label for="tasklist_name">Tasklist Name:</label>
+            <input type="text" name="tasklist_name" id="tasklist_name" required>
+            <button type="submit">Create</button>
+            <button class="close-popup">Cancel</button>
+        </form>
+    </div>
+  </div>
+
+  <div class="popup" id="createTaskPopup">
+    <div class="popup-content">
+        <h3>Create New Task</h3>
+        <form method="post" action="{% url 'create-task' %}">
+            {% csrf_token %}
+            <!-- Include a hidden input to store the tasklist ID -->
+            <input type="hidden" name="tasklist_id" value="{{ tasklist.id }}">
+            <label for="task_name">Task Name:</label>
+            <input type="text" name="task_name" id="task_name" required>
+            <label for="description">Description:</label>
+            <textarea name="description" id="description"></textarea>
+            <label for="due_date">Due Date:</label>
+            <input type="date" name="due_date" id="due_date">
+            <label for="priority">Priority:</label>
+            <select name="priority" id="priority">
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+            </select>
+            <button type="submit">Create</button>
+            <button class="close-popup">Cancel</button>
+        </form>
+    </div>
+  </div>
+
+
+
   <script>
     const triggers = document.querySelectorAll('.popup-trigger');
     const popups = document.querySelectorAll('.popup');
     const closeButtons = document.querySelectorAll('.close-popup');
+    const updateStatusButtons = document.querySelectorAll('.update-status-button');
 
     // Function to show a specific popup by ID
     function showPopup(popupId) {
@@ -121,6 +166,37 @@ Clipboard
             statusElement.textContent = newStatus;
         });
     });
+
+    document.addEventListener("DOMContentLoaded", function () {
+    const createTasklistButton = document.querySelector(".create-tasklist-button");
+    createTasklistButton.addEventListener("click", function () {
+        const projectId = this.getAttribute("data-project-id");
+        const popup = document.querySelector("#createTasklistPopup");
+
+        // Set the project ID in the popup form (you can use a hidden input field)
+        const projectIdInput = popup.querySelector("input[name='project_id']");
+        projectIdInput.value = projectId;
+
+        showPopup("createTasklistPopup");
+        });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+    const createTaskButtons = document.querySelectorAll(".create-task-button");
+    createTaskButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+            const tasklistId = this.getAttribute("data-tasklist-id");
+            const popup = document.querySelector("#createTaskPopup");
+
+            // Set the tasklist ID in the popup form (you can use a hidden input field)
+            const tasklistIdInput = popup.querySelector("input[name='tasklist_id']");
+            tasklistIdInput.value = tasklistId;
+
+            showPopup("createTaskPopup");
+            });
+        });
+    });
+
     </script>
 
 </html>

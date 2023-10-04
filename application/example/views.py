@@ -15,7 +15,9 @@ from .models import Project, TaskList, Tasks
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import ProjectForm, ProfileCreationForm
 from django.urls import reverse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
+from uuid import uuid4
+
 
 class Index(TemplateView):
     template_name = 'TempHome.html'
@@ -57,13 +59,18 @@ class ProjectDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        project = self.object
-        tasklists = TaskList.objects.filter(project=project)
+        this_project = self.object
+        tasklists = TaskList.objects.filter(project=this_project)
+        # Inside your view
         tasks = Tasks.objects.filter(task_list__in=tasklists)
+        # Add the 'id' attribute to each tasklist
+        for tasklist in tasklists:
+            tasklist.id = tasklist.pk
         context['tasklists'] = tasklists
         context['tasks'] = tasks
 
         return context
+    
 
 
 class ProjectCreateView(LoginRequiredMixin, CreateView):
@@ -120,3 +127,39 @@ class SignupView(FormView):
         login(self.request, user)
         return super().form_valid(form)
     
+def create_tasklist(request):
+    if request.method == "POST":
+        project_id = request.POST.get("project_id")
+        tasklist_name = request.POST.get("tasklist_name")
+
+        # Create a new TaskList associated with the project
+        project = Project.objects.get(id=project_id)
+        TaskList.objects.create(id = uuid4(), name=tasklist_name, project=project)
+
+        # Redirect back to the project detail page
+        return redirect("project-detail", pk=project_id)
+
+    return render(request, "project_detail.html")
+
+def create_task(request):
+    if request.method == "POST":
+        tasklist_id = request.POST.get("tasklist_id")
+        task_name = request.POST.get("task_name")
+        description = request.POST.get("description")
+        due_date = request.POST.get("due_date")
+        priority = request.POST.get("priority")
+
+        # Create a new Task associated with the tasklist
+        tasklist = TaskList.objects.get(id=tasklist_id)
+        Tasks.objects.create(
+            task_name=task_name,
+            task_list=tasklist,
+            description=description,
+            due_date=due_date,
+            priority=priority,
+        )
+
+        # Redirect back to the project detail page (or wherever you prefer)
+        return redirect("project-detail", pk=tasklist.project.id)
+
+    return render(request, "project_detail.html")
