@@ -22,13 +22,13 @@ Sign Up
                 <br>
                 <b>{{ form.last_name.label_tag }}</b> {{ form.last_name }}
                 <br>
-                <b>{{ form.date_of_birth.label_tag }}</b> {{ form.date_of_birth }}
+                <b>{{ form.date_of_birth.label_tag }}</b><br> {{ form.date_of_birth }}
                 <br>
                 <b>{{ form.password1.label_tag }}</b> {{ form.password1 }}
                 <br>
                 <b>{{ form.password2.label_tag }}</b> {{ form.password2 }}
                 <br>
-                <button type="submit">Sign Up</button>
+                <button type="submit" class="loginButton">Sign Up</button>
             </form>
             <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
         </ul>
