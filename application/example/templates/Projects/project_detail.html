@@ -48,8 +48,8 @@ Clipboard
         </ul>
         <button class="create-tasklist-button project-button" data-project-id="{{ project.id }}">Create new tasklist</button>
         <div class="project-buttons">
-            <button class="project-button" href="{% url 'project-update' project.id%}">Edit Project</button>
-            <button class="delete-button" href="{% url 'project-delete' project.id %}">Delete project</button>
+            <a href="{% url 'project-update' project.id%}"><button class="project-button">Edit Project</button></a>
+            <a href="{% url 'project-delete' project.id %}"><button class="delete-button" href="{% url 'project-delete' project.id %}">Delete project</button></a>
         </div>
         
     </body>
