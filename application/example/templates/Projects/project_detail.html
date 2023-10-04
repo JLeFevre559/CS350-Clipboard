@@ -9,18 +9,119 @@ Clipboard
 
 {% block content %}
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Project Detail</title>
-</head>
-<body>
-    <h1>Project Detail</h1>
-    <h2>{{ project.name }}</h2>
-    <p>Description: {{ project.description }}</p>
-    <!-- Add more project details here -->
-    <li><a href="{% url 'project-delete' project.id %}">Delete project</a></li>
-    <a href="/Project">Back to Project List</a>
-    <a href="{% url 'project-update' project.id%}">Edit Project</a>
-</body>
+    <button class="project-button" href="/Project">Back to Project List</button>
+    <head>
+        <meta charset="UTF-8">
+        <title>Project Detail</title>
+    </head>
+    <body>
+        <h1>Project Detail</h1>
+        <h2>{{ project.name }}</h2>
+        <p>Description: {{ project.description }}</p>
+        <!-- Add more project details here -->
+        <h2>Tasklists:</h2>
+        <ul>
+        {% for tasklist in tasklists %}
+            <div class="task-list">
+                <div class="tasks">
+                    {% for task in tasks %}
+                        {% if task.task_list == tasklist %}
+                            <div class="task">
+                                <p><span class="popup-trigger" data-popup-id="popup1">{{ task.task_name }}</span>:<span id="task1Status" class="status-{{ task.status }}">{{ task.status }}</span></p>
+                                <button class="update-status-button" data-status="In Progress">In Progress</button>
+                                <button class="update-status-button" data-status="Done">Done</button>
+                            </div>
+                        {% endif %}
+                    {% empty %}
+                        <h2>No Tasks</h2>
+                        <!-- Replace href when adding tasklist CRUD -->
+                        <a href="/">Create new task</a>
+                    {% endfor %}
+                </div>
+            </div>
+        {% empty %}
+            <h2>No Tasklists available</h3>
+            <!-- Replace href when adding tasklist CRUD -->
+            <button class="project-button" href="/">Create new tasklist</button>
+        {% endfor %}
+        </ul>
+        <div class="project-buttons">
+            <button class="project-button" href="{% url 'project-update' project.id%}">Edit Project</button>
+            <button class="delete-button" href="{% url 'project-delete' project.id %}">Delete project</button>
+        </div>
+        
+    </body>
+
+    <div class="popup" id="popup1">
+    <div class="popup-content">
+      <ul>
+        <li><p>Assigned To: <b>{{ task.assignee }}</b></p></li>
+        <li><p>Task: <b>{{ task.name }}</b></p></li>
+        <li>
+          <p>{{ task.description }} </p>
+        </li>
+        <li>
+          <div class="container">
+            <div>
+                <button class="update-status-button" data-status="In Progress">In Progress</button>
+                <button class="update-status-button" data-status="Done">Done</button>
+            </div>
+            <h4>{{ task.due_date }} </h4>
+            <button class="close-popup">Close</button>
+          </div>
+        </li>
+      </ul>   
+    </div>
+  </div>
+
+  <script>
+    const triggers = document.querySelectorAll('.popup-trigger');
+    const popups = document.querySelectorAll('.popup');
+    const closeButtons = document.querySelectorAll('.close-popup');
+
+    // Function to show a specific popup by ID
+    function showPopup(popupId) {
+        const popup = document.getElementById(popupId);
+        if (popup) {
+            popup.style.display = 'block';
+        }
+    }
+
+    // Function to hide a specific popup by ID
+    function hidePopup(popupId) {
+        const popup = document.getElementById(popupId);
+        if (popup) {
+            popup.style.display = 'none';
+        }
+    }
+
+    // Add click event listeners to all trigger elements
+    triggers.forEach(trigger => {
+        trigger.addEventListener('click', function () {
+            const popupId = this.getAttribute('data-popup-id');
+            showPopup(popupId);
+        });
+    });
+
+    // Add click event listeners to close buttons
+    closeButtons.forEach(closeButton => {
+        closeButton.addEventListener('click', function () {
+            const popupId = this.closest('.popup').id;
+            hidePopup(popupId);
+        });
+    });
+
+    updateStatusButtons.forEach((button) => {
+        button.addEventListener('click', (event) => {
+            const newStatus = event.currentTarget.getAttribute('data-status');
+            // Here, you can send an AJAX request to update the task status or perform any other desired action.
+            // You can also update the displayed status in the popup as needed.
+            const popupId = event.currentTarget.closest('.popup').id;
+            const statusElement = document.getElementById(`task${popupId}Status`);
+            statusElement.textContent = newStatus;
+        });
+    });
+    </script>
+
 </html>
 {% endblock content %}
