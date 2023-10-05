@@ -17,6 +17,7 @@ from .forms import ProjectForm, ProfileCreationForm
 from django.urls import reverse
 from django.shortcuts import redirect, render
 from uuid import uuid4
+import json
 
 
 class Index(TemplateView):
@@ -168,18 +169,15 @@ def create_task(request):
 def update_task_status(request):
     if request.method == 'POST' and (request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'):
         # Get the task ID and new status from the AJAX request
-        task_id = request.POST.get('task_id')
-        new_status = request.POST.get('new_status')
+        data = json.loads(request.body.decode('utf-8'))
+        task_id = data.get('task_id')
+        new_status = data.get('new_status')
 
         # Assuming you have a Task model, update the status
         try:
-            print("code")
             task = Tasks.objects.get(id=task_id)
-            print("task:" + str(task))
             task.status = new_status
-            print("task status: " + str(task.status))
             task.save()
-            print("code has reached here")
             return JsonResponse({'message': 'Task status updated successfully'})
         except Tasks.DoesNotExist:
             return JsonResponse({'error': 'Task not found'}, status=404)

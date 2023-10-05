@@ -4,7 +4,6 @@ from .models import Project, TaskList, Tasks, Profile
 from django.urls import reverse
 from django.http import JsonResponse
 import json
-from uuid import uuid4
 
 class ProjectModelTest(TestCase):
     def test_create_project(self):
@@ -179,32 +178,13 @@ class UpdateTaskStatusViewTestCase(TestCase):
         )
 
     def test_update_task_status_ajax(self):
-        # Define the URL for the view
-        user = get_user_model().objects.create_user(username='testuser', password='testpass')
-        project = Project.objects.create(
-            name='Test Project',
-            description='Test Project Description',
-            profile_id=user
-        )
-        task_list = TaskList.objects.create(
-            name='Test Task List',
-            project=project
-        )
-        task = Tasks.objects.create(
-            assignee='Test Assignee',
-            task_name='Test Task',
-            description='Test Task Description',
-            status='Not Started',
-            task_list=task_list
-        )
         url = reverse('update_task_status')
 
         # Define the data to send in the AJAX request
         data = {
-            'task_id': str(task.id),
+            'task_id': str(self.task.id),
             'new_status': 'In Progress'
         }
-
         # Send a POST AJAX request to update the task status
         response = self.client.post(
             url,
