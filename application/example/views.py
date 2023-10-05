@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import Any
 from django.db import models
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.views import LoginView
 from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
@@ -163,3 +163,25 @@ def create_task(request):
         return redirect("project-detail", pk=tasklist.project.id)
 
     return render(request, "project_detail.html")
+
+
+def update_task_status(request):
+    if request.method == 'POST' and (request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'):
+        # Get the task ID and new status from the AJAX request
+        task_id = request.POST.get('task_id')
+        new_status = request.POST.get('new_status')
+
+        # Assuming you have a Task model, update the status
+        try:
+            print("code")
+            task = Tasks.objects.get(id=task_id)
+            print("task:" + str(task))
+            task.status = new_status
+            print("task status: " + str(task.status))
+            task.save()
+            print("code has reached here")
+            return JsonResponse({'message': 'Task status updated successfully'})
+        except Tasks.DoesNotExist:
+            return JsonResponse({'error': 'Task not found'}, status=404)
+
+    return JsonResponse({'error': 'Invalid request'}, status=400)

@@ -2,6 +2,9 @@ from django.test import TestCase
 from django.contrib.auth import get_user_model
 from .models import Project, TaskList, Tasks, Profile
 from django.urls import reverse
+from django.http import JsonResponse
+import json
+from uuid import uuid4
 
 class ProjectModelTest(TestCase):
     def test_create_project(self):
@@ -153,3 +156,119 @@ class ProfileViewsTestCase(TestCase):
         response = self.client.get(reverse('Profile'))
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Profile')
+
+class UpdateTaskStatusViewTestCase(TestCase):
+
+    def setUp(self):
+        user = get_user_model().objects.create_user(username='testuser1', password='testpass')
+        project = Project.objects.create(
+            name='Test Project',
+            description='Test Project Description',
+            profile_id=user
+        )
+        task_list = TaskList.objects.create(
+            name='Test Task List',
+            project=project
+        )
+        self.task = Tasks.objects.create(
+            assignee='Test Assignee',
+            task_name='Test Task',
+            description='Test Task Description',
+            status='Not Started',
+            task_list=task_list
+        )
+
+    def test_update_task_status_ajax(self):
+        # Define the URL for the view
+        user = get_user_model().objects.create_user(username='testuser', password='testpass')
+        project = Project.objects.create(
+            name='Test Project',
+            description='Test Project Description',
+            profile_id=user
+        )
+        task_list = TaskList.objects.create(
+            name='Test Task List',
+            project=project
+        )
+        task = Tasks.objects.create(
+            assignee='Test Assignee',
+            task_name='Test Task',
+            description='Test Task Description',
+            status='Not Started',
+            task_list=task_list
+        )
+        url = reverse('update_task_status')
+
+        # Define the data to send in the AJAX request
+        data = {
+            'task_id': str(task.id),
+            'new_status': 'In Progress'
+        }
+
+        # Send a POST AJAX request to update the task status
+        response = self.client.post(
+            url,
+            json.dumps(data),
+            content_type='application/json',
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'  # Simulate an AJAX request
+        )
+        # Check that the response is a JSON response
+        self.assertIsInstance(response, JsonResponse)
+
+        # Parse the JSON response
+        response_data = json.loads(response.content)
+
+        # Check that the response contains the expected message
+        self.assertEqual(response_data['message'], 'Task status updated successfully')
+
+        # Check that the task status has been updated in the database
+        updated_task = Tasks.objects.get(id=self.task.id)
+        self.assertEqual(updated_task.status, 'In Progress')
+
+    def test_update_task_status_invalid_request(self):
+        # Define the URL for the view
+        url = reverse('update_task_status')
+
+        # Send a GET request (invalid) instead of a POST request
+        response = self.client.get(url)
+
+        # Check that the response is a JSON response with a 400 status code
+        self.assertIsInstance(response, JsonResponse)
+        self.assertEqual(response.status_code, 400)
+
+        # Parse the JSON response
+        response_data = json.loads(response.content)
+
+        # Check that the response contains the expected error message
+        self.assertEqual(response_data['error'], 'Invalid request')
+
+    def test_update_task_status_task_not_found(self):
+        # Define a non-existent task ID
+        non_existent_task_id = '00000000-0000-0000-0000-000000000000'
+
+        # Define the URL for the view
+        url = reverse('update_task_status')
+
+        # Define the data to send in the AJAX request
+        data = {
+            'task_id': non_existent_task_id,
+            'new_status': 'In Progress'
+        }
+
+        # Send a POST AJAX request with a non-existent task ID
+        response = self.client.post(
+            url,
+            json.dumps(data),
+            content_type='application/json',
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'  # Simulate an AJAX request
+        )
+
+        # Check that the response is a JSON response with a 404 status code
+        self.assertIsInstance(response, JsonResponse)
+        self.assertEqual(response.status_code, 404)
+
+        # Parse the JSON response
+        response_data = json.loads(response.content)
+
+        # Check that the response contains the expected error message
+        self.assertEqual(response_data['error'], 'Task not found')

@@ -77,6 +77,25 @@ body {
   min-width: 90px;
 }
 
+/* this affects the not started status */
+.Started{
+  color: red;
+  display: inline-block;
+  min-width: 90px;
+}
+
+.Progress{
+  color: rgb(202, 171, 0);
+  display: inline-block;
+  min-width: 90px;
+}
+
+.Done{
+  color: green;
+  display: inline-block;
+  min-width: 90px;
+}
+
 .status-In-progress {
   color: rgb(202, 171, 0);
   display: inline-block;

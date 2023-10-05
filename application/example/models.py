@@ -18,6 +18,7 @@ class TaskList(models.Model):
 
 # stores task info and task list id of the task list it belongs to
 class Tasks(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     assignee = models.CharField(max_length=200)
     task_name = models.CharField(max_length=200)
     description = models.TextField(default="None")

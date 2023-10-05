@@ -1,6 +1,6 @@
 # example/urls.py
 from django.urls import path, include
-from example.views import Index, Calendar, ProjectListView, Profile, CustomLoginView, SignupView, ProjectDetailView, ProjectCreateView, ProjectDeleteView, ProjectUpdateView, create_tasklist, create_task
+from example.views import Index, Calendar, ProjectListView, Profile, CustomLoginView, SignupView, ProjectDetailView, ProjectCreateView, ProjectDeleteView, ProjectUpdateView, create_tasklist, create_task, update_task_status
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -17,4 +17,5 @@ urlpatterns = [
     path('Projects/<uuid:pk>/delete/', ProjectDeleteView.as_view(), name='project-delete'),
     path("create-tasklist/", create_tasklist, name="create-tasklist"),
     path("create-task/", create_task, name="create-task"),
+    path('update_task_status/', update_task_status, name='update_task_status'),
 ]
