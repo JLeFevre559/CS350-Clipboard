@@ -25,9 +25,9 @@ Project Details
                 {% for task in tasks %}
                     {% if task.task_list == tasklist %}
                         <div class="task">
-                            <p><span class="popup-trigger" data-popup-id="popup1">{{ task.task_name }}</span>:<span id="task1Status" class="status-{{ task.status }}">{{ task.status }}</span></p>
-                            <button class="update-status-button" data-status="In Progress">In Progress</button>
-                            <button class="update-status-button" data-status="Done">Done</button>
+                            <p><span class="popup-trigger" data-popup-id="popup1">{{ task.task_name }}</span>:<span id="{{ task.id }}-status" class="{{ task.status }}">{{ task.status }}</span></p>
+                            <button class="update-status-button" data-status="In Progress" data-task="{{ task.id }}" onclick="updateTaskStatus('{{ task.id }}', 'In Progress')">In Progress</button>
+                            <button class="update-status-button" data-status="Done" data-task="{{ task.id }}" onclick="updateTaskStatus('{{ task.id }}', 'Done')">Done</button>
                         </div>
                     {% endif %}
                 {% empty %}
@@ -116,7 +116,6 @@ Project Details
 const triggers = document.querySelectorAll('.popup-trigger');
 const popups = document.querySelectorAll('.popup');
 const closeButtons = document.querySelectorAll('.close-popup');
-const updateStatusButtons = document.querySelectorAll('.update-status-button');
 
 // Function to show a specific popup by ID
 function showPopup(popupId) {
@@ -150,16 +149,42 @@ closeButtons.forEach(closeButton => {
     });
 });
 
-updateStatusButtons.forEach((button) => {
-    button.addEventListener('click', (event) => {
-        const newStatus = event.currentTarget.getAttribute('data-status');
-        // Here, you can send an AJAX request to update the task status or perform any other desired action.
-        // You can also update the displayed status in the popup as needed.
-        const popupId = event.currentTarget.closest('.popup').id;
-        const statusElement = document.getElementById(`task${popupId}Status`);
-        statusElement.textContent = newStatus;
+
+
+function updateTaskStatus(taskId, newStatus) {
+    const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+
+    // Send an AJAX request to update the task status
+    $.ajax({
+        url: '/update_task_status/',
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': csrfToken,
+            'Content-Type': 'application/json',
+        },
+        data: JSON.stringify({
+            task_id: taskId,
+            new_status: newStatus,
+        }),
+        success: function (response) {
+            // Handle the success response (e.g., display a message)
+            console.log(response.message);
+            // Update the task status wherever it's displayed
+            const buttonToUpdate = document.querySelector(`[data-task="${taskId}"]`);
+            // Update the class of the <span> element
+            const spanToUpdate = document.getElementById(`${taskId}-status`);
+            if (spanToUpdate) {
+                spanToUpdate.className = `status-${newStatus}`;
+                spanToUpdate.textContent = newStatus;
+            }
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            // Handle errors (e.g., display an error message)
+            console.error(xhr.responseText);
+        }
     });
-});
+}
+
 
 document.addEventListener("DOMContentLoaded", function () {
 const createTasklistButton = document.querySelector(".create-tasklist-button");
