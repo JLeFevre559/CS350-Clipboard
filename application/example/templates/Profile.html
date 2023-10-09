@@ -7,7 +7,13 @@ Clipboard
 
 
 {% block content %}
-<h2>Profile Placeholder</h2>
+{% if user and user.username %}
+<h2>Your Profile</h2>
+<div>
+    <strong>{{ user.username }}</strong>
+</div>
+<div><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</div>
+<div><strong>Email:</strong> {{ user.email }}</div>
 
 <div>
     <form method="post" action="{% url 'logout' %}">
@@ -15,5 +21,8 @@ Clipboard
         <button type="submit">Logout</button>
     </form>
 </div>
+{% else %}
+<p>example</p>
+{% endif %}
 
 {% endblock content %}

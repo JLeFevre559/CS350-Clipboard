@@ -21,6 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 LOGOUT_REDIRECT_URL = (
     "Index"  # Replace 'home' with the name of the URL pattern for your homepage.
 )
+# settings.py
+LOGIN_URL = (
+    "CustomLoginView"  # Replace 'Index' with the URL name of your home page view.
+)
 
 
 # Quick-start development settings - unsuitable for production

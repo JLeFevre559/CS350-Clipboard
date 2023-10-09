@@ -1,4 +1,3 @@
-
 {% extends 'theme.html' %}
 
 
@@ -8,15 +7,31 @@ ClipBoard : Landing Page
 
 
 {% block content %}
+
+{% if user and user.username %}
+<h1>Welcome, {{ user.username }}!</h1>
+<!-- Display content for logged-in users here -->
+{% else %}
 <div>
-    <p class="homeBox">Imagine an innovative application designed to streamline project management and boost productivity. This intuitive platform empowers users to effortlessly create and manage projects, breaking them down into task lists comprised of individual tasks. Users can closely monitor the progress of each project as they mark tasks as completed, providing a real-time overview of their accomplishments. Additionally, the application features user profiles, allowing individuals to personalize their experience and collaborate effectively with team members. To keep everyone organized and on track, there's a built-in calendar that displays tasks with their respective due dates, ensuring that deadlines are never missed. This all-in-one solution revolutionizes project management, making it easier than ever to stay organized and efficient.</p>
-    <img src="../../static/images/Home.png" width="35%" height="35%" alt="Home.png">
+  <p class="homeBox">Imagine an innovative application designed to streamline project management and boost
+    productivity.
+    This intuitive platform empowers users to effortlessly create and manage projects, breaking them down into task
+    lists comprised of individual tasks. Users can closely monitor the progress of each project as they mark tasks as
+    completed, providing a real-time overview of their accomplishments. Additionally, the application features user
+    profiles, allowing individuals to personalize their experience and collaborate effectively with team members. To
+    keep everyone organized and on track, there's a built-in calendar that displays tasks with their respective due
+    dates, ensuring that deadlines are never missed. This all-in-one solution revolutionizes project management,
+    making
+    it easier than ever to stay organized and efficient.</p>
+  <img src="../../static/images/Home.png" width="35%" height="35%" alt="Home.png">
 </div>
 <div>
   <div>
     <a href="{% url 'login' %}" class="navbar-button">Login</a>
-    <a href="{% url 'signup' %}"class="navbar-button">Sign up</a>
+    <a href="{% url 'signup' %}" class="navbar-button">Sign up</a>
   </div>
 </div>
+{% endif %}
+
 
 {% endblock content %}

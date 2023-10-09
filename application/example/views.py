@@ -137,7 +137,7 @@ class ProjectDeleteView(LoginRequiredMixin, DeleteView):
             return redirect(self.success_url)
 
 
-class Profile(TemplateView):
+class Profile(LoginRequiredMixin, TemplateView):
     template_name = "Profile.html"
 
 
