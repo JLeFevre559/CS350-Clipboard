@@ -10,7 +10,10 @@ Clipboard
 <h2>Profile Placeholder</h2>
 
 <div>
-    <img src="https://i.imgflip.com/53k1ba.jpg" alt="A hungry cat">
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
 </div>
 
 {% endblock content %}
