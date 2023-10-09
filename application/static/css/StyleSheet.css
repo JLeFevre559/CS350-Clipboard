@@ -164,10 +164,6 @@ input {
   background-color: rgb(0, 0, 146);
 }
 
-.SignUpBox {
-  height: 80%;
-  max-width: fit-content;
-}
 
 .loginButton{
   font-weight: bold;
@@ -262,9 +258,14 @@ input {
   max-width: fit-content;
   min-width: fit-content;
 }
+
 .landingBox{
   font-size: x-large;
   max-width: 80%;
+}
+
+.flex{
+  display:flex;
 }
 
 .projectHomeBox{

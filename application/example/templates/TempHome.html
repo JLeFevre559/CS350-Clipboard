@@ -8,8 +8,7 @@ ClipBoard : Landing Page
 
 {% block content %}
 <div class="landingBox">
-  <ul>
-    <div>
+      <div class="flex">
         <p>Imagine an innovative application designed to streamline project management and boost productivity.
            This intuitive platform empowers users to effortlessly create and manage projects, breaking them down
           into task lists comprised of individual tasks. Users can closely monitor the progress of each project
@@ -19,13 +18,11 @@ ClipBoard : Landing Page
           that displays tasks with their respective due dates, ensuring that deadlines are never missed. This all-in-one
           solution revolutionizes project management, making it easier than ever to stay organized and efficient.</p>
         <img src="../../static/images/Home.png" width="35%" height="35%" alt="Home.png">
-    </div>
-    <div>
+      </div>
       <div>
         <a href="{% url 'login' %}" class="navbar-button">Login</a>
         <a href="{% url 'signup' %}"class="navbar-button">Sign up</a>
       </div>
-  </ul>
 </div>
 
 {% endblock content %}
