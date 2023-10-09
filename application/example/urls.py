@@ -14,6 +14,7 @@ from example.views import (
     create_tasklist,
     create_task,
     update_task_status,
+    delete_task_list,
 )
 from django.contrib.auth import views as auth_views
 
@@ -37,4 +38,5 @@ urlpatterns = [
     path("create-task/", create_task, name="create-task"),
     path("update_task_status/", update_task_status, name="update_task_status"),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
+    path('delete_task_list/', delete_task_list, name='delete_task_list'),
 ]

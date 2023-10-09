@@ -215,3 +215,22 @@ def update_task_status(request):
             return JsonResponse({"error": "Task not found"}, status=404)
 
     return JsonResponse({"error": "Invalid request"}, status=400)
+
+def delete_task_list(request):
+    if request.method == 'POST' and (request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'):
+        data = json.loads(request.body.decode('utf-8'))
+        tasklist_id = data.get('tasklist_id')
+        confirmation = data.get('confirmation')
+
+        if confirmation == 'delete':
+            try:
+                tasklist = TaskList.objects.get(id=tasklist_id)
+                tasks = Tasks.objects.filter(task_list=tasklist_id)
+                for task in tasks:
+                    task.delete()
+                tasklist.delete()
+                return JsonResponse({'message': 'Tasklist successfully deleted'})
+            except TaskList.DoesNotExist:
+                return JsonResponse({'error': 'TaskList not found'}, status=404)
+    return JsonResponse({'error': 'Invalid request'}, status=400)
+	
