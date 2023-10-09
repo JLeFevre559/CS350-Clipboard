@@ -252,3 +252,81 @@ class UpdateTaskStatusViewTestCase(TestCase):
 
         # Check that the response contains the expected error message
         self.assertEqual(response_data['error'], 'Task not found')
+
+class DeleteTaskListViewTest(TestCase):
+    def setUp(self):
+        # Create a user and log them in
+        self.user = Profile.objects.create_user(username='testuser', password='testpassword')
+        self.client.login(username='testuser', password='testpassword')
+
+        # Create a project and a task list associated with that project
+        self.project = Project.objects.create(name='Test Project', description='Project Description', profile_id=self.user)
+        self.task_list = TaskList.objects.create(name='Test Task List', project=self.project)
+
+    def test_delete_task_list(self):
+        # Send a POST request to delete the task list
+        url = reverse('delete_task_list')  # Adjust this URL name according to your project's URL configuration
+        data = {
+            'tasklist_id': str(self.task_list.id),
+            'confirmation': 'delete'
+        }
+        response = self.client.post(url, json.dumps(data), content_type='application/json', HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+
+        # Check if the task list and associated tasks have been deleted
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(json.loads(response.content), {'message': 'Tasklist successfully deleted'})
+
+        # Check if the task list and associated tasks no longer exist in the database
+        self.assertFalse(TaskList.objects.filter(id=self.task_list.id).exists())
+        self.assertFalse(Tasks.objects.filter(task_list=self.task_list.id).exists())
+
+    def test_delete_task_list_with_task(self):
+        task = Tasks.objects.create(
+            assignee='Test Assignee',
+            task_name='Test Task',
+            description='Test Task Description',
+            status='Not Started',
+            task_list=self.task_list
+        )
+        # Send a POST request to delete the task list
+        url = reverse('delete_task_list')  # Adjust this URL name according to your project's URL configuration
+        
+        data = {
+            'tasklist_id': str(self.task_list.id),
+            'confirmation': 'delete'
+        }
+        response = self.client.post(url, json.dumps(data), content_type='application/json', HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+
+        # Check if the task list and associated tasks have been deleted
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(json.loads(response.content), {'message': 'Tasklist successfully deleted'})
+
+        # Check if the task list and associated tasks no longer exist in the database
+        self.assertFalse(TaskList.objects.filter(id=self.task_list.id).exists())
+        self.assertFalse(Tasks.objects.filter(task_list=self.task_list.id).exists())
+        self.assertFalse(Tasks.objects.filter(id=task.id).exists())
+
+    def test_delete_task_list_invalid_request(self):
+        # Send an invalid request (e.g., missing 'confirmation')
+        url = reverse('delete_task_list')  # Adjust this URL name according to your project's URL configuration
+        data = {
+            'tasklist_id': str(self.task_list.id)
+        }
+        response = self.client.post(url, json.dumps(data), content_type='application/json', HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+
+        # Check if the view returns a 400 Bad Request response
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(json.loads(response.content), {'error': 'Invalid request'})
+
+    def test_delete_task_list_tasklist_not_found(self):
+        # Send a request to delete a non-existent task list
+        url = reverse('delete_task_list')  # Adjust this URL name according to your project's URL configuration
+        data = {
+            'tasklist_id': None,
+            'confirmation': 'delete'
+        }
+        response = self.client.post(url, json.dumps(data), content_type='application/json', HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+
+        # Check if the view returns a 404 Not Found response
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(json.loads(response.content), {'error': 'TaskList not found'})
