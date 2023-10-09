@@ -9,7 +9,18 @@ ClipBoard : Landing Page
 {% block content %}
 
 {% if user and user.username %}
-<h1>Welcome, {{ user.username }}!</h1>
+<h1>Welcome, <strong>{{ user.first_name }}</strong></h1>
+<h3>Nothing due today!</h3>
+<div>
+  <a href="{% url 'Project' %}" class="navbar-button">View my Projects</a>
+</div>
+<p>Upcoming Tasks</p>
+<div>
+  <li>Lorum</li>
+  <li>Ipsum</li>
+  <li>Sample</li>
+  <li>Text</li>
+</div>
 <!-- Display content for logged-in users here -->
 {% else %}
 <div>

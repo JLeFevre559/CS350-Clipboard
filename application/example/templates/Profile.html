@@ -7,13 +7,17 @@ Clipboard
 
 
 {% block content %}
-{% if user and user.username %}
 <h2>Your Profile</h2>
-<div>
+<h1>
     <strong>{{ user.username }}</strong>
-</div>
+</h1>
 <div><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</div>
 <div><strong>Email:</strong> {{ user.email }}</div>
+<div>
+    <strong>Profile Picture:</strong> <img src="{{ user.profile.profile_picture.url }}" alt="Profile Picture"
+        width="150" height="150">
+</div>
+<div><strong>Bio:</strong>{{ user.bio }}</div>
 
 <div>
     <form method="post" action="{% url 'logout' %}">
@@ -21,8 +25,5 @@ Clipboard
         <button type="submit">Logout</button>
     </form>
 </div>
-{% else %}
-<p>example</p>
-{% endif %}
 
 {% endblock content %}
