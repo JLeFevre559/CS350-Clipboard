@@ -31,9 +31,7 @@
     {% include '_navbar.html' %}
     {% endblock navbar %}
 
-    <div class="center drop-shadow">
-        <div class="bg-light text-dark p-5">
-
+    <div class="center drop-shadow bg-light text-dark p-5 mainBox">
             <ul>
                 <h1 class="text-primary">
                     {% block title %}No Title{% endblock title %}
@@ -43,8 +41,6 @@
                 <h2>No Block Defined</h2>
                 {% endblock content %}
             </ul>
-
-        </div>
     </div>
 
     {% block footer %}

@@ -266,7 +266,18 @@ input {
   align-items: flex-start;
 }
 
-.homeTextBox{
+.mainBox{
+  box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.5);
+}
+.homeBox{
+  font-size: larger;
+  max-width: 60%;
+  margin-right: auto;
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+
+.projectHomeBox{
   font-size: larger;
   max-width: 60%;
   margin-right: auto;
