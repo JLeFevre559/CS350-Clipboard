@@ -1,4 +1,5 @@
 .JCSP {
+  display: flex;
   justify-content: space-between;
 }
 
@@ -21,11 +22,6 @@
   background-color: rgb(0, 0, 146);
 }
 
-div {
-  display: flex;
-  justify-content: space-between;
-}
-
 .Outlined-box {
   border: 2px solid rgb(204, 204, 204);
   text-align: center;
@@ -42,14 +38,6 @@ body {
   font-family: Arial, sans-serif;
 }
 
-.center{
-  margin-left: auto;
-  margin-right: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center; 
-  max-width: 80%;
-}
 .task-list {
   border: 2px solid #000000;
   padding: 10px;
@@ -176,9 +164,6 @@ input {
   background-color: rgb(0, 0, 146);
 }
 
-.SignUpBox {
-  height: 80%;
-}
 
 .loginButton{
   font-weight: bold;
@@ -268,13 +253,19 @@ input {
 
 .mainBox{
   box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.5);
-}
-.homeBox{
-  font-size: larger;
-  max-width: 60%;
+  margin-left: auto;
   margin-right: auto;
-  margin-top: 1%;
-  margin-bottom: 1%;
+  max-width: fit-content;
+  min-width: fit-content;
+}
+
+.landingBox{
+  font-size: x-large;
+  max-width: 80%;
+}
+
+.flex{
+  display:flex;
 }
 
 .projectHomeBox{
