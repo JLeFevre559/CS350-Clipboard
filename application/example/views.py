@@ -222,7 +222,7 @@ def delete_task_list(request):
         tasklist_id = data.get('tasklist_id')
         confirmation = data.get('confirmation')
 
-        if confirmation == 'delete':
+        if confirmation == 'yes':
             try:
                 tasklist = TaskList.objects.get(id=tasklist_id)
                 tasks = Tasks.objects.filter(task_list=tasklist_id)
@@ -234,3 +234,17 @@ def delete_task_list(request):
                 return JsonResponse({'error': 'TaskList not found'}, status=404)
     return JsonResponse({'error': 'Invalid request'}, status=400)
 	
+def update_task_list(request):
+    if request.method == 'POST' and (request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'):
+        data = json.loads(request.body.decode('utf-8'))
+        tasklist_id = data.get('tasklist_id')
+        new_name = data.get('name')
+
+        try:
+            tasklist = TaskList.objects.get(id=tasklist_id)
+            tasklist.name = new_name
+            tasklist.save()
+            return JsonResponse({'message': 'Tasklist successfully updated'})
+        except TaskList.DoesNotExist:
+            return JsonResponse({'error': 'TaskList not found'}, status=404)
+    return JsonResponse({'error': 'Invalid request'}, status=400)
