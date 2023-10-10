@@ -1,7 +1,7 @@
 # example/views.py
 from datetime import datetime
 from typing import Any
-from django.db import models
+from django.db import models, IntegrityError
 from django.views.generic import (
     TemplateView,
     ListView,
@@ -239,7 +239,8 @@ def update_task_list(request):
         data = json.loads(request.body.decode('utf-8'))
         tasklist_id = data.get('tasklist_id')
         new_name = data.get('name')
-
+        if new_name == None:
+            return JsonResponse({'error': 'Invalid request, new name cannot be none'}, status=400)
         try:
             tasklist = TaskList.objects.get(id=tasklist_id)
             tasklist.name = new_name

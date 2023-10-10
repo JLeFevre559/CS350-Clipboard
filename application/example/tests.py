@@ -372,13 +372,17 @@ class UpdateTaskListViewTest(TestCase):
         self.assertEqual(json.loads(response.content), {'error': 'TaskList not found'})
 
     def test_update_task_list_invalid_request(self):
-        # Send an invalid request (e.g., missing 'name' field)
+        # Send an invalid request (e.g., wrong request type)
         url = reverse('update_task_list')  # Adjust this URL name according to your project's URL configuration
         data = {
             'tasklist_id': str(self.task_list.id)
         }
-        response = self.client.post(url, json.dumps(data), content_type='application/json', HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        response = self.client.post(url, json.dumps(data), content_type='application/json', HTTP_X_REQUESTED_WITH='NOT_AJAX_REQUEST')
 
         # Check if the view returns a 400 Bad Request response
         self.assertEqual(response.status_code, 400)
         self.assertEqual(json.loads(response.content), {'error': 'Invalid request'})
+
+        # Test again with no name field
+        response = self.client.post(url, json.dumps(data), content_type='application/json', HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(json.loads(response.content), {'error': 'Invalid request, new name cannot be none'})
