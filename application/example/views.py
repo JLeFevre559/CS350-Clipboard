@@ -236,7 +236,6 @@ def update_task_list(request):
         data = json.loads(request.body.decode('utf-8'))
         tasklist_id = data.get('tasklist_id')
         new_name = data.get('name')
-        print(f"data ID:{tasklist_id}, new name: {new_name}")
         if new_name == None:
             return JsonResponse({'error': 'Invalid request, new name cannot be none'}, status=400)
         try:
