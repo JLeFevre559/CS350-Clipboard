@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 {% extends 'theme.html' %}
-
+{% load static %}
 
 {% block title %}
 Project Details
@@ -17,7 +17,17 @@ Project Details
     <ul>
     {% for tasklist in tasklists %}
         <div class="task-list temp">
-            <h3>{{ tasklist.name }}</h2>
+            <div  class="task-list-info">
+                <h3 class="task-list-info" id="{{ tasklist.id }}-text">
+                    {{ tasklist.name }}
+                </h3> 
+                <button class="edit-button" data-task-list="{{ tasklist.id }}" data-task-list-name="{{ tasklist.name }}">
+                    <img src="{% static '/images/edit.png' %}" sizes="32x32">
+                </button>
+                <button class="trash-button" data-task-list="{{ tasklist.id }}">
+                    <img src="{% static '/images/trash.png' %}" sizes="32x32">
+                </button>
+            </div>
             <div class="task-list">
                 <h3>Status: <span id="taskListStatus" class="status-not-started">Not Started</span></h3>
             </div>
@@ -110,7 +120,19 @@ Project Details
 </div>
 </div>
 
-
+<div class="popup" id="editTasklistPopup">
+    <div class="popup-content">
+        <h3>Edit Tasklist</h3>
+        <form method="post" id="editTasklistForm">
+            {% csrf_token %}
+            <input type="hidden" name="tasklist_id" id="editTasklistId" value="">
+            <label for="editTasklistName">New Tasklist Name:</label>
+            <input type="text" name="new_name" id="editTasklistName" required>
+            <button type="submit">Save</button>
+            <button class="close-popup">Cancel</button>
+        </form>
+    </div>
+</div>
 
 <script>
 const triggers = document.querySelectorAll('.popup-trigger');
@@ -185,6 +207,38 @@ function updateTaskStatus(taskId, newStatus) {
     });
 }
 
+function editTaskList(tasklist_id, name){
+    const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+
+
+    // Send an AJAX request to update the tasklist
+    $.ajax({
+        url: '/update_task_list/',
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': csrfToken,
+            'Content-Type': 'application/json',
+        },
+        data: JSON.stringify({
+            tasklist_id: tasklist_id,
+            name: name,
+        }),
+        success: function (response) {
+            // Handle the success response (e.g., display a message)
+            console.log(response.message);
+
+            // Update the tasklist name in the UI
+            const tasklistHeader = document.querySelector(`[id="${tasklist_id}-text"]`);
+            if (tasklistHeader) {
+                tasklistHeader.textContent = name;
+            }
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            // Handle errors (e.g., display an error message)
+            console.error(xhr.responseText);
+        }
+    });
+}
 
 document.addEventListener("DOMContentLoaded", function () {
 const createTasklistButton = document.querySelector(".create-tasklist-button");
@@ -213,6 +267,41 @@ createTaskButtons.forEach(function (button) {
 
         showPopup("createTaskPopup");
         });
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const editTasklistButtons = document.querySelectorAll(".edit-button");
+    editTasklistButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+            const tasklistId = this.getAttribute("data-task-list");
+            const currentName = this.getAttribute("data-task-list-name")
+            const popup = document.querySelector("#editTasklistPopup");
+            const tasklistNameInput = document.querySelector("#editTasklistName");
+
+            // Set the tasklist ID in the hidden input field
+            const tasklistIdInput = document.querySelector("#editTasklistId");
+            tasklistIdInput.value = tasklistId;
+
+            // Populate the input field with the current tasklist name
+            tasklistNameInput.value = currentName;
+
+            showPopup("editTasklistPopup");
+        });
+    });
+
+    // Add event listener for form submission
+    const editTasklistForm = document.querySelector("#editTasklistForm");
+    editTasklistForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+        const tasklistId = document.querySelector("#editTasklistId").value;
+        const newTasklistName = document.querySelector("#editTasklistName").value;
+
+        // Call the editTaskList function with the updated data
+        editTaskList(tasklistId, newTasklistName);
+
+        // Close the popup
+        hidePopup("editTasklistPopup");
     });
 });
 
