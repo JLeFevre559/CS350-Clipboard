@@ -63,10 +63,15 @@ body {
   font-family: Arial, sans-serif;
 }
 
+.projectdiv{
+  display: flex;
+  justify-content: space-between;
+}
+
 .task-list {
   border: 2px solid #000000;
   padding: 10px;
-  width: 350px;
+  margin:20px;
 }
 
 .tasks {
@@ -212,15 +217,19 @@ input {
 
 
 .project_list_view{
+  padding: 10px;
+  margin: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 1px solid rgb(0, 0, 0);
   display:flex;
   flex-direction:column;
   align-self: center;
-  margin-left: auto;
-  margin-right: auto;
   text-align:center;
 }
 
 .delete-button{
+  margin: 5px;
   background: rgba(255,0,0,1);
   background: linear-gradient(180deg, rgba(255,0,0,1) 0%, rgba(210,0,0,1) 50%, rgba(170,0,0,1) 100%);
   border-radius: 15px;
@@ -239,6 +248,7 @@ input {
 }
 
 .project-button{
+  margin: 5px;
   background: rgb(48,69,254,1);
   background: linear-gradient(360deg, rgba(48,69,175,1) 0%, rgba(48,69,215,1) 50%, rgba(48,69,254,1) 100%);
   border-radius: 15px;
@@ -333,10 +343,6 @@ input {
 
 .editButton:hover {
   background-color: rgb(0, 100, 0);
-}
-
-.userBio{
-
 }
 
 
