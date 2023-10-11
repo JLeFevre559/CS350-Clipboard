@@ -30,7 +30,7 @@
 .navbar-button {
   font-weight: bold;
   border-radius: 25px;
-  background-color: #3045fe;
+  background-color: rgb(30, 30, 255);
   color: rgb(254, 254, 254);
   padding: 25px 25px;
   text-align: center;
@@ -43,7 +43,8 @@
 }
 
 .navbar-button:hover {
-  background-color: rgb(0, 0, 146);
+  background-color: rgb(30, 30, 200);
+  color: rgb(254, 254, 254);
 }
 
 .navbar-link{
@@ -170,7 +171,7 @@ input {
 
 .footer-button {
   border-radius: 15px;
-  background-color: #3045fe;
+  background-color: rgb(30, 30, 255);
   color: rgb(254, 254, 254);
   padding: 15px 15px;
   text-align: center;
@@ -185,7 +186,8 @@ input {
 }
 
 .footer-button:hover {
-  background-color: rgb(0, 0, 146);
+  background-color: rgb(30, 30, 200);
+  color: rgb(254, 254, 254);
 }
 
 
@@ -266,8 +268,77 @@ input {
   height: 50%;
   border-radius: 50%;
   outline-style: solid;
+}
+
+.profilePhoto{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  outline-style: solid;
+}
+
+.ProfileIcon{
+  margin-top: 25px;
+  margin-bottom: 25px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  outline-style: solid;
+}
+
+.profile-div{
+  display: flex;
+  justify-content: space-between;
+}
+
+.logoutButton {
+  font-weight: bold;
+  border-radius: 25px;
+  background-color: rgb(180, 0, 0);
+  color: rgb(254, 254, 254);
+  padding: 20px 20px;
+  text-align: center;
+  margin: 10px;
+  text-decoration: none;
+  display: inline-block;
+  max-height: 20px;
+  height: 0;
+  line-height: 0;
+}
+
+.logoutButton:hover {
+  background-color: rgb(100, 0, 0);
+}
+
+.editButton{
+  font-weight: bold;
+  border-radius: 25px;
+  background-color: rgb(0, 180, 0);
+  color: rgb(254, 254, 254);
+  padding: 20px 20px;
+  text-align: center;
+  margin: 10px;
+  text-decoration: none;
+  display: inline-block;
+  max-height: 20px;
+  height: 0;
+  line-height: 0;
+}
+
+.editButton:hover {
+  background-color: rgb(0, 100, 0);
+}
+
+.userBio{
 
 }
+
 
 .temp{
   display:flex;
@@ -285,6 +356,10 @@ input {
 
 .mainBox p{
   max-width: 1000px;
+}
+
+.mainBox .userBio{
+  max-width: 293px;
 }
 
 .landingBox{
