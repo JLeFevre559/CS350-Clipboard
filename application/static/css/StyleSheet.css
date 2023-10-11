@@ -156,6 +156,16 @@ ul li {
   margin: 4px 0; /* Add margin for separation */
 }
 
+ul.centerList li {
+  outline: 0px solid #000; /* Set the outline style */
+  padding: 8px; /* Add padding for spacing */
+  margin: 4px 0; /* Add margin for separation */
+  display: flex;
+  justify-content: center; /* Horizontally center the content */
+  align-items: center; /* Vertically center the content */
+  
+}
+
 input {
   min-width: 100%;
 }
@@ -257,6 +267,38 @@ input {
   height: 10px;
   line-height: 0;
   font-size: 32px;
+}
+
+.big-delete-button:hover{
+  background: rgba(170,0,0,1);
+  background: linear-gradient(180deg, rgba(205,0,0,1) 0%, rgba(160,0,0,1) 50%, rgba(120,0,0,1) 100%);
+}
+
+.projectDeletePopupDiv{
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+}
+
+.projectClosePopup{
+  margin-left: auto;
+  margin-right: auto;
+  padding: 50px;
+  background: rgb(0, 230, 0);
+  background: linear-gradient(180deg, rgba(0,230,0,1) 0%, rgba(0,185,0,1) 50%, rgba(0,135,0,1) 100%);
+  border-radius: 50px;
+  width: fit-content;
+  text-align: center;
+  color: rgb(254, 254, 254);
+  align-self: center;
+  height: 10px;
+  line-height: 0;
+  font-size: 32px;
+}
+
+.projectClosePopup:hover{
+  background: rgba(0,200,0,1);
+  background: linear-gradient(180deg, rgba(0,200,0,1) 0%, rgba(0,155,0,1) 50%, rgba(0,105,0,1) 100%);
 }
 
 

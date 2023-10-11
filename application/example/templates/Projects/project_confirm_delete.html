@@ -9,39 +9,32 @@
 <p>Project Name: <b>"{{ project.name }}"</b></p>
 <p>Description: <b>{{ project.description }}</b></p>
 <h4>Are you sure about this?</h4>
-<p><span class="popup-trigger" data-popup-id="popup1">Task 1</span></p>
-<button class="big-delete-button" type="submit" name="delete" value="yes">Yes, delete</button>
-<form method="post">
-  {% csrf_token %}
-  <h4>Are you sure about this?</h4>
-  <button class="big-delete-button" type="submit" name="delete" value="yes">Yes, delete</button>
-</form>
-<a href="/Project">Go Back to Projects</a>
+<p><span class="popup-trigger" data-popup-id="popup1"><button class="big-delete-button">Yes, delete</button></span></p>
+<a href="/Project"><button class="project-button">Go back to Project List</button></a>
 
 <div class="popup" id="popup1">
   <div class="popup-content">
-    <ul>
-      <li><p>Assigned To: <b>"{name}"</b></p></li>
-      <li><p>Task: <b>Content Planning and Creation</b></p></li>
-      <li>
-        <p>Details: Develop a content strategy that outlines the type of coding-related content you want to feature on your homepage. This could include coding tutorials, articles, videos, and project showcases. Create high-quality and engaging content that caters to your target audience's interests and skill levels. Organize your content into categories or sections for easy navigation and accessibility.</p>
-      </li>
-      <li>
-        <div class="container">
-          <div>
-          </div>
-          <h4>Due Date: 8/18/2015</h4>
-          <button class="close-popup">Close</button>
-        </div>
-      </li>
-    </ul>   
+  <ul class="centerList">
+    <li>
+      <h2>Are you absolutely sure about this?</h2>
+    </li>
+    <li>
+      <form method="post" class="center">
+        {% csrf_token %}
+        <button class="big-delete-button" type="submit" name="delete" value="yes">Yes, DESTROY my project</button>
+      </form>
+    </li>
+    <li>
+      <button class="projectClosePopup">Nevermind I Love my Project</button>   
+    </li>
+  </ul>
   </div>
 </div>
 
 <script>
   const triggers = document.querySelectorAll('.popup-trigger');
   const popups = document.querySelectorAll('.popup');
-  const closeButtons = document.querySelectorAll('.close-popup');
+  const closeButtons = document.querySelectorAll('.projectClosePopup');
 
   // Function to show a specific popup by ID
   function showPopup(popupId) {
@@ -59,5 +52,19 @@
       }
   }
 
+  triggers.forEach(trigger => {
+        trigger.addEventListener('click', function () {
+            const popupId = this.getAttribute('data-popup-id');
+            showPopup(popupId);
+        });
+    });
+
+    // Add click event listeners to close buttons
+    closeButtons.forEach(closeButton => {
+        closeButton.addEventListener('click', function () {
+            const popupId = this.closest('.popup').id;
+            hidePopup(popupId);
+        });
+    });
 </script>
 {% endblock %}
