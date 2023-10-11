@@ -1,8 +1,8 @@
 **ClipBoard Team Coordinatior**
 
 * Project Charter
-    * [Project Consolidation](Consolidation.md)
-    * [Tasklist](Tasklist.md)
+    * [Burn-down Folder](/Documents/Milestone-4/Requirements/Burn-down%20Folder/)
+    * [Project Completion](/Documents/Milestone-4/Requirements/Project%20Completetion/)
     * [Milestone templates](../..)
 * [Engineering Report](Report.md)
     * What did I do?

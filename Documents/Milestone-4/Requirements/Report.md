@@ -7,6 +7,10 @@
     * Created documentation for assisting in team coordination of team assets.
     * Consolidated the current documentation that we already had for team coordination.
     * Continued use of channels for communication between team members.
+    * Assisted the process of design by redesigning the elements of some our webpage and a bit of consolidation of the CSS stylesheet
+    * Burn-down Graph : Review and update the product backlog and isolated features to be implmeneted, Describe features as User Stories
+    * Project Completion :  Track progress and created a fallback plan if past the deadline.
+
   
 * **What will I do? Requirements for Milestone 5**
     * Milestone Completion: taking a look at how far we have come and how much further we have to go.
