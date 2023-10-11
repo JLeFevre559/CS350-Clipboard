@@ -1,13 +1,13 @@
 {% load static %}
-<nav class="Outlined-box">
-    <div class="container JCSP">
-        <a href="/Calendar" class="navbar-button">Calendar</a>
-        <div>
-            <a href="/">
-                <img src="{% static '/images/Clipboard-Icon.png' %}" alt="Clipboard Icon" width="254" height="68">
-            </a>
+<nav class="navbar-box">
+    <div class="navbar">
+        <div class="navbar-div">
+            <a href="/Calendar" class="navbar-button">Calendar</a>
         </div>
-        <div>
+            <div class="navbar-div">
+            <a href="/" class="navbar-link"><img src="{% static '/images/Clipboard-Icon.png' %}" alt="Clipboard Icon"  class="navbar-photo"></a>
+        </div>
+        <div class="navbar-div">
             <a href="/Project" class="navbar-button">Project</a>
             <a href="/Profile" class="navbar-button">Profile</a>
         </div>

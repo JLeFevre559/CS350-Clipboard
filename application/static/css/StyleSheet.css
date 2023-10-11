@@ -1,6 +1,30 @@
-.JCSP {
+.navbar-box {
+  border: 2px solid rgb(204, 204, 204);
+  text-align: center;
+  padding-left: auto;
+  padding-right: auto;
+  margin-top: -2px;
+  margin-left: -2px;
+  margin-right: -2px;
+  margin-bottom: 40px;
+  box-shadow: 0px 10px 3px rgba(0, 0, 0, 0.5);
+  
+}
+
+.navbar{
   display: flex;
   justify-content: space-between;
+  padding-left: auto;
+  padding-right: auto;
+}
+
+.navbar-div{
+  width: 300px;
+}
+
+.navbar-photo{
+  width:254px;
+  height:70px;
 }
 
 .navbar-button {
@@ -22,16 +46,16 @@
   background-color: rgb(0, 0, 146);
 }
 
-.Outlined-box {
-  border: 2px solid rgb(204, 204, 204);
-  text-align: center;
-  padding: 10px;
-  margin: 20px;
+.navbar-link{
+  margin-left: auto;
+  margin-right: auto;
+  max-width: fit-content;
+  min-width: fit-content;
 }
 
-.centered-text {
-  text-align: center;
-  padding: 20px;
+.navbar-image{
+  margin-left: auto;
+  margin-right: auto;
 }
 
 body {
@@ -271,10 +295,6 @@ input {
 .landingphoto{
   margin-left: auto;
   margin-right: auto;
-}
-
-.flex{
-  display:flex;
 }
 
 .projectHomeBox{
