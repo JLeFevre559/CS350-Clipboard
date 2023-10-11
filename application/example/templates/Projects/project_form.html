@@ -2,15 +2,14 @@
 {% extends 'theme.html' %}
 
 {% block title %}
-Clipboard
 {% endblock title %}
 
 {% block content %}
-  <h1>Create/Edit Project</h1>
+  <h1 class="text-primary">Create/Edit Project</h1>
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Save</button>
   </form>
-  <a href="{% url 'Project' %}">Back to Project List</a>
+  <a href="{% url 'Project' %}"><button class="project-button">Back to Project List</button></a>
 {% endblock %}
