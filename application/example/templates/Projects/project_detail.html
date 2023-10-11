@@ -18,7 +18,7 @@
     <h2>Tasklists:</h2>
     <div class="projectdiv">
         {% for tasklist in tasklists %}
-            <div class="task-list temp">
+            <div class="task-list temp" id="{{ tasklist.id }}-tasklist">
                 <div  class="task-list-info">
                     <h3 class="task-list-info" id="{{ tasklist.id }}-text">
                         {{ tasklist.name }}
@@ -26,7 +26,7 @@
                     <button class="edit-button" data-task-list="{{ tasklist.id }}" data-task-list-name="{{ tasklist.name }}">
                         <img src="{% static '/images/edit.png' %}" sizes="32x32">
                     </button>
-                    <button class="trash-button" data-task-list="{{ tasklist.id }}">
+                    <button class="trash-button" data-task-list="{{ tasklist.id }}" onclick="showConfirmationPopup('{{ tasklist.id }}', 'tasklist')">
                         <img src="{% static '/images/trash.png' %}" sizes="32x32">
                     </button>
                 </div>
@@ -136,6 +136,15 @@
     </div>
 </div>
 
+<div class="popup" id="confirmationPopup">
+    <div class="popup-content">
+        <h3 id="confirmationTitle"></h3>
+        <p id="confirmationMessage"></p>
+        <button id="confirmActionButton" class="project-button">Yes</button>
+        <button class="close-popup">No</button>
+    </div>
+</div>
+
 <script>
 const triggers = document.querySelectorAll('.popup-trigger');
 const popups = document.querySelectorAll('.popup');
@@ -233,6 +242,66 @@ function editTaskList(tasklist_id, name){
             const tasklistHeader = document.querySelector(`[id="${tasklist_id}-text"]`);
             if (tasklistHeader) {
                 tasklistHeader.textContent = name;
+            }
+        },
+        error: function (xhr, textStatus, errorThrown) {
+            // Handle errors (e.g., display an error message)
+            console.error(xhr.responseText);
+        }
+    });
+}
+
+function showConfirmationPopup(itemId, itemType) {
+    const popup = document.getElementById('confirmationPopup');
+    const title = document.getElementById('confirmationTitle');
+    const message = document.getElementById('confirmationMessage');
+    const confirmButton = document.getElementById('confirmActionButton');
+
+    if (popup && title && message && confirmButton) {
+        // Set the title and message based on the item type
+        title.textContent = `Delete ${itemType}`;
+        message.textContent = `Are you sure you want to delete this ${itemType}?`;
+
+        confirmButton.addEventListener('click', function () {
+            hidePopup('confirmationPopup');
+
+            if (itemType === 'tasklist') {
+                // Call the delete task list function using AJAX
+                deleteTaskList(itemId, 'yes');
+            } else if (itemType === 'task') {
+                // Call the delete task function using AJAX
+                deleteTask(itemId);
+            }
+        });
+
+        showPopup('confirmationPopup');
+    }
+}
+
+function deleteTaskList(tasklist_id, confirmation){
+    const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+
+
+    // Send an AJAX request to update the tasklist
+    $.ajax({
+        url: '/delete_task_list/',
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': csrfToken,
+            'Content-Type': 'application/json',
+        },
+        data: JSON.stringify({
+            tasklist_id: tasklist_id,
+            confirmation: confirmation,
+        }),
+        success: function (response) {
+            // Handle the success response (e.g., display a message)
+            console.log(response.message);
+
+            // Update the tasklist in the UI
+            const taskListElement = document.querySelector(`[id="${tasklist_id}-tasklist"]`);
+            if (taskListElement) {
+                taskListElement.remove();
             }
         },
         error: function (xhr, textStatus, errorThrown) {
