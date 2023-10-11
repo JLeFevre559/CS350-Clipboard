@@ -4,6 +4,7 @@ from .models import Project, TaskList, Tasks, Profile
 from django.urls import reverse
 from django.http import JsonResponse
 import json
+import datetime
 
 class ProjectModelTest(TestCase):
     def test_create_project(self):
@@ -386,3 +387,149 @@ class UpdateTaskListViewTest(TestCase):
         # Test again with no name field
         response = self.client.post(url, json.dumps(data), content_type='application/json', HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEqual(json.loads(response.content), {'error': 'Invalid request, new name cannot be none'})
+
+class DeleteTaskViewTest(TestCase):
+    def setUp(self):
+        # Create a user and log them in
+        self.user = Profile.objects.create_user(username='testuser', password='testpassword')
+        self.client.login(username='testuser', password='testpassword')
+
+        # Create a project and a task list associated with that project
+        self.project = Project.objects.create(name='Test Project', description='Project Description', profile_id=self.user)
+        self.task_list = TaskList.objects.create(name='Test Task List', project=self.project)
+        self.task = Tasks.objects.create(
+            assignee='Test Assignee',
+            task_name='Test Task',
+            description='Test Task Description',
+            status='Not Started',
+            task_list=self.task_list
+        )
+
+    def test_delete_task(self):
+        # Send a POST request to delete the task list
+        url = reverse('delete_task')  # Adjust this URL name according to your project's URL configuration
+        data = {
+            'task_id': str(self.task.id),
+            'confirmation': 'yes'
+        }
+        response = self.client.post(url, json.dumps(data), content_type='application/json', HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+
+        # Check if the task list and associated tasks have been deleted
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(json.loads(response.content), {'message': 'Task successfully deleted'})
+
+        # Check if the task no longer exists in the database
+        self.assertFalse(Tasks.objects.filter(task_list=self.task.id).exists())
+
+
+    def test_delete_task_invalid_request(self):
+        # Send an invalid request (e.g., missing 'confirmation')
+        url = reverse('delete_task')  # Adjust this URL name according to your project's URL configuration
+        data = {
+            'task_id': str(self.task.id)
+        }
+        response = self.client.post(url, json.dumps(data), content_type='application/json', HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+
+        # Check if the view returns a 400 Bad Request response
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(json.loads(response.content), {'error': 'Invalid request'})
+
+    def test_delete_task_task_not_found(self):
+        # Send a request to delete a non-existent task list
+        url = reverse('delete_task')  # Adjust this URL name according to your project's URL configuration
+        data = {
+            'task_id': None,
+            'confirmation': 'yes'
+        }
+        response = self.client.post(url, data, content_type='application/json', HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+
+        # Check if the view returns a 404 Not Found response
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(json.loads(response.content), {'error': 'Task not found'})
+
+class UpdateTaskViewTest(TestCase):
+    def setUp(self):
+        # Create a user and log them in
+        self.user = Profile.objects.create_user(username='testuser', password='testpassword')
+        self.client.login(username='testuser', password='testpassword')
+
+        # Create a project and a task list associated with that project
+        self.project = Project.objects.create(name='Test Project', description='Project Description', profile_id=self.user)
+        self.task_list = TaskList.objects.create(name='Test Task List', project=self.project)
+        self.task = Tasks.objects.create(
+            assignee='Test Assignee',
+            task_name='Test Task',
+            description='Test Task Description',
+            status='Not Started',
+            task_list=self.task_list,
+            priority = 'High'
+        )
+
+    def test_update_task(self):
+        # Send a POST request to update the task list name
+        url = reverse('update_task')  # Adjust this URL name according to your project's URL configuration
+        date = datetime.date.today()
+        data = {
+            'task_id': str(self.task_list.id),
+            'name': 'New Task List Name',
+            'assignee': 'New Assignee',
+            'due_date': str(date),
+            'description': 'New Description',
+            'priority': 'Low'
+        }
+        response = self.client.post(url, json.dumps(data), content_type='application/json', HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+
+        # Check if the task list name has been updated
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(json.loads(response.content), {'message': 'Task successfully updated'})
+
+        # Check if the task list's name has changed in the database
+        updated_task_list = TaskList.objects.get(id=self.task_list.id)
+        self.assertEqual(updated_task_list.name, 'New Task List Name')
+        self.assertEqual(updated_task_list.assignee, 'New Assignee')
+        self.assertEqual(updated_task_list.due_date, date)
+        self.assertEqual(updated_task_list.description, 'New Description')
+        self.assertEqual(updated_task_list.priority, 'Low')
+
+    def test_update_task_task_not_found(self):
+        # Send a request to update a non-existent task list
+        url = reverse('update_task')  # Adjust this URL name according to your project's URL configuration
+        date = datetime.date.today()
+        data = {
+            'task_id': None,
+            'name': 'New Task List Name',
+            'assignee': 'New Assignee',
+            'date': str(date),
+            'description': 'New Description',
+            'priority': 'Low'
+        }
+        response = self.client.post(url, json.dumps(data), content_type='application/json', HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+
+        # Check if the view returns a 404 Not Found response
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(json.loads(response.content), {'error': 'Task not found'})
+
+    def test_update_task_invalid_request(self):
+        # Send an invalid request (e.g., wrong request type)
+        url = reverse('update_task')  # Adjust this URL name according to your project's URL configuration
+        date = datetime.date.today()
+        data = {
+            'task_id': str(self.task_list.id),
+            'date': str(date)
+        }
+        response = self.client.post(url, json.dumps(data), content_type='application/json', HTTP_X_REQUESTED_WITH='NOT_AJAX_REQUEST')
+
+        # Check if the view returns a 400 Bad Request response
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(json.loads(response.content), {'error': 'Invalid request'})
+
+        # Test again with no name field
+        response = self.client.post(url, json.dumps(data), content_type='application/json', HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(json.loads(response.content), {'error': 'Invalid request, new name cannot be none'})
+
+        data = {
+            'task_id': str(self.task_list.id),
+        }
+         # Test again with no date field
+        response = self.client.post(url, json.dumps(data), content_type='application/json', HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(json.loads(response.content), {'error': 'Invalid request, new date cannot be none'})
