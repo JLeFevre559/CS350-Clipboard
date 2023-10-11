@@ -243,6 +243,23 @@ input {
   line-height: 0;
 }
 
+.big-delete-button{
+  margin-left: auto;
+  margin-right: auto;
+  padding: 50px;
+  background: rgba(255,0,0,1);
+  background: linear-gradient(180deg, rgba(255,0,0,1) 0%, rgba(210,0,0,1) 50%, rgba(170,0,0,1) 100%);
+  border-radius: 50px;
+  width: fit-content;
+  text-align: center;
+  color: rgb(254, 254, 254);
+  align-self: center;
+  height: 10px;
+  line-height: 0;
+  font-size: 32px;
+}
+
+
 .delete-button:hover{
   background: rgba(170,0,0,1);
 }
