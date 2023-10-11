@@ -259,8 +259,18 @@ input {
   min-width: fit-content;
 }
 
+.mainBox p{
+  max-width: 1000px;
+}
+
 .landingBox{
-  font-size: x-large;
+  display: flex;
+  font-size: 28px;
+}
+
+.landingphoto{
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .flex{
