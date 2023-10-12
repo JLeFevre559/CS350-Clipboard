@@ -265,34 +265,29 @@ def delete_task(request):
 def update_task(request):
     if request.method == 'POST' and (request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'):
         data = json.loads(request.body.decode('utf-8'))
-        # print()
-        # print("entering update_task")
         task_id = data.get('task_id')
-        # print(f"task_id: {task_id}")
         new_name = data.get('name')
-        # print(f"new_name: {new_name}")
         new_assignee = data.get('assignee')
-        # print(f"new_assignee: {new_assignee}")
         new_due_date_str = data.get('due_date')
-        if new_due_date_str == None:
-            return JsonResponse({'error': 'Invalid request, new date cannot be none'}, status=400)
-        new_due_date = datetime.strptime(new_due_date_str, '%Y-%m-%d').date()
-        # print(f"new_due_date: {new_due_date}")
         new_description = data.get('description')
-        # print(f"new_description: {new_description}")
         new_priority = data.get('priority')
-        # print(f"new_priority: {new_priority}")
-        if new_name == None:
-            return JsonResponse({'error': 'Invalid request, new name cannot be none'}, status=400)
         try:
-            task = TaskList.objects.get(id=task_id)
-            task.name = new_name
+            task = Tasks.objects.get(id=task_id)
+            if new_name == None:
+                new_name = task.task_name
+            task.task_name = new_name
             task.assignee = new_assignee
+            if new_due_date_str == None:
+                new_due_date = task.due_date
+            else:
+                new_due_date = datetime.fromisoformat(new_due_date_str)
             task.due_date = new_due_date
             task.description = new_description
+            if new_priority not in ['High', 'Medium', 'Low']:
+                new_priority = task.priority
             task.priority = new_priority
             task.save()
             return JsonResponse({'message': 'Task successfully updated'})
-        except TaskList.DoesNotExist:
+        except Tasks.DoesNotExist:
             return JsonResponse({'error': 'Task not found'}, status=404)
     return JsonResponse({'error': 'Invalid request'}, status=400)

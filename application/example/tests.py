@@ -4,7 +4,7 @@ from .models import Project, TaskList, Tasks, Profile
 from django.urls import reverse
 from django.http import JsonResponse
 import json
-import datetime
+from datetime import datetime
 
 class ProjectModelTest(TestCase):
     def test_create_project(self):
@@ -453,7 +453,7 @@ class UpdateTaskViewTest(TestCase):
         self.user = Profile.objects.create_user(username='testuser', password='testpassword')
         self.client.login(username='testuser', password='testpassword')
 
-        # Create a project and a task list associated with that project
+        # Create a project and a task associated with that project
         self.project = Project.objects.create(name='Test Project', description='Project Description', profile_id=self.user)
         self.task_list = TaskList.objects.create(name='Test Task List', project=self.project)
         self.task = Tasks.objects.create(
@@ -466,38 +466,38 @@ class UpdateTaskViewTest(TestCase):
         )
 
     def test_update_task(self):
-        # Send a POST request to update the task list name
+        # Send a POST request to update the task name
         url = reverse('update_task')  # Adjust this URL name according to your project's URL configuration
-        date = datetime.date.today()
+        date = datetime.fromisoformat('2023-10-13T00:00:00.000+00:00').date()
         data = {
-            'task_id': str(self.task_list.id),
-            'name': 'New Task List Name',
+            'task_id': str(self.task.id),
+            'name': 'New Task Name',
             'assignee': 'New Assignee',
-            'due_date': str(date),
+            'due_date': '2023-10-13T00:00:00.000+00:00',
             'description': 'New Description',
             'priority': 'Low'
         }
         response = self.client.post(url, json.dumps(data), content_type='application/json', HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
-        # Check if the task list name has been updated
+        # Check if the task name has been updated
         self.assertEqual(response.status_code, 200)
         self.assertEqual(json.loads(response.content), {'message': 'Task successfully updated'})
 
-        # Check if the task list's name has changed in the database
-        updated_task_list = TaskList.objects.get(id=self.task_list.id)
-        self.assertEqual(updated_task_list.name, 'New Task List Name')
-        self.assertEqual(updated_task_list.assignee, 'New Assignee')
-        self.assertEqual(updated_task_list.due_date, date)
-        self.assertEqual(updated_task_list.description, 'New Description')
-        self.assertEqual(updated_task_list.priority, 'Low')
+        # Check if the task's data has changed in the database
+        updated_task = Tasks.objects.get(id=self.task.id)
+        self.assertEqual(updated_task.task_name, 'New Task Name')
+        self.assertEqual(updated_task.assignee, 'New Assignee')
+        self.assertEqual(updated_task.due_date, date)
+        self.assertEqual(updated_task.description, 'New Description')
+        self.assertEqual(updated_task.priority, 'Low')
 
     def test_update_task_task_not_found(self):
-        # Send a request to update a non-existent task list
+        # Send a request to update a non-existent task 
         url = reverse('update_task')  # Adjust this URL name according to your project's URL configuration
-        date = datetime.date.today()
+        date = datetime.fromisoformat('2023-10-13T00:00:00.000+00:00').date()
         data = {
             'task_id': None,
-            'name': 'New Task List Name',
+            'name': 'New Task Name',
             'assignee': 'New Assignee',
             'date': str(date),
             'description': 'New Description',
@@ -512,9 +512,9 @@ class UpdateTaskViewTest(TestCase):
     def test_update_task_invalid_request(self):
         # Send an invalid request (e.g., wrong request type)
         url = reverse('update_task')  # Adjust this URL name according to your project's URL configuration
-        date = datetime.date.today()
+        date = datetime.fromisoformat('2023-10-13T00:00:00.000+00:00').date()
         data = {
-            'task_id': str(self.task_list.id),
+            'task_id': str(self.task.id),
             'date': str(date)
         }
         response = self.client.post(url, json.dumps(data), content_type='application/json', HTTP_X_REQUESTED_WITH='NOT_AJAX_REQUEST')
@@ -522,14 +522,3 @@ class UpdateTaskViewTest(TestCase):
         # Check if the view returns a 400 Bad Request response
         self.assertEqual(response.status_code, 400)
         self.assertEqual(json.loads(response.content), {'error': 'Invalid request'})
-
-        # Test again with no name field
-        response = self.client.post(url, json.dumps(data), content_type='application/json', HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-        self.assertEqual(json.loads(response.content), {'error': 'Invalid request, new name cannot be none'})
-
-        data = {
-            'task_id': str(self.task_list.id),
-        }
-         # Test again with no date field
-        response = self.client.post(url, json.dumps(data), content_type='application/json', HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-        self.assertEqual(json.loads(response.content), {'error': 'Invalid request, new date cannot be none'})
