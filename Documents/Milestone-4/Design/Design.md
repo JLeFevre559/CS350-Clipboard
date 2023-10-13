@@ -26,7 +26,7 @@ described earlier; simply going through the actual core functionality of our app
 
 ### Status Video 
 
-View the video at https://youtu.be/GnvXJPCl3Oc
+View the video at https://youtu.be/5k7oV6cr0QQ
 
 
 ## What I will do for Milestone 5

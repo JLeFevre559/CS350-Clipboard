@@ -26,4 +26,4 @@
     * Our team met for 4 hours throughout the week
 
 * 5-minute Video Demo
-    * https://youtu.be/GnvXJPCl3Oc
+    * https://youtu.be/5k7oV6cr0QQ
