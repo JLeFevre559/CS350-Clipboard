@@ -44,5 +44,5 @@ urlpatterns = [
     path('delete_task_list/', delete_task_list, name='delete_task_list'),
     path('update_task_list/', update_task_list, name='update_task_list'),
     path('delete_task/', delete_task, name='delete_task'),
-    path('update_task', update_task, name="update_task"),
+    path('update_task/', update_task, name="update_task"),
 ]
