@@ -8,7 +8,11 @@ Calendar
 
 {% block content %}
 <div>
-    <h1>{{ year }} - {{ month }}</h1>
+    <div class="monthBox">
+        <div>&#10094;</div>
+        <div>&#10095;</div>
+        <div class="monthYearBox"><h2 id="currentMonth"></h2><h4 id="currentYear"></h4></div>
+    </div>
     <table>
         <tr>
             <th>Sun</th>
@@ -20,30 +24,51 @@ Calendar
             <th>Sat</th>
         </tr>
         <tr>
-            {% for day, weekday in calendar.days %}
-
-                {% if day %}
-                    <td>
-                        {{ day.day }}
-                        <ul>
-                            {% for event in events %}
-                                {% if event.date.day == day.day %}
-                                    <li>{{ event.title }}</li>
-                                {% endif %}
-                            {% endfor %}
-                        </ul>
-                    </td>
-                {% else %}
-                    <td></td>
-                {% endif %}
-
-                {% if forloop.counter|divisibleby:7 %}
-                    </tr><tr>
-                {% endif %}
-
-            {% endfor %}
+            
         </tr>
     </table>
+
+    <h1>First and Last Day of the month</h1>
+
+    <p>Click the button to get the first and last day of the current week:</p>
+
+    <button id="getDaysButton">Get First and Last Day</button>
+
+    <p id="result"></p>
+
+    <script>
+
+        var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        var today = new Date();
+        var currentMonth = months[today.getMonth()];
+        var currentYear = today.getFullYear();
+
+        // Set the content of the HTML element with id "currentYear" using the variable
+        document.getElementById("currentYear").innerHTML = currentYear;
+
+        // Set the content of the HTML element with id "currentMonth" using the variable
+        document.getElementById("currentMonth").innerHTML = currentMonth;
+
+        document.getElementById("getDaysButton").addEventListener("click", function() {
+            var month = new Date();
+            var today = new Date();
+            var firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+            var lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+            // Get the current day of the week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+            // Format the dates for display
+            var todayFormatted = today.getDate();
+            var firstDayFormatted = firstDay.getDate();
+            var lastDayFormatted = lastDay.getDate();
+
+
+            var options = { weekday: 'long' };
+            var firstDayFormatted2 = firstDay.toLocaleDateString('en-US', options);
+            var lastDayFormatted2 = lastDay.toLocaleDateString('en-US', options);
+
+            // Display the results
+            document.getElementById("result").innerHTML = "First day of the month: " +firstDayFormatted2+" "+ firstDayFormatted + "<br>Last day of the month: "+lastDayFormatted2+" " + lastDayFormatted + "<br>Today "+todayFormatted;
+        });
+    </script>
 </div>
 
 {% endblock content %}
