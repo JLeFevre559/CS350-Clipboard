@@ -1,4 +1,4 @@
-# Converting Model Tests for Trello Clone App To Django Framework
+# Converting Model Tests for Clipboard To Django Framework
 
 ### 1. [Project Model Test](https://github.com/JLeFevre559/CS350-Clipboard/blob/main/application/example/tests.py#L11-L23)
 - **Description**: Ensures that a new project can be created with the expected attributes.
