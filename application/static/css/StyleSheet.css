@@ -467,3 +467,15 @@ input {
 .task-list-info {
   display: inline;
 }
+
+
+
+
+.monthBoxDiv {
+  display: flex;
+  justify-content: space-between;
+}
+
+.monthYearBoxDiv {
+  font-size: 28px;
+}
