@@ -2,15 +2,48 @@
 
 
 {% block title %}
-Clipboard
+Calendar
 {% endblock title %}
 
 
 {% block content %}
-<h2>Calendar Placeholder</h2>
-
 <div>
-    <img src="https://media.istockphoto.com/photos/ham-sandwich-picture-id157428028?k=6&m=157428028&s=170667a&w=0&h=a_PFEDpMDwLKFT6vcH6XVqMdQh1y_vrpxQVjVnO3SEo=" alt="A Ham sandwich">
+    <h1>{{ year }} - {{ month }}</h1>
+    <table>
+        <tr>
+            <th>Sun</th>
+            <th>Mon</th>
+            <th>Tue</th>
+            <th>Wed</th>
+            <th>Thu</th>
+            <th>Fri</th>
+            <th>Sat</th>
+        </tr>
+        <tr>
+            {% for day, weekday in calendar.days %}
+
+                {% if day %}
+                    <td>
+                        {{ day.day }}
+                        <ul>
+                            {% for event in events %}
+                                {% if event.date.day == day.day %}
+                                    <li>{{ event.title }}</li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </td>
+                {% else %}
+                    <td></td>
+                {% endif %}
+
+                {% if forloop.counter|divisibleby:7 %}
+                    </tr><tr>
+                {% endif %}
+
+            {% endfor %}
+        </tr>
+    </table>
 </div>
 
 {% endblock content %}
