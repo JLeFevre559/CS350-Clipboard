@@ -3,7 +3,7 @@
 
 The following is a summary of the test coverage for the project:
 
-#### Summary:
+### Summary:
 - **Total Statements:** 529
 - **Statements Missed:** 32
 - **Overall Coverage:** 94%
