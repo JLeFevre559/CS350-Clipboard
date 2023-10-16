@@ -8,11 +8,10 @@ Calendar
 
 {% block content %}
 <div>
-    <div class="monthBox">
-        <div>&#10094;</div>
-        <div>&#10095;</div>
-        <div class="monthYearBox"><h2 id="currentMonth"></h2><h4 id="currentYear"></h4></div>
+    <div class="monthBoxDiv">
+        <div class="monthYearBoxDiv"><h2 id="currentMonth"></h2><h4 id="currentYear"></h4></div>
     </div>
+
     <table>
         <tr>
             <th>Sun</th>
@@ -37,7 +36,6 @@ Calendar
     <p id="result"></p>
 
     <script>
-
         var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         var today = new Date();
         var currentMonth = months[today.getMonth()];
