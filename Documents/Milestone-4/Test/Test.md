@@ -21,11 +21,11 @@ class TaskListModelTest(TestCase):
 ### 3. [Task Model Test](https://github.com/JLeFevre559/CS350-Clipboard/blob/main/application/example/tests.py#L39-L53)
 - **Description**: Tests the creation of a task within a task list. Ensures all attributes of a task are set correctly.
 - **Code**:
-\```python
+```python
 class TaskModelTest(TestCase):
     def test_create_task(self):
         ...
-\```
+```
 
 ### 4. [Profile Model Test](https://github.com/JLeFevre559/CS350-Clipboard/blob/main/application/example/tests.py#L55-L72)
 - **Description**: Checks the creation and updating of user profiles, including the ability to set a profile picture.
