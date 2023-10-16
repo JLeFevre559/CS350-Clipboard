@@ -8,23 +8,23 @@
   margin-right: -2px;
   margin-bottom: 40px;
   box-shadow: 0px 10px 3px rgba(0, 0, 0, 0.5);
-  
+
 }
 
-.navbar{
+.navbar {
   display: flex;
   justify-content: space-between;
   padding-left: auto;
   padding-right: auto;
 }
 
-.navbar-div{
+.navbar-div {
   width: 300px;
 }
 
-.navbar-photo{
-  width:254px;
-  height:70px;
+.navbar-photo {
+  width: 254px;
+  height: 70px;
 }
 
 .navbar-button {
@@ -47,14 +47,14 @@
   color: rgb(254, 254, 254);
 }
 
-.navbar-link{
+.navbar-link {
   margin-left: auto;
   margin-right: auto;
   max-width: fit-content;
   min-width: fit-content;
 }
 
-.navbar-image{
+.navbar-image {
   margin-left: auto;
   margin-right: auto;
 }
@@ -63,7 +63,7 @@ body {
   font-family: Arial, sans-serif;
 }
 
-.projectdiv{
+.projectdiv {
   display: flex;
   justify-content: space-between;
 }
@@ -71,7 +71,7 @@ body {
 .task-list {
   border: 2px solid #000000;
   padding: 10px;
-  margin:20px;
+  margin: 20px;
 }
 
 .tasks {
@@ -96,19 +96,19 @@ body {
 }
 
 /* this affects the not started status */
-.Started{
+.Started {
   color: red;
   display: inline-block;
   min-width: 90px;
 }
 
-.Progress{
+.Progress {
   color: rgb(202, 171, 0);
   display: inline-block;
   min-width: 90px;
 }
 
-.Done{
+.Done {
   color: green;
   display: inline-block;
   min-width: 90px;
@@ -151,26 +151,34 @@ ul {
 }
 
 ul li {
-  outline: 1px solid #000; /* Set the outline style */
-  padding: 8px; /* Add padding for spacing */
-  margin: 4px 0; /* Add margin for separation */
+  outline: 1px solid #000;
+  /* Set the outline style */
+  padding: 8px;
+  /* Add padding for spacing */
+  margin: 4px 0;
+  /* Add margin for separation */
 }
 
 ul.centerList li {
-  outline: 0px solid #000; /* Set the outline style */
-  padding: 8px; /* Add padding for spacing */
-  margin: 4px 0; /* Add margin for separation */
+  outline: 0px solid #000;
+  /* Set the outline style */
+  padding: 8px;
+  /* Add padding for spacing */
+  margin: 4px 0;
+  /* Add margin for separation */
   display: flex;
-  justify-content: center; /* Horizontally center the content */
-  align-items: center; /* Vertically center the content */
-  
+  justify-content: center;
+  /* Horizontally center the content */
+  align-items: center;
+  /* Vertically center the content */
+
 }
 
 input {
   min-width: 100%;
 }
 
-.popup-trigger:hover{
+.popup-trigger:hover {
   color: #2003ff;
   text-decoration: underline;
 }
@@ -192,7 +200,7 @@ input {
   text-align: center;
   margin: 10px;
   margin-left: 0px;
-  margin-top:0px;
+  margin-top: 0px;
   text-decoration: none;
   display: inline-block;
   max-height: 10px;
@@ -206,7 +214,7 @@ input {
 }
 
 
-.loginButton{
+.loginButton {
   font-weight: bold;
   background-color: #3045fe;
   color: rgb(254, 254, 254);
@@ -221,27 +229,27 @@ input {
   margin-bottom: 10px;
 }
 
-.loginButton:hover{
+.loginButton:hover {
   background-color: rgb(0, 0, 146);
 }
 
 
-.project_list_view{
+.project_list_view {
   padding: 10px;
   margin: 10px;
   margin-top: 20px;
   margin-bottom: 20px;
   border: 1px solid rgb(0, 0, 0);
-  display:flex;
-  flex-direction:column;
+  display: flex;
+  flex-direction: column;
   align-self: center;
-  text-align:center;
+  text-align: center;
 }
 
-.delete-button{
+.delete-button {
   margin: 5px;
-  background: rgba(255,0,0,1);
-  background: linear-gradient(180deg, rgba(255,0,0,1) 0%, rgba(210,0,0,1) 50%, rgba(170,0,0,1) 100%);
+  background: rgba(255, 0, 0, 1);
+  background: linear-gradient(180deg, rgba(255, 0, 0, 1) 0%, rgba(210, 0, 0, 1) 50%, rgba(170, 0, 0, 1) 100%);
   border-radius: 15px;
   width: fit-content;
   padding: 15px 15px;
@@ -253,12 +261,12 @@ input {
   line-height: 0;
 }
 
-.big-delete-button{
+.big-delete-button {
   margin-left: auto;
   margin-right: auto;
   padding: 50px;
-  background: rgba(255,0,0,1);
-  background: linear-gradient(180deg, rgba(255,0,0,1) 0%, rgba(210,0,0,1) 50%, rgba(170,0,0,1) 100%);
+  background: rgba(255, 0, 0, 1);
+  background: linear-gradient(180deg, rgba(255, 0, 0, 1) 0%, rgba(210, 0, 0, 1) 50%, rgba(170, 0, 0, 1) 100%);
   border-radius: 50px;
   width: fit-content;
   text-align: center;
@@ -269,23 +277,23 @@ input {
   font-size: 32px;
 }
 
-.big-delete-button:hover{
-  background: rgba(170,0,0,1);
-  background: linear-gradient(180deg, rgba(205,0,0,1) 0%, rgba(160,0,0,1) 50%, rgba(120,0,0,1) 100%);
+.big-delete-button:hover {
+  background: rgba(170, 0, 0, 1);
+  background: linear-gradient(180deg, rgba(205, 0, 0, 1) 0%, rgba(160, 0, 0, 1) 50%, rgba(120, 0, 0, 1) 100%);
 }
 
-.projectDeletePopupDiv{
+.projectDeletePopupDiv {
   display: flex;
-  justify-content: center; 
-  align-items: center; 
+  justify-content: center;
+  align-items: center;
 }
 
-.projectClosePopup{
+.projectClosePopup {
   margin-left: auto;
   margin-right: auto;
   padding: 50px;
   background: rgb(0, 230, 0);
-  background: linear-gradient(180deg, rgba(0,230,0,1) 0%, rgba(0,185,0,1) 50%, rgba(0,135,0,1) 100%);
+  background: linear-gradient(180deg, rgba(0, 230, 0, 1) 0%, rgba(0, 185, 0, 1) 50%, rgba(0, 135, 0, 1) 100%);
   border-radius: 50px;
   width: fit-content;
   text-align: center;
@@ -296,20 +304,20 @@ input {
   font-size: 32px;
 }
 
-.projectClosePopup:hover{
-  background: rgba(0,200,0,1);
-  background: linear-gradient(180deg, rgba(0,200,0,1) 0%, rgba(0,155,0,1) 50%, rgba(0,105,0,1) 100%);
+.projectClosePopup:hover {
+  background: rgba(0, 200, 0, 1);
+  background: linear-gradient(180deg, rgba(0, 200, 0, 1) 0%, rgba(0, 155, 0, 1) 50%, rgba(0, 105, 0, 1) 100%);
 }
 
 
-.delete-button:hover{
-  background: rgba(170,0,0,1);
+.delete-button:hover {
+  background: rgba(170, 0, 0, 1);
 }
 
-.project-button{
+.project-button {
   margin: 5px;
-  background: rgb(48,69,254,1);
-  background: linear-gradient(360deg, rgba(48,69,175,1) 0%, rgba(48,69,215,1) 50%, rgba(48,69,254,1) 100%);
+  background: rgb(48, 69, 254, 1);
+  background: linear-gradient(360deg, rgba(48, 69, 175, 1) 0%, rgba(48, 69, 215, 1) 50%, rgba(48, 69, 254, 1) 100%);
   border-radius: 15px;
   width: fit-content;
   padding: 15px 15px;
@@ -321,15 +329,15 @@ input {
   line-height: 0;
 }
 
-.project-button:hover{
-  background: rgba(48,69,175,1);
+.project-button:hover {
+  background: rgba(48, 69, 175, 1);
 }
 
-.project-buttons{
-  display:flex;
+.project-buttons {
+  display: flex;
 }
 
-.SignUpPhoto{
+.SignUpPhoto {
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -339,7 +347,7 @@ input {
   outline-style: solid;
 }
 
-.profilePhoto{
+.profilePhoto {
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -349,19 +357,30 @@ input {
   outline-style: solid;
 }
 
-.ProfileIcon{
-  margin-top: 25px;
-  margin-bottom: 25px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 150px;
-  height: 150px;
+.ProfileIcon {
+  width: 70px;
+  /* Adjust size as needed */
+  height: 70px;
+  /* Adjust size as needed */
   border-radius: 50%;
-  outline-style: solid;
+  background-color: #3498db;
+  /* Choose the desired background color */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  /* Text color (white in this example) */
 }
 
-.profile-div{
+.profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.profile-div {
   display: flex;
   justify-content: space-between;
 }
@@ -385,7 +404,7 @@ input {
   background-color: rgb(100, 0, 0);
 }
 
-.editButton{
+.editButton {
   font-weight: bold;
   border-radius: 25px;
   background-color: rgb(0, 180, 0);
@@ -405,13 +424,13 @@ input {
 }
 
 
-.temp{
-  display:flex;
-  flex-direction:column;
+.temp {
+  display: flex;
+  flex-direction: column;
   align-items: flex-start;
 }
 
-.mainBox{
+.mainBox {
   box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.5);
   margin-left: auto;
   margin-right: auto;
@@ -419,25 +438,25 @@ input {
   min-width: fit-content;
 }
 
-.mainBox p{
+.mainBox p {
   max-width: 1000px;
 }
 
-.mainBox .userBio{
+.mainBox .userBio {
   max-width: 293px;
 }
 
-.landingBox{
+.landingBox {
   display: flex;
   font-size: 28px;
 }
 
-.landingphoto{
+.landingphoto {
   margin-left: auto;
   margin-right: auto;
 }
 
-.projectHomeBox{
+.projectHomeBox {
   font-size: larger;
   max-width: 60%;
   margin-right: auto;
@@ -445,6 +464,6 @@ input {
   margin-bottom: 1%;
 }
 
-.task-list-info{
+.task-list-info {
   display: inline;
 }

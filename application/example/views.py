@@ -25,6 +25,7 @@ from django.urls import reverse
 from django.shortcuts import redirect, render
 from uuid import uuid4
 import json
+import random
 
 
 class Index(TemplateView):
@@ -150,8 +151,18 @@ class SignupView(FormView):
     def form_valid(self, form):
         # Automatically log in the user after successful signup
         user = form.save()
+        user.profile_color = generate_random_dark_color()
+        user.save()
         login(self.request, user)
         return super().form_valid(form)
+
+
+def generate_random_dark_color():
+    while True:
+        r, g, b = [random.randint(0, 255) for _ in range(3)]
+        brightness = (r * 299 + g * 587 + b * 114) / 1000
+        if brightness < 128:
+            return "#{:02x}{:02x}{:02x}".format(r, g, b)
 
 
 def create_tasklist(request):
@@ -213,64 +224,78 @@ def update_task_status(request):
 
     return JsonResponse({"error": "Invalid request"}, status=400)
 
-def delete_task_list(request):
-    if request.method == 'POST' and (request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'):
-        data = json.loads(request.body.decode('utf-8'))
-        tasklist_id = data.get('tasklist_id')
-        confirmation = data.get('confirmation')
 
-        if confirmation == 'yes':
+def delete_task_list(request):
+    if request.method == "POST" and (
+        request.META.get("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest"
+    ):
+        data = json.loads(request.body.decode("utf-8"))
+        tasklist_id = data.get("tasklist_id")
+        confirmation = data.get("confirmation")
+
+        if confirmation == "yes":
             try:
                 tasklist = TaskList.objects.get(id=tasklist_id)
                 tasks = Tasks.objects.filter(task_list=tasklist_id)
                 for task in tasks:
                     task.delete()
                 tasklist.delete()
-                return JsonResponse({'message': 'Tasklist successfully deleted'})
+                return JsonResponse({"message": "Tasklist successfully deleted"})
             except TaskList.DoesNotExist:
-                return JsonResponse({'error': 'TaskList not found'}, status=404)
-    return JsonResponse({'error': 'Invalid request'}, status=400)
-	
+                return JsonResponse({"error": "TaskList not found"}, status=404)
+    return JsonResponse({"error": "Invalid request"}, status=400)
+
+
 def update_task_list(request):
-    if request.method == 'POST' and (request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'):
-        data = json.loads(request.body.decode('utf-8'))
-        tasklist_id = data.get('tasklist_id')
-        new_name = data.get('name')
+    if request.method == "POST" and (
+        request.META.get("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest"
+    ):
+        data = json.loads(request.body.decode("utf-8"))
+        tasklist_id = data.get("tasklist_id")
+        new_name = data.get("name")
         if new_name == None:
-            return JsonResponse({'error': 'Invalid request, new name cannot be none'}, status=400)
+            return JsonResponse(
+                {"error": "Invalid request, new name cannot be none"}, status=400
+            )
         try:
             tasklist = TaskList.objects.get(id=tasklist_id)
             tasklist.name = new_name
             tasklist.save()
-            return JsonResponse({'message': 'Tasklist successfully updated'})
+            return JsonResponse({"message": "Tasklist successfully updated"})
         except TaskList.DoesNotExist:
-            return JsonResponse({'error': 'TaskList not found'}, status=404)
-    return JsonResponse({'error': 'Invalid request'}, status=400)
+            return JsonResponse({"error": "TaskList not found"}, status=404)
+    return JsonResponse({"error": "Invalid request"}, status=400)
+
 
 def delete_task(request):
-    if request.method == 'POST' and (request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'):
-        data = json.loads(request.body.decode('utf-8'))
-        task_id = data.get('task_id')
-        confirmation = data.get('confirmation')
+    if request.method == "POST" and (
+        request.META.get("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest"
+    ):
+        data = json.loads(request.body.decode("utf-8"))
+        task_id = data.get("task_id")
+        confirmation = data.get("confirmation")
 
-        if confirmation == 'yes':
+        if confirmation == "yes":
             try:
                 task = Tasks.objects.get(id=task_id)
                 task.delete()
-                return JsonResponse({'message': 'Task successfully deleted'})
+                return JsonResponse({"message": "Task successfully deleted"})
             except Tasks.DoesNotExist:
-                return JsonResponse({'error': 'Task not found'}, status=404)
-    return JsonResponse({'error': 'Invalid request'}, status=400)
+                return JsonResponse({"error": "Task not found"}, status=404)
+    return JsonResponse({"error": "Invalid request"}, status=400)
+
 
 def update_task(request):
-    if request.method == 'POST' and (request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'):
-        data = json.loads(request.body.decode('utf-8'))
-        task_id = data.get('task_id')
-        new_name = data.get('name')
-        new_assignee = data.get('assignee')
-        new_due_date_str = data.get('due_date')
-        new_description = data.get('description')
-        new_priority = data.get('priority')
+    if request.method == "POST" and (
+        request.META.get("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest"
+    ):
+        data = json.loads(request.body.decode("utf-8"))
+        task_id = data.get("task_id")
+        new_name = data.get("name")
+        new_assignee = data.get("assignee")
+        new_due_date_str = data.get("due_date")
+        new_description = data.get("description")
+        new_priority = data.get("priority")
         try:
             task = Tasks.objects.get(id=task_id)
             if new_name == None:
@@ -283,11 +308,11 @@ def update_task(request):
                 new_due_date = datetime.fromisoformat(new_due_date_str)
             task.due_date = new_due_date
             task.description = new_description
-            if new_priority not in ['High', 'Medium', 'Low']:
+            if new_priority not in ["High", "Medium", "Low"]:
                 new_priority = task.priority
             task.priority = new_priority
             task.save()
-            return JsonResponse({'message': 'Task successfully updated'})
+            return JsonResponse({"message": "Task successfully updated"})
         except Tasks.DoesNotExist:
-            return JsonResponse({'error': 'Task not found'}, status=404)
-    return JsonResponse({'error': 'Invalid request'}, status=400)
+            return JsonResponse({"error": "Task not found"}, status=404)
+    return JsonResponse({"error": "Invalid request"}, status=400)

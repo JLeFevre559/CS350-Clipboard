@@ -7,13 +7,18 @@ Your Profile Page
 
 
 {% block content %}
-<div>
-    <img id="profileImage" src="{{ user.profile.profile_picture.url }}" alt="ProfilePicture" class="ProfileIcon">
+
+<div class="profile-container">
+    <h2 class="ProfileIcon" , id="profile-picture">
+        {{ user.first_name.0|default:" " }}{{ user.last_name.0|default:" " }}
+    </h2>
 </div>
+
 <div>
     <ul class="profileList">
         <li>
             <b>Username:</b> {{ user.username }}
+        </li>
         <li>
             <b>Name:</b> {{ user.first_name }} {{ user.last_name }}
         </li>
@@ -21,40 +26,50 @@ Your Profile Page
             <b>Email:</b> {{ user.email }}
         </li>
         <li>
-            <b>Bio:</b> <p class="userBio">{{ user.bio }}<p>
-        </li>        
+            <b>Bio:</b>
+            <p class="userBio">{{ user.bio }}
+            <p>
+        </li>
     </ul>
     <div class="profile-div">
-        <button  class="editButton">Edit Profile</button>
+        <button class="editButton">Edit Profile</button>
         <form method="post" action="{% url 'logout' %}">
             {% csrf_token %}
             <button type="submit" class="logoutButton">Logout</button>
         </form>
-    </div>  
+    </div>
 </div>
 
 <script>
     var img = document.getElementById('profileImage');
-    img.onload = function() {
+    img.onload = function () {
         // Image loaded successfully
     };
 
-    img.onerror = function() {
+    img.onerror = function () {
         var xhr = new XMLHttpRequest();
         xhr.open('HEAD', '../../static/images/noProfilePicturePic.png', true);
-        xhr.onreadystatechange = function() {
+        xhr.onreadystatechange = function () {
             if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-                // The default image exists
-                img.src = '../../static/images/noProfilePicturePic.png';
-                img.alt = 'Profile Picture';
-            } else {
-                // The default image is also missing
-                // Handle this case as needed
-            }
+                if (xhr.status === 200) {
+                    // The default image exists
+                    img.src = '../../static/images/noProfilePicturePic.png';
+                    img.alt = 'Profile Picture';
+                } else {
+                    // The default image is also missing
+                    // Handle this case as needed
+                }
             }
         };
-    xhr.send();
+        xhr.send();
     };
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var profilePicture = document.getElementById('profile-picture');
+        if (profilePicture) {
+            profilePicture.style.backgroundColor = "{{ user.profile_color }}";
+        }
+    });
 </script>
 {% endblock content %}

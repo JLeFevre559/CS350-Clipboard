@@ -6,14 +6,15 @@
 {% block title %}
 Sign Up: Who are you?
 {% endblock title %}
-    
-    
+
+
 {% block content %}
+
 <body>
     <div>
         <form method="post">
             <ul>
-                <img src="../../../static/images/Sign-in.png" class="SignUpPhoto" alt="SignUpPhoto">
+                <input type="hidden" name="profile_color" id="profile_color" value="">
                 <br>
                 {% csrf_token %}
                 <b>{{ form.username.label_tag }}</b> {{ form.username }}
@@ -31,10 +32,12 @@ Sign Up: Who are you?
                 <b>{{ form.password2.label_tag }}</b> {{ form.password2 }}
                 <br>
                 <button type="submit" class="loginButton">Sign Up</button>
-            </form>
-            <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+        </form>
+        <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
         </ul>
     </div>
 </body>
+
 {% endblock content %}
+
 </html>
