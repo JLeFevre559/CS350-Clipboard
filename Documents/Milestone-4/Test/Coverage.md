@@ -1,4 +1,4 @@
----
+
 ### Test Coverage Report
 
 The following is a summary of the test coverage for the project:
@@ -31,5 +31,3 @@ The following is a summary of the test coverage for the project:
 - The file `example\views.py` has a slightly lower coverage at 85%, with 29 statements not covered by tests.
 - `manage.py` and `vercel_app\settings.py` also have some statements that are missed in the tests, resulting in coverages of 83% and 97% respectively.
   
-
----
