@@ -85,10 +85,8 @@ li{
 
         function renderCalendarNextMonth() {
             var calendar = "";
-            // Calculate the first day of the next month
             nextMonth.setMonth(nextMonth.getMonth() + 1);
             nextMonth.setDate(1);
-            // Calculate the last day of the next month
             lastDayOfNextMonth = new Date(nextMonth);
             lastDayOfNextMonth.setMonth(nextMonth.getMonth() + 1);
             lastDayOfNextMonth.setDate(0);
@@ -119,10 +117,8 @@ li{
 
         function renderCalendarLastMonth() {
             var calendar = "";
-            // Calculate the first day of the next month
             nextMonth.setMonth(nextMonth.getMonth() - 1);
             nextMonth.setDate(1);
-            // Calculate the last day of the next month
             lastDayOfNextMonth = new Date(nextMonth);
             lastDayOfNextMonth.setMonth(nextMonth.getMonth() - 1);
             lastDayOfNextMonth.setDate(0);
@@ -207,12 +203,6 @@ li{
             renderCalendarLastMonth();
         });
 
-        // Set the content of the HTML element with id "currentYear" using the variable
-        
-
-        
-            
-       
     </script>
 </div>
 
