@@ -84,12 +84,24 @@ class ProjectDetailView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         this_project = self.object
         tasklists = TaskList.objects.filter(project=this_project)
+
+        # Create a dictionary to store the tasklist statuses
+        tasklist_statuses = {}
+
+        # Iterate through each tasklist and call check_tasklist_status
+        for tasklist in tasklists:
+            status = check_tasklist_status(tasklist.id)  # Call your method to get the status
+            tasklist_statuses[tasklist.id] = status
+
         # Inside your view
         tasks = Tasks.objects.filter(task_list__in=tasklists)
+        
         context["tasklists"] = tasklists
         context["tasks"] = tasks
+        context["tasklist_statuses"] = tasklist_statuses  # Add the tasklist_statuses to the context
 
         return context
+
 
 
 class ProjectCreateView(LoginRequiredMixin, CreateView):
@@ -218,12 +230,34 @@ def update_task_status(request):
             task = Tasks.objects.get(id=task_id)
             task.status = new_status
             task.save()
-            return JsonResponse({"message": "Task status updated successfully"})
+            tasklist_status = check_tasklist_status(task.task_list.id)
+            return JsonResponse({"message": "Task status updated successfully",
+                                 "tasklist_status": tasklist_status,
+                                 "tasklist_id": str(task.task_list.id)})
         except Tasks.DoesNotExist:
             return JsonResponse({"error": "Task not found"}, status=404)
 
     return JsonResponse({"error": "Invalid request"}, status=400)
 
+## This is a helper method for update_task_status that gets all the related tasks to a task list and checks the overall status
+def check_tasklist_status(tasklist_id):
+    tasklist = TaskList.objects.get(id=tasklist_id)
+    tasks = Tasks.objects.filter(task_list=tasklist.id)
+    # If status is never updated then it is not started
+    status = "Not Started"
+    count_done = 0
+    for task in tasks:
+        # If a single task is in progress the entire task list is in progress
+        if task.status == 'In Progress':
+            status = 'In Progress'
+            break
+        if task.status == 'Done':
+            status = 'In Progress'
+            count_done += 1
+    # If all the tasks are done, then the status is done
+    if count_done == tasks.count():
+        status = 'Done'
+    return status
 
 def delete_task_list(request):
     if request.method == "POST" and (

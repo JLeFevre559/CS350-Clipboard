@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 {% extends 'theme.html' %}
 {% load static %}
+{% load custom_filters %}
 
 {% block title %}
 {% endblock title %}
@@ -31,7 +32,9 @@
                     </button>
                 </div>
                 <div class="task-list">
-                    <h3>Status: <span id="taskListStatus" class="status-not-started">Not Started</span></h3>
+                    <h3>Status: <span id="status-{{ tasklist.id }}" class="{{ tasklist_statuses|default:"Not Started"|get_item:tasklist.id }}">
+                        {{ tasklist_statuses|default:"Not Started"|get_item:tasklist.id }}
+                    </span></h3>        
                 </div>
                 <div class="tasks temp">
                     {% for task in tasks %}
@@ -252,6 +255,15 @@ function updateTaskStatus(taskId, newStatus) {
             if (spanToUpdate) {
                 spanToUpdate.className = `status-${newStatus}`;
                 spanToUpdate.textContent = newStatus;
+            }
+            const taskListId = response.tasklist_id;
+            const newTaskListStatus = response.tasklist_status;
+            const taskListSpanToUpdate = document.getElementById(`status-${taskListId}`);
+            console.log(`Got here 0, tasklist: ${taskListId}, newStatus: ${newTaskListStatus}`);
+            if(taskListSpanToUpdate){
+                console.log(`Got here, tasklist: ${taskListId}, newStatus: ${newTaskListStatus}`);
+                taskListSpanToUpdate.className = `status-${newTaskListStatus}`;
+                taskListSpanToUpdate.textContent = newTaskListStatus;
             }
         },
         error: function (xhr, textStatus, errorThrown) {

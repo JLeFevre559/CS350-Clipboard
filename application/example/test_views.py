@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.http import JsonResponse
 import json
 from datetime import datetime
+from .views import check_tasklist_status
 
 class ProjectViewsTestCase(TestCase):
     def setUp(self):
@@ -40,6 +41,7 @@ class ProjectViewsTestCase(TestCase):
         self.assertContains(response, 'Test Project')
         self.assertContains(response, 'Test TaskList')
         self.assertContains(response, 'Test Task')
+        self.assertContains(response, 'Not Started')
 
     def test_project_create_view(self):
         response = self.client.post(reverse('project-create'), {
@@ -89,7 +91,7 @@ class UpdateTaskStatusViewTestCase(TestCase):
             description='Test Project Description',
             profile_id=user
         )
-        task_list = TaskList.objects.create(
+        self.task_list = TaskList.objects.create(
             name='Test Task List',
             project=project
         )
@@ -98,7 +100,7 @@ class UpdateTaskStatusViewTestCase(TestCase):
             task_name='Test Task',
             description='Test Task Description',
             status='Not Started',
-            task_list=task_list
+            task_list=self.task_list
         )
 
     def test_update_task_status_ajax(self):
@@ -128,6 +130,44 @@ class UpdateTaskStatusViewTestCase(TestCase):
         # Check that the task status has been updated in the database
         updated_task = Tasks.objects.get(id=self.task.id)
         self.assertEqual(updated_task.status, 'In Progress')
+
+        # Check that the request returns an overall status of the tasklist
+        taskList_Overall_Status = response_data['tasklist_status']
+        self.assertEqual(taskList_Overall_Status, 'In Progress')
+
+        # Check that the request returns the ID of the tasklist
+        tasklist_id = response_data['tasklist_id']
+        self.assertEqual(tasklist_id, str(self.task.task_list.id))
+
+    def test_check_tasklist_status(self):
+        #check if it can check that the status is not started
+        result = check_tasklist_status(str(self.task.task_list.id))
+        self.assertEqual(result, 'Not Started')
+
+        # Check if it can check that the status is in progress
+        self.task.status = 'In Progress'
+        self.task.save()
+        result = check_tasklist_status(str(self.task.task_list.id))
+        self.assertEqual(result, 'In Progress')
+
+        # Check if it can check that the status is done
+        self.task.status = 'Done'
+        self.task.save()
+        result = check_tasklist_status(str(self.task.task_list.id))
+        self.assertEqual(result, 'Done')
+
+        Tasks.objects.create(
+            assignee='Test Assignee',
+            task_name='Test Task',
+            description='Test Task Description',
+            status='Not Started',
+            task_list=self.task_list
+        )
+
+        # Check again with two tasks, one not started, one done
+        result = check_tasklist_status(str(self.task.task_list.id))
+        self.assertEqual(result, 'In Progress')
+        
 
     def test_update_task_status_invalid_request(self):
         # Define the URL for the view
