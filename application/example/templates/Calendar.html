@@ -51,17 +51,16 @@ li{
         var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         var dayOfTheWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         var ReverseDayOfTheWeek = ["Saturday", "Friday", "Thursday", "Wednesday", "Tuesday", "Monday", "Sunday"];
-        var today = new Date();
-        var displayMonth = months[today.getMonth()];
-        var displayYear = today.getFullYear();
-        var firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
-        var lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-        var firstDayOfMonth = firstDay.getDate();
-        var lastDayOfMonth = lastDay.getDate();
-        var firstDayOfWeekName = firstDay.toLocaleDateString('en-US', options);
-        let index = ReverseDayOfTheWeek.indexOf(firstDay);
-        let finalindex = dayOfTheWeek.indexOf(lastDay.toLocaleDateString('en-US', options));
-        
+        var today;
+        var displayMonth;
+        var displayYear;
+        var firstDay;
+        var lastDay;
+        var firstDayOfMonth;
+        var lastDayOfMonth;
+        var firstDayOfWeekName;
+        let index;
+        let finalindex;
         var lastDayOfNextMonth;
         var firstDayOfNextMonth;
         var lastDayOfLastMonth;
@@ -69,6 +68,19 @@ li{
 
         window.onload = function() {
             var calendar = "";
+            today = new Date();
+            
+            firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+            lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+            firstDayOfMonth = firstDay.getDate();
+            lastDayOfMonth = lastDay.getDate();
+            firstDayOfWeekName = firstDay.toLocaleDateString('en-US', options);
+            index = ReverseDayOfTheWeek.indexOf(firstDay);
+            finalindex = dayOfTheWeek.indexOf(lastDay.toLocaleDateString('en-US', options));
+
+            displayMonth = months[today.getMonth()];
+            displayYear = today.getFullYear();
+            
             const numbersBetween = generateNumbersBetween(firstDayOfMonth, lastDayOfMonth);
                 
             calendar = createCalendar(calendar,index,numbersBetween,today,finalindex);
@@ -119,7 +131,7 @@ li{
 
             displayMonth = months[today.getMonth()];
             displayYear = today.getFullYear();
-            
+
             const numbersBetween = generateNumbersBetween(firstDayOfLastMonth, lastDayOfLastMonth);
 
             calendar = createCalendar(calendar,index,numbersBetween,today,finalindex);
