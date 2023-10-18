@@ -9,29 +9,41 @@
 
 {% block content %}
 <body>
-    <h1 class="text-primary">Project Details: {{ project.name }}</h1>
-    <div class="project-buttons">
-        <a href="{% url 'project-update' project.id%}"><button class="project-button">Edit Project</button></a>
-        <a href="{% url 'project-delete' project.id %}"><button class="delete-button" >Delete Project</button></a>
+<div class="project-wrapper">
+    <div class="project-title-wrapper">
+        <h1 class="text-primary project-name">{{ project.name }}</h1>
+        <div class="project-buttons">
+            <a href="{% url 'project-update' project.id%}">
+                <button class="edit-button"><img src="{% static '/images/edit.png' %}" sizes="32x32"></button>
+            </a>
+            <a href="{% url 'project-delete' project.id %}">
+                <button class="trash-button" ><img src="{% static '/images/trash.png' %}" sizes="32x32"></button>
+            </a>
+        </div>
     </div>
-    <p>Description: <b>{{ project.description }}<b></p>
-    <button class="create-tasklist-button project-button" data-project-id="{{ project.id }}">Create new tasklist</button>
+    
+    <div class="description-wrapper">
+        <p><b>{{ project.description }}<b></p>
+    </div>
     <h2>Tasklists:</h2>
+    <button class="create-tasklist-button project-button" data-project-id="{{ project.id }}">+ Add New</button>
     <div class="projectdiv">
         {% for tasklist in tasklists %}
             <div class="task-list temp" id="{{ tasklist.id }}-tasklist">
                 <div  class="task-list-info">
-                    <h3 class="task-list-info" id="{{ tasklist.id }}-text">
-                        {{ tasklist.name }}
-                    </h3> 
-                    <button class="edit-tasklist-button" data-task-list="{{ tasklist.id }}" data-task-list-name="{{ tasklist.name }}">
+
+                    <div class="task-list-info-text-wrapper">
+                        <h3 class="task-list-info-text" id="{{ tasklist.id }}-text">
+                        {{ tasklist.name }}</h3>
+                    </div>
+                    <button class="edit-tasklist-button edit-button" data-task-list="{{ tasklist.id }}" data-task-list-name="{{ tasklist.name }}">
                         <img src="{% static '/images/edit.png' %}" sizes="32x32">
                     </button>
                     <button class="trash-button" data-task-list="{{ tasklist.id }}" onclick="showConfirmationPopup('{{ tasklist.id }}', 'tasklist')">
                         <img src="{% static '/images/trash.png' %}" sizes="32x32">
                     </button>
                 </div>
-                <div class="task-list">
+                <div class="task-list-status">
                     <h3>Status: <span id="status-{{ tasklist.id }}" class="{{ tasklist_statuses|default:"Not Started"|get_item:tasklist.id }}">
                         {{ tasklist_statuses|default:"Not Started"|get_item:tasklist.id }}
                     </span></h3>        
@@ -40,21 +52,25 @@
                     {% for task in tasks %}
                         {% if task.task_list == tasklist %}
                             <div class="task" id = "{{task.id}}-task">
-                                <p>
-                                    <span class="task-detail-popup-trigger popup-trigger" data-popup-id="task-detail-popup" data-task-id="{{ task.id }}" data-task-assignee="{{ task.assignee }}" 
-                                        data-task-name="{{ task.task_name }}" data-task-due-date="{{ task.due_date }}" data-task-description="{{ task.description }}" 
-                                        data-task-priority="{{ task.priority }}" data-task-status="{{ task.status }}">{{ task.task_name }}
-                                    </span>:<span id="{{ task.id }}-status" class="{{ task.status }}">{{ task.status }}</span>
-                                </p>
+                                <div class="task-detail-wrapper">
+                                    <p>
+                                        <span class="task-detail-popup-trigger popup-trigger" data-popup-id="task-detail-popup" data-task-id="{{ task.id }}" data-task-assignee="{{ task.assignee }}" 
+                                            data-task-name="{{ task.task_name }}" data-task-due-date="{{ task.due_date }}" data-task-description="{{ task.description }}" 
+                                            data-task-priority="{{ task.priority }}" data-task-status="{{ task.status }}">{{ task.task_name }}:
+                                        </span><span id="{{ task.id }}-status" class="{{ task.status }}">{{ task.status }}</span>
+                                    </p>
+                                </div>
                                 <button class="update-status-button" data-status="In Progress" data-task="{{ task.id }}" onclick="updateTaskStatus('{{ task.id }}', 'In Progress')">In Progress</button>
-                                <button class="update-status-button" data-status="Done" data-task="{{ task.id }}" onclick="updateTaskStatus('{{ task.id }}', 'Done')">Done</button>
+                                <button class="update-status-button" data-status="Done" data-task="{{ task.id }}" onclick="updateTaskStatus('{{ task.id }}', 'Done')">Done
+                                    <img src="{% static '/images/checkmark.png' %}" sizes="32x32">
+                                </button>
                             </div>
                         {% endif %}
                     {% empty %}
                         <h2>No Tasks</h2>
                     {% endfor %}
                 </div>
-                <button href="#" class="create-task-button project-button" data-tasklist-id="{{ tasklist.id }}">Add Task</button>
+                <button href="#" class="create-task-button project-button" data-tasklist-id="{{ tasklist.id }}">+ Add New</button>
             </div>
         {% empty %}
             <h2>No Tasklists available</h3>
@@ -63,6 +79,7 @@
     
     
     <a href="/Project"><button class="project-button">Back to Project List</button></a>
+</div>
 </body>
 
 <div class="popup" id="task-detail-popup">
@@ -253,14 +270,13 @@ function updateTaskStatus(taskId, newStatus) {
             // Update the class of the <span> element
             const spanToUpdate = document.getElementById(`${taskId}-status`);
             if (spanToUpdate) {
-                spanToUpdate.className = `status-${newStatus}`;
+                spanToUpdate.className = `${newStatus}`;
                 spanToUpdate.textContent = newStatus;
             }
             const taskListId = response.tasklist_id;
             const newTaskListStatus = response.tasklist_status;
             const taskListSpanToUpdate = document.getElementById(`status-${taskListId}`);
             if(taskListSpanToUpdate){
-                console.log(`Got here, tasklist: ${taskListId}, newStatus: ${newTaskListStatus}`);
                 taskListSpanToUpdate.className = `status-${newTaskListStatus}`;
                 taskListSpanToUpdate.textContent = newTaskListStatus;
             }

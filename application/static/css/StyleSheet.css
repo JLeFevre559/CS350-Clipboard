@@ -63,67 +63,166 @@ body {
   font-family: Arial, sans-serif;
 }
 
+.project-wrapper{
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
 .projectdiv {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  min-width:fit-content;
+  max-width: 80vw;
+  flex-wrap: wrap;
+}
+
+.project-title-wrapper{
+  width: 100%;
+  text-align: center;
+  display: flex;
+}
+
+.project-name{
+  width: 40%;
+  text-align: center;
+  margin-left: 30%;
+  margin-right: auto;
+}
+
+.description-wrapper{
+  align-items: center;
+  width: 40%;
+  margin-left: 30%;
+  margin-right: auto;
+  text-align: left;
 }
 
 .task-list {
   border: 2px solid #000000;
   padding: 10px;
   margin: 20px;
+  min-width: 30%;
+  max-width: fit-content;
+  display: flex;
+  align-content: center;
+  text-align: center;
+}
+
+.task-list-status{
+  width: 60%;
+  align-items: center;
+  align-self: center;
+  border: 2px solid #000000;
+  padding-top: 10px;
+  text-align: center;
+  justify-content: center;
+  height: fit-content;
+  margin-bottom: 1%;
 }
 
 .tasks {
   display: flex;
+  justify-content: left;
   flex-direction: column;
   gap: 20px;
+  width: 100%;
+  align-self: center;
 }
 
 .task {
   border: 1px solid #a3a3a3;
   padding: 10px;
+  width: 90%;
+  margin-left: 5%;
+  display:flex;
+}
+
+.task-detail-wrapper{
+  display:flex;
+  width: 40%;
+  margin-left: 30%;
+  text-align: center;
+}
+
+.create-task-button{
+  align-self: center;
 }
 
 .task p {
   margin: 0;
 }
 
-.status-not-started {
-  color: red;
-  display: inline-block;
-  min-width: 90px;
-}
-
 /* this affects the not started status */
 .Started {
   color: red;
   display: inline-block;
-  min-width: 90px;
+  min-width: 150px;
+  max-width: 50%;
 }
 
 .Progress {
   color: rgb(202, 171, 0);
   display: inline-block;
-  min-width: 90px;
+  min-width: 150px;
+  max-width: 50%;
 }
 
 .Done {
   color: green;
   display: inline-block;
-  min-width: 90px;
+  min-width: 150px;
+  max-width: 50%;
 }
 
-.status-In-progress {
-  color: rgb(202, 171, 0);
-  display: inline-block;
-  min-width: 90px;
+.update-status-button{
+  align-self: flex-end;
+  margin-left: auto;
+  margin-bottom: 10px;
+  display: flex;
+  min-width: fit-content;
+  gap: 2px;
+  align-items: center;
+  justify-content: center;
 }
 
-.status-Done {
-  color: green;
-  display: inline-block;
-  min-width: 90px;
+.trash-button{
+  border:none;
+  background:none;
+  border: radius 15px;
+}
+
+.trash-button :hover{
+  animation-duration: 200ms;
+  border: 2px black;
+  border-radius: 30%;
+  background-color: rgb(52, 55, 25);
+  box-shadow: 3px 3px 3px black;
+}
+
+.trash-button :active{
+  animation-duration: 200ms;
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+.edit-button{
+  border:none;
+  background:none;
+  border: radius 15px;
+}
+
+.edit-button :hover{
+  animation-duration: 200ms;
+  border: 2px black;
+  border-radius: 15%;
+  box-shadow: 3px 3px 3px black;
+}
+
+.edit-button :active{
+  animation-duration: 200ms;
+  transform: translateY(2px);
+  box-shadow: none;
 }
 
 .popup {
@@ -255,7 +354,6 @@ input {
   padding: 15px 15px;
   text-align: center;
   color: rgb(254, 254, 254);
-  align-self: center;
   max-height: 10px;
   height: 10px;
   line-height: 0;
@@ -323,7 +421,6 @@ input {
   padding: 15px 15px;
   text-align: center;
   color: rgb(254, 254, 254);
-  align-self: center;
   max-height: 10px;
   height: 10px;
   line-height: 0;
@@ -465,9 +562,16 @@ input {
 }
 
 .task-list-info {
-  display: inline;
+  width:100%;
+  display: flex;
+  justify-content: center;
 }
 
+.task-list-info-text-wrapper{
+  width:40%;
+  margin-left: 30%;
+  margin-right:auto;
+}
 
 
 
