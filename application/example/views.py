@@ -1,8 +1,15 @@
 # example/views.py
 from datetime import datetime
 from typing import Any
-from django.db import models
-from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.db import models, IntegrityError
+from django.views.generic import (
+    TemplateView,
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView,
+)
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.views import LoginView
 from django.views.generic.edit import FormView
@@ -18,25 +25,39 @@ from django.urls import reverse
 from django.shortcuts import redirect, render
 from uuid import uuid4
 import json
+import random
 
 
 class Index(TemplateView):
-    template_name = 'TempHome.html'
-    user = get_user_model()
+    template_name = "TempHome.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        if self.request.user.is_authenticated:
+            # User is logged in, so add data for logged-in users.
+            # For example, you can pass the user object to the template.
+            user = self.request.user
+            context["user"] = user
+
+        return context
+
+    # user = get_user_model()
 
     # this redirects to the login page when a non-logged in user tries to view the home page
     # @method_decorator(login_required)
     # def dispatch(self, *args, **kwargs):
     #     return super(Index, self).dispatch(*args, **kwargs)
 
+
 class Calendar(TemplateView):
-    template_name = 'Calendar.html'
+    template_name = "Calendar.html"
 
 
 class ProjectListView(LoginRequiredMixin, ListView):
     model = Project
-    template_name = 'Projects/project.html'  
-    context_object_name = 'projects'
+    template_name = "Projects/project.html"
+    context_object_name = "projects"
 
     def get_queryset(self):
         # Get all projects related to the user's profile
@@ -46,63 +67,77 @@ class ProjectListView(LoginRequiredMixin, ListView):
         # # Get all tasks related to the user's task lists
         # tasks = Tasks.objects.filter(task_list__in=tasklists)
         queryset = {
-            'projects': projects,
+            "projects": projects,
             # 'tasklists': tasklists,
             # 'tasks': tasks,
         }
 
         return queryset
 
+
 class ProjectDetailView(LoginRequiredMixin, DetailView):
     model = Project
-    template_name = 'Projects/project_detail.html'  
-    context_object_name = 'project'
+    template_name = "Projects/project_detail.html"
+    context_object_name = "project"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         this_project = self.object
         tasklists = TaskList.objects.filter(project=this_project)
+
+        # Create a dictionary to store the tasklist statuses
+        tasklist_statuses = {}
+
+        # Iterate through each tasklist and call check_tasklist_status
+        for tasklist in tasklists:
+            status = check_tasklist_status(tasklist.id)  # Call your method to get the status
+            tasklist_statuses[tasklist.id] = status
+
         # Inside your view
         tasks = Tasks.objects.filter(task_list__in=tasklists)
-        # Add the 'id' attribute to each tasklist
-        for tasklist in tasklists:
-            tasklist.id = tasklist.pk
-        context['tasklists'] = tasklists
-        context['tasks'] = tasks
+        
+        context["tasklists"] = tasklists
+        context["tasks"] = tasks
+        context["tasklist_statuses"] = tasklist_statuses  # Add the tasklist_statuses to the context
 
         return context
-    
+
 
 
 class ProjectCreateView(LoginRequiredMixin, CreateView):
     model = Project
-    template_name = 'Projects/project_form.html'
+    template_name = "Projects/project_form.html"
     form_class = ProjectForm
-    success_url = reverse_lazy('/Project')
+    success_url = reverse_lazy("/Project")
 
     def form_valid(self, form):
-        form.instance.profile_id = self.request.user  # Set the profile_id to the current user's profile
+        form.instance.profile_id = (
+            self.request.user
+        )  # Set the profile_id to the current user's profile
         return super().form_valid(form)
-    
+
     def get_success_url(self):
-        return reverse('project-detail', args=[str(self.object.id)])  # Use 'pk' to set the project's primary key
-    
+        return reverse(
+            "project-detail", args=[str(self.object.id)]
+        )  # Use 'pk' to set the project's primary key
+
 
 class ProjectUpdateView(LoginRequiredMixin, UpdateView):
     model = Project
-    template_name = 'Projects/project_form.html'
+    template_name = "Projects/project_form.html"
     form_class = ProjectForm
 
     def get_success_url(self):
-        return reverse_lazy('project-detail', args=[str(self.object.id)])
+        return reverse_lazy("project-detail", args=[str(self.object.id)])
+
 
 class ProjectDeleteView(LoginRequiredMixin, DeleteView):
     model = Project
-    template_name = 'Projects/project_confirm_delete.html'
-    success_url = reverse_lazy('Project')
+    template_name = "Projects/project_confirm_delete.html"
+    success_url = reverse_lazy("Project")
 
     def post(self, request, *args, **kwargs):
-        if 'delete' in request.POST and request.POST['delete'] == 'yes':
+        if "delete" in request.POST and request.POST["delete"] == "yes":
             # User confirmed deletion, proceed to delete the project
             self.object = self.get_object()
             self.object.delete()
@@ -111,23 +146,37 @@ class ProjectDeleteView(LoginRequiredMixin, DeleteView):
             # User canceled deletion, redirect back to project list
             return redirect(self.success_url)
 
-class Profile(TemplateView):
-    template_name = 'Profile.html'
+
+class Profile(LoginRequiredMixin, TemplateView):
+    template_name = "Profile.html"
+
 
 class CustomLoginView(LoginView):
-    template_name = 'registration/login.html'
+    template_name = "registration/login.html"
+
 
 class SignupView(FormView):
     form_class = ProfileCreationForm
-    template_name = 'registration/signup.html'
-    success_url = reverse_lazy('login')
+    template_name = "registration/signup.html"
+    success_url = reverse_lazy("login")
 
     def form_valid(self, form):
         # Automatically log in the user after successful signup
         user = form.save()
+        user.profile_color = generate_random_dark_color()
+        user.save()
         login(self.request, user)
         return super().form_valid(form)
-    
+
+
+def generate_random_dark_color():
+    while True:
+        r, g, b = [random.randint(0, 255) for _ in range(3)]
+        brightness = (r * 299 + g * 587 + b * 114) / 1000
+        if brightness < 128:
+            return "#{:02x}{:02x}{:02x}".format(r, g, b)
+
+
 def create_tasklist(request):
     if request.method == "POST":
         project_id = request.POST.get("project_id")
@@ -135,12 +184,13 @@ def create_tasklist(request):
 
         # Create a new TaskList associated with the project
         project = Project.objects.get(id=project_id)
-        TaskList.objects.create(id = uuid4(), name=tasklist_name, project=project)
+        TaskList.objects.create(id=uuid4(), name=tasklist_name, project=project)
 
         # Redirect back to the project detail page
         return redirect("project-detail", pk=project_id)
 
     return render(request, "project_detail.html")
+
 
 def create_task(request):
     if request.method == "POST":
@@ -167,19 +217,136 @@ def create_task(request):
 
 
 def update_task_status(request):
-    if request.method == 'POST' and (request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'):
+    if request.method == "POST" and (
+        request.META.get("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest"
+    ):
         # Get the task ID and new status from the AJAX request
-        data = json.loads(request.body.decode('utf-8'))
-        task_id = data.get('task_id')
-        new_status = data.get('new_status')
+        data = json.loads(request.body.decode("utf-8"))
+        task_id = data.get("task_id")
+        new_status = data.get("new_status")
 
         # Assuming you have a Task model, update the status
         try:
             task = Tasks.objects.get(id=task_id)
             task.status = new_status
             task.save()
-            return JsonResponse({'message': 'Task status updated successfully'})
+            tasklist_status = check_tasklist_status(task.task_list.id)
+            return JsonResponse({"message": "Task status updated successfully",
+                                 "tasklist_status": tasklist_status,
+                                 "tasklist_id": str(task.task_list.id)})
         except Tasks.DoesNotExist:
-            return JsonResponse({'error': 'Task not found'}, status=404)
+            return JsonResponse({"error": "Task not found"}, status=404)
 
-    return JsonResponse({'error': 'Invalid request'}, status=400)
+    return JsonResponse({"error": "Invalid request"}, status=400)
+
+## This is a helper method for update_task_status that gets all the related tasks to a task list and checks the overall status
+def check_tasklist_status(tasklist_id):
+    tasklist = TaskList.objects.get(id=tasklist_id)
+    tasks = Tasks.objects.filter(task_list=tasklist.id)
+    # If status is never updated then it is not started
+    status = "Not Started"
+    count_done = 0
+    for task in tasks:
+        # If a single task is in progress the entire task list is in progress
+        if task.status == 'In Progress':
+            status = 'In Progress'
+            break
+        if task.status == 'Done':
+            status = 'In Progress'
+            count_done += 1
+    # If all the tasks are done, then the status is done
+    if count_done == tasks.count():
+        status = 'Done'
+    return status
+
+def delete_task_list(request):
+    if request.method == "POST" and (
+        request.META.get("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest"
+    ):
+        data = json.loads(request.body.decode("utf-8"))
+        tasklist_id = data.get("tasklist_id")
+        confirmation = data.get("confirmation")
+
+        if confirmation == "yes":
+            try:
+                tasklist = TaskList.objects.get(id=tasklist_id)
+                tasks = Tasks.objects.filter(task_list=tasklist_id)
+                for task in tasks:
+                    task.delete()
+                tasklist.delete()
+                return JsonResponse({"message": "Tasklist successfully deleted"})
+            except TaskList.DoesNotExist:
+                return JsonResponse({"error": "TaskList not found"}, status=404)
+    return JsonResponse({"error": "Invalid request"}, status=400)
+
+
+def update_task_list(request):
+    if request.method == "POST" and (
+        request.META.get("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest"
+    ):
+        data = json.loads(request.body.decode("utf-8"))
+        tasklist_id = data.get("tasklist_id")
+        new_name = data.get("name")
+        if new_name == None:
+            return JsonResponse(
+                {"error": "Invalid request, new name cannot be none"}, status=400
+            )
+        try:
+            tasklist = TaskList.objects.get(id=tasklist_id)
+            tasklist.name = new_name
+            tasklist.save()
+            return JsonResponse({"message": "Tasklist successfully updated"})
+        except TaskList.DoesNotExist:
+            return JsonResponse({"error": "TaskList not found"}, status=404)
+    return JsonResponse({"error": "Invalid request"}, status=400)
+
+
+def delete_task(request):
+    if request.method == "POST" and (
+        request.META.get("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest"
+    ):
+        data = json.loads(request.body.decode("utf-8"))
+        task_id = data.get("task_id")
+        confirmation = data.get("confirmation")
+
+        if confirmation == "yes":
+            try:
+                task = Tasks.objects.get(id=task_id)
+                task.delete()
+                return JsonResponse({"message": "Task successfully deleted"})
+            except Tasks.DoesNotExist:
+                return JsonResponse({"error": "Task not found"}, status=404)
+    return JsonResponse({"error": "Invalid request"}, status=400)
+
+
+def update_task(request):
+    if request.method == "POST" and (
+        request.META.get("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest"
+    ):
+        data = json.loads(request.body.decode("utf-8"))
+        task_id = data.get("task_id")
+        new_name = data.get("name")
+        new_assignee = data.get("assignee")
+        new_due_date_str = data.get("due_date")
+        new_description = data.get("description")
+        new_priority = data.get("priority")
+        try:
+            task = Tasks.objects.get(id=task_id)
+            if new_name == None:
+                new_name = task.task_name
+            task.task_name = new_name
+            task.assignee = new_assignee
+            if new_due_date_str == None:
+                new_due_date = task.due_date
+            else:
+                new_due_date = datetime.fromisoformat(new_due_date_str)
+            task.due_date = new_due_date
+            task.description = new_description
+            if new_priority not in ["High", "Medium", "Low"]:
+                new_priority = task.priority
+            task.priority = new_priority
+            task.save()
+            return JsonResponse({"message": "Task successfully updated"})
+        except Tasks.DoesNotExist:
+            return JsonResponse({"error": "Task not found"}, status=404)
+    return JsonResponse({"error": "Invalid request"}, status=400)

@@ -25,22 +25,19 @@
         <meta name="theme-color" content="#ffffff">
     </head>
 
-<body class=" bg-dark text-light">
+<body class="bg-dark text-light">
 
     {% block navbar %}
     {% include '_navbar.html' %}
     {% endblock navbar %}
 
-    <div class="center drop-shadow bg-light text-dark p-5 mainBox">
-            <ul>
-                <h1 class="text-primary">
-                    {% block title %}No Title{% endblock title %}
-                </h1>
-
-                {% block content %}
-                <h2>No Block Defined</h2>
-                {% endblock content %}
-            </ul>
+    <div class="bg-light text-dark p-5 mainBox">
+        <h1 class="text-primary">
+            {% block title %}No Title{% endblock title %}
+        </h1>
+        {% block content %}
+        <h2>No Block Defined</h2>
+        {% endblock content %}
     </div>
 
     {% block footer %}

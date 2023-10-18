@@ -3,27 +3,22 @@
 {% load static %}
 
 {% block title %}
-Clipboard
+Project List
 {% endblock title %}
 
 
 {% block content %}
-
-<html lang="en">
-    <h1>Project List</h1>
-    <ul>
-      {% for project in projects.projects %}
-        <li>
-          <div class="project_list_view">
-              <a href="{% url 'project-detail' project.id %}">
-                <img src = "{% static '/images/folder.png' %}" sizes = "64x64">
-              </a>
-              <a href="{% url 'project-detail' project.id %}">{{ project.name }}</a>
-          </div>
-      </li>
-      {% empty %}
-        <h3>No projects available.</h3>
-      {% endfor %}
-    </ul>
-    <a href="Projects/create">Create New Project</a>
+  <div class="projectdiv">
+    {% for project in projects.projects %}
+        <div class="project_list_view">
+            <a href="{% url 'project-detail' project.id %}">
+              <img src = "{% static '/images/folder.png' %}" sizes = "64x64">
+            </a>
+            <a href="{% url 'project-detail' project.id %}">{{ project.name }}</a>
+        </div>
+    {% empty %}
+      <h3>No projects available.</h3>
+    {% endfor %}
+  </div>
+  <a href="Projects/create">Create New Project</a>
 {% endblock content %}
