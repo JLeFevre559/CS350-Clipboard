@@ -37,7 +37,7 @@ li{
 <div>
     <div class="monthBoxDiv">
         <button id="prev"><li>&#10094;</li></button>
-        <div class="monthYearBoxDiv"><h2 id="currentMonth" class="text-primary"></h2><h4 id="currentYear" class="text-primary"></h4></div>
+        <div class="monthYearBoxDiv"><h2 id="displayMonth" class="text-primary"></h2><h4 id="displayYear" class="text-primary"></h4></div>
         <button id="next"><li>&#10095;</li></button>
         
 
@@ -51,100 +51,103 @@ li{
         var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         var dayOfTheWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         var ReverseDayOfTheWeek = ["Saturday", "Friday", "Thursday", "Wednesday", "Tuesday", "Monday", "Sunday"];
-        var today = new Date();
-        var currentMonth = months[today.getMonth()];
-        var currentYear = today.getFullYear();
-        var firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
-        var lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-        var firstDayOfMonth = firstDay.getDate();
-        var lastDayOfMonth = lastDay.getDate();
-        var firstDayOfWeekName = firstDay.toLocaleDateString('en-US', options);
-        let index = ReverseDayOfTheWeek.indexOf(firstDay);
-        let finalindex = dayOfTheWeek.indexOf(lastDay.toLocaleDateString('en-US', options));
-        var nextMonth = new Date(today);
+        var today;
+        var displayMonth;
+        var displayYear;
+        var firstDay;
+        var lastDay;
+        var firstDayOfMonth;
+        var lastDayOfMonth;
+        var firstDayOfWeekName;
+        let index;
+        let finalindex;
         var lastDayOfNextMonth;
         var firstDayOfNextMonth;
         var lastDayOfLastMonth;
-        var firstDayOfWeekName;
-        var currentMonth;
-        var currentYear;
+        var firstDayOfLastMonth;
 
         window.onload = function() {
             var calendar = "";
-            const numbersBetween = generateNumbersBetween(firstDayOfMonth, lastDayOfMonth);
+            today = new Date();
+            
+            firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+            lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+            firstDayOfMonth = firstDay.getDate();
+            lastDayOfMonth = lastDay.getDate();
+            firstDayOfWeekName = firstDay.toLocaleDateString('en-US', options);
+            index = ReverseDayOfTheWeek.indexOf(firstDay);
+            finalindex = dayOfTheWeek.indexOf(lastDay.toLocaleDateString('en-US', options));
 
-            calendar = generateDayOfTheWeek(calendar);
-            calendar = generateStartingDayOfWeekSpaces(calendar, index);
-            calendar = generateAllDaysOfTheWeek(calendar, numbersBetween, today);
-            calendar = generateEndingDayOfWeekSpace(calendar, finalindex)
+            displayMonth = months[today.getMonth()];
+            displayYear = today.getFullYear();
+            
+            const numbersBetween = generateNumbersBetween(firstDayOfMonth, lastDayOfMonth);
+                
+            calendar = createCalendar(calendar,index,numbersBetween,today,finalindex);
 
             document.getElementById("calendarRender").innerHTML = calendar;
-            document.getElementById("currentYear").innerHTML = currentYear;
-            document.getElementById("currentMonth").innerHTML = currentMonth;
+            document.getElementById("displayYear").innerHTML = displayYear;
+            document.getElementById("displayMonth").innerHTML = displayMonth;
         }
 
         function renderCalendarNextMonth() {
             var calendar = "";
-            nextMonth.setMonth(nextMonth.getMonth() + 1);
-            nextMonth.setDate(1);
-            lastDayOfNextMonth = new Date(nextMonth);
-            lastDayOfNextMonth.setMonth(nextMonth.getMonth() + 1);
-            lastDayOfNextMonth.setDate(0);
-            firstDayOfNextMonth = nextMonth.getDate();
-            lastDayOfLastMonth = lastDayOfNextMonth.getDate();
-
-            firstDayOfWeekName = nextMonth.toLocaleDateString('en-US', options);
-            let index = ReverseDayOfTheWeek.indexOf(nextMonth.toLocaleDateString('en-US', options));
-            finalindex = dayOfTheWeek.indexOf(lastDay.toLocaleDateString('en-US', options));
-            currentMonth = months[nextMonth.getMonth()];
-            currentYear = nextMonth.getFullYear();
+            today.setMonth(today.getMonth() + 1);
+            today.setDate(1);
             
-            const numbersBetween = generateNumbersBetween(firstDayOfNextMonth, lastDayOfLastMonth);
+            firstDayOfNextMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+            lastDayOfNextMonth = new Date(today.getFullYear(), today.getMonth()+1, 0);         
+            index = ReverseDayOfTheWeek.indexOf(firstDayOfNextMonth.toLocaleDateString('en-US', options));
+            finalindex = dayOfTheWeek.indexOf(lastDayOfNextMonth.toLocaleDateString('en-US', options));
+            firstDayOfNextMonth = firstDayOfNextMonth.getDate();
+            lastDayOfNextMonth = lastDayOfNextMonth.getDate();
+            firstDayOfWeekName = today.toLocaleDateString('en-US', options);
 
-            calendar = generateDayOfTheWeek(calendar);
+            displayMonth = months[today.getMonth()];
+            displayYear = today.getFullYear();
+            
+            const numbersBetween = generateNumbersBetween(firstDayOfNextMonth, lastDayOfNextMonth);
 
-            calendar = generateStartingDayOfWeekSpaces(calendar, index);
-
-            calendar = generateAllDaysOfTheWeek(calendar, numbersBetween, nextMonth);
-
-            calendar = generateEndingDayOfWeekSpace(calendar, finalindex)
+            calendar = createCalendar(calendar,index,numbersBetween,today,finalindex);
 
             document.getElementById("calendarRender").innerHTML = calendar;
-            document.getElementById("currentYear").innerHTML = currentYear;
-            document.getElementById("currentMonth").innerHTML = currentMonth;
+            document.getElementById("displayYear").innerHTML = displayYear;
+            document.getElementById("displayMonth").innerHTML = displayMonth;
             
         }
 
         function renderCalendarLastMonth() {
             var calendar = "";
-            nextMonth.setMonth(nextMonth.getMonth() - 1);
-            nextMonth.setDate(1);
-            lastDayOfNextMonth = new Date(nextMonth);
-            lastDayOfNextMonth.setMonth(nextMonth.getMonth() - 1);
-            lastDayOfNextMonth.setDate(0);
-            firstDayOfNextMonth = nextMonth.getDate();
-            lastDayOfLastMonth = lastDayOfNextMonth.getDate();
-            console.log(lastDayOfNextMonth)
-            firstDayOfWeekName = nextMonth.toLocaleDateString('en-US', options);
-            let index = ReverseDayOfTheWeek.indexOf(nextMonth.toLocaleDateString('en-US', options));
-            finalindex = dayOfTheWeek.indexOf(lastDayOfNextMonth.toLocaleDateString('en-US', options));
-            currentMonth = months[nextMonth.getMonth()];
-            currentYear = nextMonth.getFullYear();
-            
-            const numbersBetween = generateNumbersBetween(firstDayOfNextMonth, lastDayOfLastMonth);
+            today.setMonth(today.getMonth() - 1);
+            today.setDate(1);
 
-            calendar = generateDayOfTheWeek(calendar);
+            firstDayOfLastMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+            lastDayOfLastMonth = new Date(today.getFullYear(), today.getMonth()+1, 0);         
+            index = ReverseDayOfTheWeek.indexOf(firstDayOfLastMonth.toLocaleDateString('en-US', options));
+            finalindex = dayOfTheWeek.indexOf(lastDayOfLastMonth.toLocaleDateString('en-US', options));
+            firstDayOfLastMonth = firstDayOfLastMonth.getDate();
+            lastDayOfLastMonth = lastDayOfLastMonth.getDate();
+            firstDayOfWeekName = today.toLocaleDateString('en-US', options);
 
-            calendar = generateStartingDayOfWeekSpaces(calendar, index);
+            displayMonth = months[today.getMonth()];
+            displayYear = today.getFullYear();
 
-            calendar = generateAllDaysOfTheWeek(calendar, numbersBetween, nextMonth);
-            
-            calendar = generateEndingDayOfWeekSpace(calendar, finalindex)
+            const numbersBetween = generateNumbersBetween(firstDayOfLastMonth, lastDayOfLastMonth);
+
+            calendar = createCalendar(calendar,index,numbersBetween,today,finalindex);
 
             document.getElementById("calendarRender").innerHTML = calendar;
-            document.getElementById("currentYear").innerHTML = currentYear;
-            document.getElementById("currentMonth").innerHTML = currentMonth;
+            document.getElementById("displayYear").innerHTML = displayYear;
+            document.getElementById("displayMonth").innerHTML = displayMonth;
             
+        }
+
+        function createCalendar(calendar, index, numbersBetween, Month, finalindex){
+            calendar = generateDayOfTheWeek(calendar);
+            calendar = generateStartingDayOfWeekSpaces(calendar, index);
+            calendar = generateAllDaysOfTheWeek(calendar, numbersBetween, Month);
+            calendar = generateEndingDayOfWeekSpace(calendar, finalindex);
+            return calendar;
         }
 
         function generateNumbersBetween(start, end) {
@@ -166,7 +169,7 @@ li{
         }
 
         function generateStartingDayOfWeekSpaces(calendar, index){
-            if(index >= 1){
+            if(index >= 0){
                 calendar += "<tr>"
                 for (index; index < 6; index++) { 
                     calendar += "<th class=numberedDayOfTheWeek></th>"
@@ -185,8 +188,7 @@ li{
         }
 
         function generateEndingDayOfWeekSpace(calendar, finalindex){
-            console.log(finalindex);
-            if(finalindex >= 1){
+            if(finalindex >= 0){
                 for (finalindex; finalindex < 6; finalindex++) { 
                     calendar += "<th class=numberedDayOfTheWeek></th>"
                 }
