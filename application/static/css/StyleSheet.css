@@ -102,8 +102,9 @@ body {
   border: 2px solid #000000;
   padding: 10px;
   margin: 20px;
-  min-width: 30%;
-  max-width: fit-content;
+  min-width: 500px;
+  max-width: 30%;
+  width: auto;
   display: flex;
   align-content: center;
   text-align: center;
@@ -123,11 +124,12 @@ body {
 
 .tasks {
   display: flex;
-  justify-content: left;
-  flex-direction: column;
+  justify-content: right;
   gap: 20px;
   width: 100%;
   align-self: center;
+  align-items:flex-start;
+  overflow:wrap;
 }
 
 .task {
@@ -141,8 +143,12 @@ body {
 .task-detail-wrapper{
   display:flex;
   width: 40%;
-  margin-left: 30%;
+  max-width: 40%;
+  height: fit-content;
+  margin-left: 10%;
+  margin-right: auto;
   text-align: center;
+  overflow-wrap: anywhere;
 }
 
 .create-task-button{
@@ -176,14 +182,13 @@ body {
 }
 
 .update-status-button{
-  align-self: flex-end;
-  margin-left: auto;
-  margin-bottom: 10px;
   display: flex;
   min-width: fit-content;
-  gap: 2px;
   align-items: center;
   justify-content: center;
+  justify-self: flex-start;
+  align-self:center;
+  height:fit-content;
 }
 
 .trash-button{
