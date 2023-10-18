@@ -259,7 +259,6 @@ function updateTaskStatus(taskId, newStatus) {
             const taskListId = response.tasklist_id;
             const newTaskListStatus = response.tasklist_status;
             const taskListSpanToUpdate = document.getElementById(`status-${taskListId}`);
-            console.log(`Got here 0, tasklist: ${taskListId}, newStatus: ${newTaskListStatus}`);
             if(taskListSpanToUpdate){
                 console.log(`Got here, tasklist: ${taskListId}, newStatus: ${newTaskListStatus}`);
                 taskListSpanToUpdate.className = `status-${newTaskListStatus}`;
