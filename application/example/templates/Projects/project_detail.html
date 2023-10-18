@@ -528,13 +528,12 @@ document.addEventListener("DOMContentLoaded", function () {
             const taskAssignee = this.getAttribute("data-task-assignee");
             const taskDescription = this.getAttribute("data-task-description");
             const taskDueDate = this.getAttribute("data-task-due-date");
-            const taskPriority = this.getAttribute("task-priority");
+            const taskPriority = this.getAttribute("data-task-priority");
             const popup = document.querySelector("#task-detail-popup");
 
             const taskStatusView = document.querySelector("#task-status");
-            taskStatusView.id = taskId + "-status";
             taskStatusView.textContent = taskStatus;
-            taskStatusView.className = taskId;
+            taskStatusView.className = taskStatus;
         
             // Set the task ID in the data-task-id attribute for update-status-button buttons
             const updateStatusButtons = popup.querySelectorAll(".update-status-button");
@@ -542,14 +541,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 updateButton.setAttribute("data-task-id", taskId);
                 updateButton.addEventListener("click", function () {
                     const newStatus = this.getAttribute("data-status");
-                    updateTaskStatus(taskId, newStatus, function (updatedStatus) {
-                        // Update the task status within the popup
-                        const taskStatusView = document.querySelector(`#task-status`);
-                        if (taskStatusView) {
-                            taskStatusView.textContent = updatedStatus;
-                            taskStatusView.className = `${updatedStatus}`;
-                        }
-                    });
+                    updateTaskStatus(taskId, newStatus );
+                    // Update the task status within the popup
+                    if (taskStatusView) {
+                        taskStatusView.textContent = newStatus;
+                        taskStatusView.className = newStatus;
+                    }
                 });
             });
 
