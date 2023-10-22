@@ -485,3 +485,50 @@ class UpdateTaskViewTest(TestCase):
         # Check if the view returns a 400 Bad Request response
         self.assertEqual(response.status_code, 400)
         self.assertEqual(json.loads(response.content), {'error': 'Invalid request'})
+
+
+class SignupViewTestCase(TestCase):
+    def test_signup_form_valid(self):
+        # Create a user registration form data
+        form_data = {
+            'username': 'testuser',
+            'password1': 'testpassword',
+            'password2': 'testpassword',
+            # Add other required fields as needed for your form
+        }
+        response = self.client.post(reverse('signup'), form_data)
+        self.assertEqual(response.status_code, 302)  # Redirects to success_url
+        user = get_user_model().objects.get(username='testuser')
+        self.assertIsNotNone(user)
+        # Add any other assertions you need, e.g., check if the user is logged in
+
+    def test_signup_form_invalid(self):
+        # Create an invalid user registration form data (e.g., mismatched passwords)
+        form_data = {
+            'username': 'testuser',
+            'password1': 'testpassword',
+            'password2': 'invalidpassword',
+            # Add other required fields as needed for your form
+        }
+        response = self.client.post(reverse('signup'), form_data)
+        self.assertEqual(response.status_code, 200)  # Form submission fails, stays on the same page
+        user = get_user_model().objects.filter(username='testuser')
+        self.assertFalse(user.exists())
+
+    def test_signup_form_already_registered(self):
+        # Create a user with the same username before attempting registration
+        user = get_user_model().objects.create_user(
+            username='testuser',
+            password='testpassword'
+        )
+        print()
+        print(user)
+        form_data = {
+            'username': 'testuser',
+            'password1': 'testpassword',
+            'password2': 'testpassword',
+            # Add other required fields as needed for your form
+        }
+        response = self.client.post(reverse('signup'), form_data)
+        self.assertEqual(response.status_code, 200)  # Form submission fails, stays on the same page
+        self.assertContains(response, 'A user with that username already exists.')

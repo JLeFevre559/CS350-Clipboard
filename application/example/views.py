@@ -162,7 +162,9 @@ class SignupView(FormView):
 
     def form_valid(self, form):
         # Automatically log in the user after successful signup
+        print("here")
         user = form.save()
+        print(user)
         user.profile_color = generate_random_dark_color()
         user.save()
         login(self.request, user)
