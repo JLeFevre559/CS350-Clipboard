@@ -18,17 +18,32 @@ Sign Up: Who are you?
                 <br>
                 {% csrf_token %}
                 <b>{{ form.username.label_tag }}</b> {{ form.username }}
+                {% if form.username.errors %}
+                    <div class="error">{{ form.username.errors }}</div>
+                {% endif %}
                 <br>
                 <b>{{ form.email.label_tag }}</b> {{ form.email }}
+                {% if form.email.errors %}
+                    <div class="error">{{ form.email.errors }}</div>
+                {% endif %}
                 <br>
                 <b>{{ form.first_name.label_tag }}</b> {{ form.first_name }}
                 <br>
                 <b>{{ form.last_name.label_tag }}</b> {{ form.last_name }}
                 <br>
+                {% if form.date_of_birth.errors %}
+                    <div class="error">{{ form.date_of_birth.errors }}</div>
+                {% endif %}
                 <b>{{ form.date_of_birth.label_tag }}</b><br> {{ form.date_of_birth }}
                 <br>
+                {% if form.password1.errors %}
+                    <div class="error">{{ form.password1.errors }}</div>
+                {% endif %}
                 <b>{{ form.password1.label_tag }}</b> {{ form.password1 }}
                 <br>
+                {% if form.password2.errors %}
+                    <div class="error">{{ form.password2.errors }}</div>
+                {% endif %}
                 <b>{{ form.password2.label_tag }}</b> {{ form.password2 }}
                 <br>
                 <button type="submit" class="loginButton">Sign Up</button>

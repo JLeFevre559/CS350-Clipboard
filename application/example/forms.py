@@ -5,11 +5,11 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 import datetime
 
-
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = ["name", "description"]
+
 
 
 class ProfileCreationForm(UserCreationForm):
@@ -19,6 +19,14 @@ class ProfileCreationForm(UserCreationForm):
         initial=datetime.date.today(),
     )  # datetime shows a range of values from 1920 - current year
     profile_color = forms.CharField(widget=forms.HiddenInput(), required=False)
+
+    # This overrides the clean_username method to avoid a db call that was causing an error
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        all_usernames = get_user_model().objects.values_list('username', flat=True)
+        if username in all_usernames:
+            raise forms.ValidationError("A user with that username already exists.")
+        return username
 
     class Meta:
         model = get_user_model()

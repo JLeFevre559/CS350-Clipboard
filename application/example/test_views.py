@@ -494,12 +494,18 @@ class SignupViewTestCase(TestCase):
             'username': 'testuser',
             'password1': 'testpassword',
             'password2': 'testpassword',
-            # Add other required fields as needed for your form
+            'email': 'test@email.com',
+            'date_of_birth': datetime.today().date(),
+            'first_name': 'john',
+            'last_name': 'doe',
         }
         response = self.client.post(reverse('signup'), form_data)
         self.assertEqual(response.status_code, 302)  # Redirects to success_url
-        user = get_user_model().objects.get(username='testuser')
+        all_usernames = get_user_model().objects.values_list('username', flat=True)
+        self.assertTrue('testuser' in all_usernames)
+        user = Profile.objects.get(username='testuser')
         self.assertIsNotNone(user)
+
         # Add any other assertions you need, e.g., check if the user is logged in
 
     def test_signup_form_invalid(self):
@@ -511,6 +517,8 @@ class SignupViewTestCase(TestCase):
             # Add other required fields as needed for your form
         }
         response = self.client.post(reverse('signup'), form_data)
+        # print("\n TEST FORM INVALID")
+        # print(response.content.decode('utf-8'))
         self.assertEqual(response.status_code, 200)  # Form submission fails, stays on the same page
         user = get_user_model().objects.filter(username='testuser')
         self.assertFalse(user.exists())
@@ -521,13 +529,14 @@ class SignupViewTestCase(TestCase):
             username='testuser',
             password='testpassword'
         )
-        print()
-        print(user)
         form_data = {
             'username': 'testuser',
             'password1': 'testpassword',
             'password2': 'testpassword',
-            # Add other required fields as needed for your form
+            'email': 'test@email.com',
+            'date_of_birth': datetime.today().date(),
+            'first_name': 'john',
+            'last_name': 'doe',
         }
         response = self.client.post(reverse('signup'), form_data)
         self.assertEqual(response.status_code, 200)  # Form submission fails, stays on the same page

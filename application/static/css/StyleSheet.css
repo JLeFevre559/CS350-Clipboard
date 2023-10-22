@@ -588,3 +588,7 @@ input {
 .monthYearBoxDiv {
   font-size: 28px;
 }
+
+.error{
+  color: red;
+}

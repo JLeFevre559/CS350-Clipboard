@@ -15,8 +15,6 @@ from django.contrib.auth.views import LoginView
 from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
 from django.contrib.auth import login
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
 from django.contrib.auth import get_user_model
 from .models import Project, TaskList, Tasks
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -26,6 +24,7 @@ from django.shortcuts import redirect, render
 from uuid import uuid4
 import json
 import random
+from django.contrib import messages
 
 
 class Index(TemplateView):
@@ -42,12 +41,6 @@ class Index(TemplateView):
 
         return context
 
-    # user = get_user_model()
-
-    # this redirects to the login page when a non-logged in user tries to view the home page
-    # @method_decorator(login_required)
-    # def dispatch(self, *args, **kwargs):
-    #     return super(Index, self).dispatch(*args, **kwargs)
 
 
 class Calendar(TemplateView):
@@ -162,14 +155,11 @@ class SignupView(FormView):
 
     def form_valid(self, form):
         # Automatically log in the user after successful signup
-        print("here")
         user = form.save()
-        print(user)
         user.profile_color = generate_random_dark_color()
         user.save()
         login(self.request, user)
         return super().form_valid(form)
-
 
 def generate_random_dark_color():
     while True:
