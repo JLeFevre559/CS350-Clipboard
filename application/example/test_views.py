@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.http import JsonResponse
 import json
 from datetime import datetime
-from .views import check_tasklist_status
+from .views import check_tasklist_status, get_all_tasks_for_user
 
 class ProjectViewsTestCase(TestCase):
     def setUp(self):
@@ -541,3 +541,50 @@ class SignupViewTestCase(TestCase):
         response = self.client.post(reverse('signup'), form_data)
         self.assertEqual(response.status_code, 200)  # Form submission fails, stays on the same page
         self.assertContains(response, 'A user with that username already exists.')
+
+class CalendarViewTest(TestCase):
+    def setUp(self):
+        # Create a test user profile
+        self.user_profile = Profile.objects.create(username="testuser", email="test@email.com")
+        self.user_profile.save()
+
+        self.user_profile2 = Profile.objects.create(username="testuser1", email="test@email.com")
+        self.user_profile2.save()
+
+        # Create a test project, task list, and task associated with the user
+        self.project = Project.objects.create(name="Test Project", description="Project Description", profile_id=self.user_profile)
+        self.project.save()
+        self.task_list = TaskList.objects.create(name="Test Task List", project=self.project)
+        self.task_list.save()
+        self.task1 = Tasks.objects.create(task_name="Task 1", task_list=self.task_list)
+        self.task1.save()
+        
+        #create a project from a separate user with the first user assigned to a task
+        self.project2 = Project.objects.create(name="Test Project2", description="Project Description", profile_id=self.user_profile2)
+        self.project2.save()
+        self.task_list2 = TaskList.objects.create(name="Test Task List", project=self.project2)
+        self.task_list2.save()
+        self.task2 = Tasks.objects.create(assignee="testuser", task_name="Task 2", task_list=self.task_list2)
+        self.task2.save()
+        # Create a task not associated with the user to ensure that it is not present
+        self.task3 = Tasks.objects.create(task_name="Task 3", task_list=self.task_list2)
+        self.task3.save()
+
+    def test_get_all_tasks_for_user(self):
+        # Call the utility function to get all tasks for the user
+        tasks_for_user = get_all_tasks_for_user(self.user_profile.id)
+
+        # Verify that the tasks are correctly retrieved
+        self.assertEqual(tasks_for_user.count(), 2)  # Check the number of tasks
+
+        # Verify that the tasks belong to the correct user
+        self.assertTrue(self.task1 in tasks_for_user)
+        self.assertTrue(self.task2 in tasks_for_user)
+        self.assertFalse(self.task3 in tasks_for_user)
+
+    def test_get_all_tasks_for_user_no_profile(self):
+        # Call the utility function with a non-existent profile ID
+        tasks_for_user = get_all_tasks_for_user(None)
+
+        # Verify that the function returns None for a non-existent profile
+        self.assertIsNone(tasks_for_user)

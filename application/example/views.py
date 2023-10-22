@@ -342,3 +342,28 @@ def update_task(request):
         except Tasks.DoesNotExist:
             return JsonResponse({"error": "Task not found"}, status=404)
     return JsonResponse({"error": "Invalid request"}, status=400)
+
+# This method takes a profile id, and returns all of the tasks associated with that user
+# Either through their owned projects, or assigned to them via username
+def get_all_tasks_for_user(profile_id):
+    try:
+        # Get the profile associated with the given profile_id
+        profile = get_user_model().objects.get(id=profile_id)
+    except get_user_model().DoesNotExist:
+        return None  # Profile not found
+
+    # Get the username of the profile
+    username = profile.username
+
+    # Query tasks through the 'task_list' -> 'project' -> 'profile' chain
+    tasks_through_chain = Tasks.objects.filter(
+        task_list__project__profile_id=profile
+    )
+
+    # Query tasks with the 'assignee' field matching the username
+    tasks_assigned_to_user = Tasks.objects.filter(assignee=username)
+
+    # Combine the two sets of tasks to get all tasks associated with the user without repeated tasks
+    all_tasks_for_user = tasks_through_chain | tasks_assigned_to_user
+
+    return all_tasks_for_user
