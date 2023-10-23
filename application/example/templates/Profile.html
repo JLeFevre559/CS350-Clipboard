@@ -9,9 +9,10 @@ Your Profile Page
 {% block content %}
 
 <div class="profile-container">
-    <h2 class="ProfileIcon" , id="profile-picture">
-        {{ user.first_name.0|default:" " }}{{ user.last_name.0|default:" " }}
+    <h2 class="ProfileIcon" id="profile-picture">
+        {{ user.first_name.0|default:" "|upper }}{{ user.last_name.0|default:" "|upper }}
     </h2>
+
 </div>
 
 <div>
@@ -39,6 +40,27 @@ Your Profile Page
         </form>
     </div>
 </div>
+
+<div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <!-- Add your form and fields here -->
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // When the "Edit Profile" button is clicked, show the modal
+    document.getElementById('editProfileButton').addEventListener('click', function () {
+        $('#editProfileModal').modal('show');
+    });
+</script>
 
 <script>
     var img = document.getElementById('profileImage');
