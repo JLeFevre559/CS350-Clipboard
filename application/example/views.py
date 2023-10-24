@@ -16,7 +16,7 @@ from django.views.generic.edit import FormView
 from django.urls import reverse_lazy
 from django.contrib.auth import login
 from django.contrib.auth import get_user_model
-from .models import Project, TaskList, Tasks
+from .models import Project, TaskList, Tasks, Profile
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import ProjectForm, ProfileCreationForm
 from django.urls import reverse
@@ -26,6 +26,7 @@ import json
 import random
 from django.contrib import messages
 from django.db.models import Max
+from bson import ObjectId
 
 
 class Index(TemplateView):
@@ -43,8 +44,7 @@ class Index(TemplateView):
         return context
 
 
-
-class Calendar(TemplateView):
+class Calendar(LoginRequiredMixin, TemplateView):
     template_name = "Calendar.html"
 
 
@@ -84,20 +84,23 @@ class ProjectDetailView(LoginRequiredMixin, DetailView):
 
         # Iterate through each tasklist and call check_tasklist_status
         for tasklist in tasklists:
-            status = check_tasklist_status(tasklist.id)  # Call your method to get the status
+            status = check_tasklist_status(
+                tasklist.id
+            )  # Call your method to get the status
             tasklist_statuses[tasklist.id] = status
 
         # Inside your view
         tasks = Tasks.objects.filter(task_list__in=tasklists)
         latest_due_date = tasks.aggregate(latest_due=Max('due_date'))['latest_due']
-        
+
         context["tasklists"] = tasklists
         context["tasks"] = tasks
-        context["tasklist_statuses"] = tasklist_statuses  # Add the tasklist_statuses to the context
+        context[
+            "tasklist_statuses"
+        ] = tasklist_statuses  # Add the tasklist_statuses to the context
         context["latest_due"] = latest_due_date
 
         return context
-
 
 
 class ProjectCreateView(LoginRequiredMixin, CreateView):
@@ -164,6 +167,7 @@ class SignupView(FormView):
         login(self.request, user)
         return super().form_valid(form)
 
+
 def generate_random_dark_color():
     while True:
         r, g, b = [random.randint(0, 255) for _ in range(3)]
@@ -228,13 +232,18 @@ def update_task_status(request):
             task.status = new_status
             task.save()
             tasklist_status = check_tasklist_status(task.task_list.id)
-            return JsonResponse({"message": "Task status updated successfully",
-                                 "tasklist_status": tasklist_status,
-                                 "tasklist_id": str(task.task_list.id)})
+            return JsonResponse(
+                {
+                    "message": "Task status updated successfully",
+                    "tasklist_status": tasklist_status,
+                    "tasklist_id": str(task.task_list.id),
+                }
+            )
         except Tasks.DoesNotExist:
             return JsonResponse({"error": "Task not found"}, status=404)
 
     return JsonResponse({"error": "Invalid request"}, status=400)
+
 
 ## This is a helper method for update_task_status that gets all the related tasks to a task list and checks the overall status
 def check_tasklist_status(tasklist_id):
@@ -245,16 +254,17 @@ def check_tasklist_status(tasklist_id):
     count_done = 0
     for task in tasks:
         # If a single task is in progress the entire task list is in progress
-        if task.status == 'In Progress':
-            status = 'In Progress'
+        if task.status == "In Progress":
+            status = "In Progress"
             break
-        if task.status == 'Done':
-            status = 'In Progress'
+        if task.status == "Done":
+            status = "In Progress"
             count_done += 1
     # If all the tasks are done, then the status is done
     if count_done == tasks.count():
-        status = 'Done'
+        status = "Done"
     return status
+
 
 def delete_task_list(request):
     if request.method == "POST" and (
@@ -348,6 +358,7 @@ def update_task(request):
             return JsonResponse({"error": "Task not found"}, status=404)
     return JsonResponse({"error": "Invalid request"}, status=400)
 
+
 # This method takes a profile id, and returns all of the tasks associated with that user
 # Either through their owned projects, or assigned to them via username
 def get_all_tasks_for_user(profile_id, month=None, year=None):
@@ -361,9 +372,7 @@ def get_all_tasks_for_user(profile_id, month=None, year=None):
     username = profile.username
 
     # Query tasks through the 'task_list' -> 'project' -> 'profile' chain
-    tasks_through_chain = Tasks.objects.filter(
-        task_list__project__profile_id=profile
-    )
+    tasks_through_chain = Tasks.objects.filter(task_list__project__profile_id=profile)
 
     # Query tasks with the 'assignee' field matching the username
     tasks_assigned_to_user = Tasks.objects.filter(assignee=username)
@@ -373,6 +382,33 @@ def get_all_tasks_for_user(profile_id, month=None, year=None):
 
     if month is not None and year is not None:
         # Filter tasks by month and year
-        all_tasks_for_user = all_tasks_for_user.filter(due_date__month=month, due_date__year=year)
+        all_tasks_for_user = all_tasks_for_user.filter(
+            due_date__month=month, due_date__year=year
+        )
 
     return all_tasks_for_user
+
+
+def update_profile(request):
+    if request.method == "POST" and (
+        request.META.get("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest"
+    ):
+        data = json.loads(request.body.decode("utf-8"))
+        user_id = data.get("user_id")
+        new_username = data.get("username")
+        new_first_name = data.get("first_name")
+        new_last_name = data.get("last_name")
+        new_email = data.get("email")
+        new_bio = data.get("bio")
+        try:
+            user = get_user_model().objects.get(id=user_id)
+            user.username = new_username
+            user.first_name = new_first_name
+            user.last_name = new_last_name
+            user.email = new_email
+            user.bio = new_bio
+            user.save()
+            return JsonResponse({"message": "User successfully updated"})
+        except get_user_model().DoesNotExist:
+            return JsonResponse({"error": "User not found"}, status=404)
+    return JsonResponse({"error": "Invalid request"}, status=400)

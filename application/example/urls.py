@@ -18,6 +18,7 @@ from example.views import (
     update_task_list,
     delete_task,
     update_task,
+    update_profile,
 )
 from django.contrib.auth import views as auth_views
 
@@ -41,8 +42,9 @@ urlpatterns = [
     path("create-task/", create_task, name="create-task"),
     path("update_task_status/", update_task_status, name="update_task_status"),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
-    path('delete_task_list/', delete_task_list, name='delete_task_list'),
-    path('update_task_list/', update_task_list, name='update_task_list'),
-    path('delete_task/', delete_task, name='delete_task'),
-    path('update_task/', update_task, name="update_task"),
+    path("delete_task_list/", delete_task_list, name="delete_task_list"),
+    path("update_task_list/", update_task_list, name="update_task_list"),
+    path("delete_task/", delete_task, name="delete_task"),
+    path("update_task/", update_task, name="update_task"),
+    path("update_profile/", update_profile, name="update_profile"),
 ]

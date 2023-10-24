@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 
 class TempHomeTest(TestCase):
     def setUp(self):
-        self.user = get_user_model().objects.create_user(username="testuser", password="testpassword")
+        self.user = get_user_model().objects.create_user(username="testuser", password="testpassword", first_name="John")
 
     def test_authenticated_user_navigation(self):
         # Log in the user
@@ -17,7 +17,7 @@ class TempHomeTest(TestCase):
         self.assertEqual(response.status_code, 200)
 
         # Check if the user's name is displayed on the page
-        self.assertContains(response, "Welcome, back testuser")
+        self.assertContains(response, "Welcome back, John")
 
         # Check the presence and correctness of links
         self.assertContains(response, 'href="/Project"')
