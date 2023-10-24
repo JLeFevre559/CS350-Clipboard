@@ -25,6 +25,7 @@ from uuid import uuid4
 import json
 import random
 from django.contrib import messages
+from django.db.models import Max
 
 
 class Index(TemplateView):
@@ -88,10 +89,12 @@ class ProjectDetailView(LoginRequiredMixin, DetailView):
 
         # Inside your view
         tasks = Tasks.objects.filter(task_list__in=tasklists)
+        latest_due_date = tasks.aggregate(latest_due=Max('due_date'))['latest_due']
         
         context["tasklists"] = tasklists
         context["tasks"] = tasks
         context["tasklist_statuses"] = tasklist_statuses  # Add the tasklist_statuses to the context
+        context["latest_due"] = latest_due_date
 
         return context
 
@@ -180,8 +183,9 @@ def create_tasklist(request):
 
         # Redirect back to the project detail page
         return redirect("project-detail", pk=project_id)
-
-    return render(request, "project_detail.html")
+    # This shouldn't be reached, this method shouldn't be called without request.method == "POST"
+    # Fall back to home if it is
+    return render(request, "TempHome.html")
 
 
 def create_task(request):
@@ -204,8 +208,9 @@ def create_task(request):
 
         # Redirect back to the project detail page (or wherever you prefer)
         return redirect("project-detail", pk=tasklist.project.id)
-
-    return render(request, "project_detail.html")
+    # This shouldn't be reached, this method shouldn't be called without request.method == "POST"
+    # Fall back to home if it is
+    return render(request, "TempHome.html")
 
 
 def update_task_status(request):
