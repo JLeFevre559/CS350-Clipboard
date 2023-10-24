@@ -8,11 +8,24 @@ Your Profile Page
 
 {% block content %}
 
+<style>
+    .popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #fff;
+        padding: 20px;
+        border: 1px solid #ccc;
+        z-index: 1000;
+    }
+</style>
+
 <div class="profile-container">
     <h2 class="ProfileIcon" id="profile-picture">
         {{ user.first_name.0|default:" "|upper }}{{ user.last_name.0|default:" "|upper }}
     </h2>
-
 </div>
 
 <div>
@@ -33,59 +46,143 @@ Your Profile Page
         </li>
     </ul>
     <div class="profile-div">
-        <button class="editButton">Edit Profile</button>
+        <button id="edit-profile-button" class="popup-trigger" data-popup-id="editProfilePopup"
+            data-user-id="{{ user.id }}">Edit Profile</button>
         <form method="post" action="{% url 'logout' %}">
             {% csrf_token %}
             <button type="submit" class="logoutButton">Logout</button>
         </form>
     </div>
 </div>
+<!--
+<div id="edit-profile-popup" class="popup">
+    <form method="post" action="{% url 'update_profile' %}">
+        {% csrf_token %}
+        <input type="hidden" name="user_id" value="{{ user.id }}">
+        <input type="text" name="first_name" value="{{ user.first_name }}">
+        <input type="text" name="last_name" value="{{ user.last_name }}">
+        <input type="email" name="email" value="{{ user.email }}">
+        <input type="text" name="bio" value="{{ user.bio }}">
+        <input type="submit" value="Save">
+    </form>
+    <button id="close-popup">Close</button>
+</div>
+-->
 
-<div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <!-- Add your form and fields here -->
-            <form method="post">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-            </form>
-        </div>
+<div class="popup" id="editProfilePopup">
+    <div class="popup-content">
+        <h3>Edit Profile</h3>
+        <form method="post" id="editProfileForm">
+            {% csrf_token %}
+            <input type="hidden" name="user_id" id="editUserId" value="">
+            <label for="editUsername">Username:</label>
+            <input type="text" name="new_username" id="editUsername">
+            <label for="editFirstName">First Name:</label>
+            <input type="text" name="new_first_name" id="editFirstName">
+            <label for="editLastName">Last Name:</label>
+            <input type="text" name="new_last_name" id="editLastName">
+            <label for="editEmail">Email:</label>
+            <input type="email" name="new_email" id="editEmail">
+            <label for="editBio">Bio:</label>
+            <textarea name="new_bio" id="editBio"></textarea>
+            <button type="submit">Save</button>
+            <button class="close-popup">Cancel</button>
+        </form>
     </div>
 </div>
 
 <script>
-    // When the "Edit Profile" button is clicked, show the modal
-    document.getElementById('editProfileButton').addEventListener('click', function () {
-        $('#editProfileModal').modal('show');
+    const triggers = document.querySelectorAll('.popup-trigger');
+    const popups = document.querySelectorAll('.popup');
+    const closeButtons = document.querySelectorAll('.close-popup');
+
+    // Function to show a specific popup by ID
+    function showPopup(popupId) {
+        const popup = document.getElementById(popupId);
+        if (popup) {
+            popup.style.display = 'block';
+        }
+    }
+
+    // Function to hide a specific popup by ID
+    function hidePopup(popupId) {
+        const popup = document.getElementById(popupId);
+        if (popup) {
+            popup.style.display = 'none';
+        }
+    }
+
+    // Add click event listeners to all trigger elements
+    triggers.forEach(trigger => {
+        trigger.addEventListener('click', function () {
+            const popupId = this.getAttribute('data-popup-id');
+            showPopup(popupId);
+        });
+    });
+
+    // Add click event listeners to close buttons
+    closeButtons.forEach(closeButton => {
+        closeButton.addEventListener('click', function () {
+            const popupId = this.closest('.popup').id;
+            hidePopup(popupId);
+        });
+    });
+
+    function editProfile(userId, newUsername, newFirstName, newLastName, newEmail, newBio) {
+        const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+        // Send an AJAX request to edit the task
+        $.ajax({
+            url: '/update_profile/?cachebuster=' + new Date().getTime(),
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'Content-Type': 'application/json',
+            },
+            data: JSON.stringify({
+                user_id: userId,
+                username: newUsername,
+                first_name: newFirstName,
+                last_name: newLastName,
+                email: newEmail,
+                bio: newBio,
+            }),
+            success: function (response) {
+                // Handle the success response (e.g., display a message)
+                console.log(response.message);
+
+                location.reload();
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                // Handle errors (e.g., display an error message)
+                console.error(xhr.responseText);
+            }
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const editProfileForm = document.querySelector("#editProfileForm");
+        const userId = document.querySelector("#edit-profile-button").getAttribute('data-user-id');
+
+        editProfileForm.addEventListener("submit", function (event) {
+            console.log("Clicked!")
+            event.preventDefault();
+            const newUsername = document.querySelector("#editUsername").value;
+            const newFirstName = document.querySelector("#editFirstName").value;
+            const newLastName = document.querySelector("#editLastName").value;
+            const newEmail = document.querySelector("#editEmail").value;
+            const newBio = document.querySelector("#editBio").value;
+
+            console.log(newEmail);
+
+            // Call the editTask function with the updated data
+            editProfile(userId, newUsername, newFirstName, newLastName, newEmail, newBio);
+
+            // Close the popup
+            hidePopup("editProfilePopup");
+        });
     });
 </script>
 
-<script>
-    var img = document.getElementById('profileImage');
-    img.onload = function () {
-        // Image loaded successfully
-    };
-
-    img.onerror = function () {
-        var xhr = new XMLHttpRequest();
-        xhr.open('HEAD', '../../static/images/noProfilePicturePic.png', true);
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    // The default image exists
-                    img.src = '../../static/images/noProfilePicturePic.png';
-                    img.alt = 'Profile Picture';
-                } else {
-                    // The default image is also missing
-                    // Handle this case as needed
-                }
-            }
-        };
-        xhr.send();
-    };
-</script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         var profilePicture = document.getElementById('profile-picture');
