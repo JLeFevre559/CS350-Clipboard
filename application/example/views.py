@@ -43,7 +43,7 @@ class Index(TemplateView):
         return context
 
 
-class Calendar(TemplateView):
+class Calendar(LoginRequiredMixin, TemplateView):
     template_name = "Calendar.html"
 
 

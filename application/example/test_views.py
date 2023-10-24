@@ -63,6 +63,17 @@ class ProjectViewsTestCase(TestCase):
         self.assertEqual(updated_project.name, 'Updated Test Project')
 
     def test_project_delete_view(self):
+        # Test that the project isn't deleted when no is selected
+        response = self.client.post(reverse('project-delete', args=[str(self.project.id)]), {
+            'delete': 'no',
+        })
+        self.assertEqual(response.status_code, 302)  # Check for a redirect
+        self.assertEqual(response.url, reverse("Project"))  # Check that it redirects to the project list
+
+        # Check that the project still exists in the database
+        self.assertTrue(Project.objects.filter(pk=self.project.pk).exists())
+
+        # Check that it can delete the project
         response = self.client.post(reverse('project-delete', args=[str(self.project.id)]), {
             'delete': 'yes',
         })
@@ -455,6 +466,22 @@ class UpdateTaskViewTest(TestCase):
         self.assertEqual(updated_task.description, 'New Description')
         self.assertEqual(updated_task.priority, 'Low')
 
+        # Call update task with different items None to check that they are not updated
+        data = {
+            'task_id': str(self.task.id),
+            'name': None,
+            'assignee': 'New Assignee',
+            'due_date': None,
+            'description': 'New Description',
+            'priority': None,
+        }
+        response = self.client.post(url, json.dumps(data), content_type='application/json', HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        updated_task = Tasks.objects.get(id=self.task.id)
+        self.assertEqual(updated_task.task_name, 'New Task Name')
+        self.assertEqual(updated_task.due_date, date)
+        self.assertEqual(updated_task.priority, 'Low')
+
+
     def test_update_task_task_not_found(self):
         # Send a request to update a non-existent task 
         url = reverse('update_task')  # Adjust this URL name according to your project's URL configuration
@@ -506,6 +533,7 @@ class SignupViewTestCase(TestCase):
         self.assertTrue('testuser' in all_usernames)
         user = Profile.objects.get(username='testuser')
         self.assertIsNotNone(user)
+        self.assertIsNotNone(user.profile_color)
 
         # Add any other assertions you need, e.g., check if the user is logged in
 
@@ -656,3 +684,67 @@ class CreateTaskListTest(TestCase):
 
         # Check if the redirection URL is correct
         self.assertEqual(response.url, reverse("project-detail", args=[self.project.id]))
+
+        # Test that the fallback return works
+        url = reverse("create-tasklist")  # Replace with your URL name
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)  # Check for a successful GET request
+        self.assertTemplateUsed(response, "TempHome.html")  # Check that the correct template is used
+
+
+class CreateTaskTest(TestCase):
+    def setUp(self):
+        user = get_user_model().objects.create_user(username='testuser1', password='testpass')
+        self.project = Project.objects.create(
+            name='Test Project',
+            description='Test Project Description',
+            profile_id=user
+        )
+        self.task_list = TaskList.objects.create(
+            name='Test Task List',
+            project= self.project,
+        )
+        self.task_name = "Test Task"
+        self.task_due_date = datetime.today().date()
+        self.task_priority = "High"
+        self.task_description = "Test description"
+        self.assignee = "Test Assignee"
+
+    def test_create_task(self):
+        # Define the URL for the project detail page, adjust as needed
+        url = reverse("create-task")
+
+        # Simulate a POST request to create a task list
+        response = self.client.post(url, {
+            "tasklist_id": self.task_list.id,
+            "task_name": self.task_name,
+            "description": self.task_description,
+            "due_date": self.task_due_date,
+            "priority": self.task_priority,
+        })
+
+        # Check if the task list was created
+        self.assertEqual(response.status_code, 302)  # Should be a redirect
+
+        # Verify that the task list exists
+        task = Tasks.objects.get(task_name = self.task_name)
+        self.assertTrue(task != None)
+
+        # Check that the data in the task is the same as the input data
+        self.assertEqual(task.task_name ,self.task_name)
+        self.assertEqual(task.description ,self.task_description)
+        self.assertEqual(task.due_date ,self.task_due_date)
+        self.assertEqual(task.priority ,self.task_priority)
+        self.assertEqual(task.task_list ,self.task_list)
+        self.assertEqual(task.status, "Not Started")
+
+        # Check if the redirection URL is correct
+        self.assertEqual(response.url, reverse("project-detail", args=[self.project.id]))
+
+        # Test that the fallback return works
+        url = reverse("create-task")  # Replace with your URL name
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 200)  # Check for a successful GET request
+        self.assertTemplateUsed(response, "TempHome.html")  # Check that the correct template is use
