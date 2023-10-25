@@ -89,32 +89,34 @@
         <li>
             <p>Task: <b id="task-name"></b></p>
             <p>Status: <span id="task-status" class="">{{ task.status }}</span></p>
-        </li>
-        <li>
             <p>Priority: <b id="task-priority"></b> </p>
         </li>
         <li>
-            <p>Description: <b id="task-description"></b> </p>
+            <p>Description: <p id="task-description"></p> </p>
         </li>
         <li>
             <p>Due Date: <b id="task-due-date"></b></p>
         </li>
         <li>
-            <div class="container">
-            <div>
+            <div class="update-status-button-wrapper">
                 <button class="update-status-button button" data-status="In Progress">In Progress</button>
-                <button class="update-status-button button" data-status="Done">Done</button>
+                <button class="update-status-button button" data-status="Done">Done
+                    <img src="{% static '/images/checkmark.png' %}" sizes="32x32">
+                </button>
             </div>
-            <button class="edit-button" id ="update-task" data-task="" data-task-name="">
-                <img src="{% static '/images/edit.png' %}" sizes="32x32">
-            </button>
-            <button class="trash-button" id ="update-task" data-task=""> 
-                <img src="{% static '/images/trash.png' %}" sizes="32x32">
-            </button>
             <h4 id="task-due-date"></h4>
-            <button class="close-popup">Close</button>
-            </div>
         </li>
+        <div class="popup-task-bottom-buttons">
+            <button class="close-popup">Close</button>
+            <div class="popup-task-update-buttons">
+                <button class="edit-button" id ="update-task" data-task="" data-task-name="">
+                    <img src="{% static '/images/edit.png' %}" sizes="32x32">
+                </button>
+                <button class="trash-button" id ="update-task" data-task=""> 
+                    <img src="{% static '/images/trash.png' %}" sizes="32x32">
+                </button>
+            </div>
+        </div>
         </ul>
     </div>
 </div>
@@ -139,22 +141,33 @@
     <h3>Create New Task</h3>
     <form method="post" action="{% url 'create-task' %}">
         {% csrf_token %}
-        <!-- Include a hidden input to store the tasklist ID -->
-        <input type="hidden" name="tasklist_id" value="{{ tasklist.id }}">
-        <label for="task_name">Task Name:</label>
-        <input type="text" name="task_name" id="task_name" required>
-        <label for="description">Description:</label>
-        <textarea name="description" id="description"></textarea>
-        <label for="due_date">Due Date:</label>
-        <input type="date" name="due_date" id="due_date">
-        <label for="priority">Priority:</label>
-        <select name="priority" id="priority">
-            <option value="High">High</option>
-            <option value="Medium">Medium</option>
-            <option value="Low">Low</option>
-        </select>
-        <button type="submit">Create</button>
-        <button class="close-popup">Cancel</button>
+        <ul class="popup-task-wrapper">
+            <!-- Include a hidden input to store the tasklist ID -->
+            <input type="hidden" name="tasklist_id" value="{{ tasklist.id }}">
+            <li>
+                <label for="task_name">Task Name:</label>
+                <input type="text" name="task_name" id="task_name" required>
+            </li>
+            <li class = popup-task-description>
+                <label for="description">Description:</label>
+                <textarea name="description" id="description"></textarea>
+            </li>
+            <li>
+                <label for="due_date">Due Date:</label>
+                <input type="date" name="due_date" id="due_date">
+            </li>
+            <li>
+            <label for="priority">Priority:</label>
+            
+            <select name="priority" id="priority">
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+            </select>
+            <button type="submit">Create</button>
+            <button class="close-popup">Cancel</button>
+            </li>
+        </ul>
     </form>
 </div>
 </div>
@@ -277,7 +290,7 @@ function updateTaskStatus(taskId, newStatus) {
             const newTaskListStatus = response.tasklist_status;
             const taskListSpanToUpdate = document.getElementById(`status-${taskListId}`);
             if(taskListSpanToUpdate){
-                taskListSpanToUpdate.className = `status-${newTaskListStatus}`;
+                taskListSpanToUpdate.className = `${newTaskListStatus}`;
                 taskListSpanToUpdate.textContent = newTaskListStatus;
             }
         },
@@ -330,7 +343,10 @@ function showConfirmationPopup(itemId, itemType) {
     if (popup && title && message && confirmButton) {
         // Set the title and message based on the item type
         title.textContent = `Delete ${itemType}`;
+        
         message.textContent = `Are you sure you want to delete this ${itemType}?`;
+        if (itemType == 'Tasklist')
+        {}
 
         confirmButton.addEventListener('click', function () {
             hidePopup('confirmationPopup');
