@@ -390,14 +390,13 @@ def update_profile(request):
     ):
         data = json.loads(request.body.decode("utf-8"))
         user_id = data.get("user_id")
-        new_username = data.get("username")
         new_first_name = data.get("first_name")
         new_last_name = data.get("last_name")
         new_email = data.get("email")
         new_bio = data.get("bio")
+
         try:
             user = get_user_model().objects.get(id=user_id)
-            user.username = new_username
             user.first_name = new_first_name
             user.last_name = new_last_name
             user.email = new_email

@@ -46,7 +46,7 @@ Your Profile Page
         </li>
     </ul>
     <div class="profile-div">
-        <button id="edit-profile-button" class="popup-trigger" data-popup-id="editProfilePopup"
+        <button id="edit-profile-button" class="popup-trigger editButton" data-popup-id="editProfilePopup"
             data-user-id="{{ user.id }}">Edit Profile</button>
         <form method="post" action="{% url 'logout' %}">
             {% csrf_token %}
@@ -75,18 +75,16 @@ Your Profile Page
         <form method="post" id="editProfileForm">
             {% csrf_token %}
             <input type="hidden" name="user_id" id="editUserId" value="">
-            <label for="editUsername">Username:</label>
-            <input type="text" name="new_username" id="editUsername">
             <label for="editFirstName">First Name:</label>
-            <input type="text" name="new_first_name" id="editFirstName">
+            <input type="text" name="new_first_name" id="editFirstName" required>
             <label for="editLastName">Last Name:</label>
-            <input type="text" name="new_last_name" id="editLastName">
+            <input type="text" name="new_last_name" id="editLastName" required>
             <label for="editEmail">Email:</label>
-            <input type="email" name="new_email" id="editEmail">
+            <input type="email" name="new_email" id="editEmail" required>
             <label for="editBio">Bio:</label>
             <textarea name="new_bio" id="editBio"></textarea>
             <button type="submit">Save</button>
-            <button class="close-popup">Cancel</button>
+            <button class="close-popup cancel-popup">Cancel</button>
         </form>
     </div>
 </div>
@@ -128,7 +126,7 @@ Your Profile Page
         });
     });
 
-    function editProfile(userId, newUsername, newFirstName, newLastName, newEmail, newBio) {
+    function editProfile(userId, newFirstName, newLastName, newEmail, newBio) {
         const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
         // Send an AJAX request to edit the task
         $.ajax({
@@ -140,7 +138,6 @@ Your Profile Page
             },
             data: JSON.stringify({
                 user_id: userId,
-                username: newUsername,
                 first_name: newFirstName,
                 last_name: newLastName,
                 email: newEmail,
@@ -163,10 +160,35 @@ Your Profile Page
         const editProfileForm = document.querySelector("#editProfileForm");
         const userId = document.querySelector("#edit-profile-button").getAttribute('data-user-id');
 
+        // Add this part to set initial values
+        const initialFirstName = "{{ user.first_name }}";
+        const initialLastName = "{{ user.last_name }}";
+        const initialEmail = "{{ user.email }}";
+        const initialBio = "{{ user.bio }}";
+
+        // Set the initial values of the form fields
+        document.querySelector("#editFirstName").value = initialFirstName;
+        document.querySelector("#editLastName").value = initialLastName;
+        document.querySelector("#editEmail").value = initialEmail;
+        document.querySelector("#editBio").value = initialBio;
+
+        const cancelPopupButton = document.querySelector('.cancel-popup');
+        cancelPopupButton.addEventListener('click', function (event) {
+            event.preventDefault();  // Prevent form submission
+
+            // Clear the form fields
+            editFirstNameField.value = '';
+            editLastNameField.value = '';
+            editEmailField.value = '';
+            editBioField.value = '';
+
+            // Close the popup
+            hidePopup("editProfilePopup");
+        });
+
         editProfileForm.addEventListener("submit", function (event) {
             console.log("Clicked!")
             event.preventDefault();
-            const newUsername = document.querySelector("#editUsername").value;
             const newFirstName = document.querySelector("#editFirstName").value;
             const newLastName = document.querySelector("#editLastName").value;
             const newEmail = document.querySelector("#editEmail").value;
@@ -175,7 +197,7 @@ Your Profile Page
             console.log(newEmail);
 
             // Call the editTask function with the updated data
-            editProfile(userId, newUsername, newFirstName, newLastName, newEmail, newBio);
+            editProfile(userId, newFirstName, newLastName, newEmail, newBio);
 
             // Close the popup
             hidePopup("editProfilePopup");
