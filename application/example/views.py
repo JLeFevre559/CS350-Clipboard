@@ -43,9 +43,50 @@ class Index(TemplateView):
 
         return context
 
+# This method takes a profile id, and returns all of the tasks associated with that user
+# Either through their owned projects, or assigned to them via username
+def get_all_tasks_for_user(profile_id, month=None, year=None):
+    try:
+        # Get the profile associated with the given profile_id
+        profile = get_user_model().objects.get(id=profile_id)
+    except get_user_model().DoesNotExist:
+        return None  # Profile not found
+
+    # Get the username of the profile
+    username = profile.username
+
+    # Query tasks through the 'task_list' -> 'project' -> 'profile' chain
+    tasks_through_chain = Tasks.objects.filter(task_list__project__profile_id=profile)
+
+    # Query tasks with the 'assignee' field matching the username
+    tasks_assigned_to_user = Tasks.objects.filter(assignee=username)
+
+    # Combine the two sets of tasks to get all tasks associated with the user without repeated tasks
+    all_tasks_for_user = tasks_through_chain | tasks_assigned_to_user
+
+    if month is not None and year is not None:
+        # Filter tasks by month and year
+        all_tasks_for_user = all_tasks_for_user.filter(
+            due_date__month=month, due_date__year=year
+        )
+
+    return all_tasks_for_user
 
 class Calendar(LoginRequiredMixin, TemplateView):
     template_name = "Calendar.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        # Get the profile_id of the logged-in user
+        profile_id = self.request.user.id  # Assuming you have a user profile model
+
+        # Call your function to get all tasks for the user
+        allTasks = get_all_tasks_for_user(profile_id, month=None, year=None)
+    
+        context['allTasks'] = allTasks
+        
+        return context
 
 
 class ProjectListView(LoginRequiredMixin, ListView):
@@ -359,34 +400,7 @@ def update_task(request):
     return JsonResponse({"error": "Invalid request"}, status=400)
 
 
-# This method takes a profile id, and returns all of the tasks associated with that user
-# Either through their owned projects, or assigned to them via username
-def get_all_tasks_for_user(profile_id, month=None, year=None):
-    try:
-        # Get the profile associated with the given profile_id
-        profile = get_user_model().objects.get(id=profile_id)
-    except get_user_model().DoesNotExist:
-        return None  # Profile not found
 
-    # Get the username of the profile
-    username = profile.username
-
-    # Query tasks through the 'task_list' -> 'project' -> 'profile' chain
-    tasks_through_chain = Tasks.objects.filter(task_list__project__profile_id=profile)
-
-    # Query tasks with the 'assignee' field matching the username
-    tasks_assigned_to_user = Tasks.objects.filter(assignee=username)
-
-    # Combine the two sets of tasks to get all tasks associated with the user without repeated tasks
-    all_tasks_for_user = tasks_through_chain | tasks_assigned_to_user
-
-    if month is not None and year is not None:
-        # Filter tasks by month and year
-        all_tasks_for_user = all_tasks_for_user.filter(
-            due_date__month=month, due_date__year=year
-        )
-
-    return all_tasks_for_user
 
 
 def update_profile(request):

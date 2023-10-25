@@ -32,9 +32,18 @@ li{
     font-size: 50px;
 }
 
+.hidden {
+    display: none;
+}
+
 </style>
 
 <div>
+    <ul class="hidden">
+        {% for task in allTasks %}
+            <li>{{ task.task_name }} - {{ task.due_date }}</li>
+        {% endfor %}
+    </ul>
     <div class="monthBoxDiv">
         <button id="prev"><li>&#10094;</li></button>
         <div class="monthYearBoxDiv"><h2 id="displayMonth" class="text-primary"></h2><h4 id="displayYear" class="text-primary"></h4></div>
@@ -46,7 +55,18 @@ li{
 
     <p id="result"></p>
 
-    <script>
+    <script> 
+        var listItems = document.getElementsByTagName('li');  // Select all <li> elements
+
+        var textContents = [];  // Create an array to store text content
+
+        for (var i = 0; i < listItems.length; i++) {
+            var textContent = listItems[i].textContent;  // Get the text content of the element
+            var textArray = textContent.split('-');  // Split the text at the "-" character
+            textContents.push(textArray);
+        }
+        console.log(textContents);  // This array will contain ["New task with id ", " Oct. 20, 2023"]
+
         var options = { weekday: 'long' };
         var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         var dayOfTheWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
