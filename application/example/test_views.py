@@ -15,6 +15,7 @@ from datetime import date
 
 class ProjectViewsTestCase(TestCase):
     def setUp(self):
+        self.date = datetime.fromisoformat("2023-10-13T00:00:00.000+00:00").date()
         self.user = get_user_model().objects.create_user(
             username="testuser", password="testpassword"
         )
@@ -31,6 +32,7 @@ class ProjectViewsTestCase(TestCase):
             description="Test Task Description",
             status="Not Started",
             task_list=self.tasklist,
+            due_date=self.date,
         )
         self.client.login(username="testuser", password="testpassword")
 
@@ -48,6 +50,7 @@ class ProjectViewsTestCase(TestCase):
         self.assertContains(response, "Test TaskList")
         self.assertContains(response, "Test Task")
         self.assertContains(response, "Not Started")
+        self.assertContains(response, "Oct. 13, 2023")
 
     def test_project_create_view(self):
         response = self.client.post(
