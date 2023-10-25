@@ -5,26 +5,40 @@
 
 {% block content %}
 
-  {% if user and user.username %}
-  <h1 class="text-primary">Welcome, back {{ user.username }}</h1>
-  <div class="landingBox">
-    <p>Imagine an innovative application designed to streamline project management and boost productivity. This intuitive platform empowers users to effortlessly create and manage projects, breaking them down into task lists comprised of individual tasks. Users can closely monitor the progress of each project as they mark tasks as completed, providing a real-time overview of their accomplishments. Additionally, the application features user profiles, allowing individuals to personalize their experience and collaborate effectively with team members. To keep everyone organized and on track, there's a built-in calendar that displays tasks with their respective due dates, ensuring that deadlines are never missed. This all-in-one solution revolutionizes project management, making it easier than ever to stay organized and efficient.</p>
-    <img src="../../static/images/Home.png" width="30%" height="25%" alt="Home.png" class="landingphoto">
-  </div>
-  <div>
-    <a href="/Project" class="navbar-button">Project</a>
-    <a href="/Profile" class="navbar-button">Profile</a>
-  </div>
-  {% else %}
-  <h1 class="text-primary">Clipboard</h1>
-  <div class="landingBox">
-        <p class="text-box">Imagine an innovative application designed to streamline project management and boost productivity. This intuitive platform empowers users to effortlessly create and manage projects, breaking them down into task lists comprised of individual tasks. Users can closely monitor the progress of each project as they mark tasks as completed, providing a real-time overview of their accomplishments. Additionally, the application features user profiles, allowing individuals to personalize their experience and collaborate effectively with team members. To keep everyone organized and on track, there's a built-in calendar that displays tasks with their respective due dates, ensuring that deadlines are never missed. This all-in-one solution revolutionizes project management, making it easier than ever to stay organized and efficient.</p>
-        <img src="../../static/images/Home.png" width="30%" height="25%" alt="Home.png" class="landingphoto">
-  </div>
-  <div>
-    <a href="{% url 'login' %}" class="navbar-button">Login</a>
-    <a href="{% url 'signup' %}" class="navbar-button">Sign up</a>
-  </div>
-  {% endif %}
+{% if user and user.username %}
+<h1 class="text-primary">Welcome back, {{ user.first_name }}</h1>
+<div class="landingBox">
+  <p>Imagine an innovative application designed to streamline project management and boost productivity. This intuitive
+    platform empowers users to effortlessly create and manage projects, breaking them down into task lists comprised of
+    individual tasks. Users can closely monitor the progress of each project as they mark tasks as completed, providing
+    a real-time overview of their accomplishments. Additionally, the application features user profiles, allowing
+    individuals to personalize their experience and collaborate effectively with team members. To keep everyone
+    organized and on track, there's a built-in calendar that displays tasks with their respective due dates, ensuring
+    that deadlines are never missed. This all-in-one solution revolutionizes project management, making it easier than
+    ever to stay organized and efficient.</p>
+  <img src="../../static/images/Home.png" width="30%" height="25%" alt="Home.png" class="landingphoto">
+</div>
+<div>
+  <a href="/Project" class="navbar-button">Project</a>
+  <a href="/Profile" class="navbar-button">Profile</a>
+</div>
+{% else %}
+<h1 class="text-primary">Clipboard</h1>
+<div class="landingBox">
+  <p class="text-box">Imagine an innovative application designed to streamline project management and boost
+    productivity. This intuitive platform empowers users to effortlessly create and manage projects, breaking them down
+    into task lists comprised of individual tasks. Users can closely monitor the progress of each project as they mark
+    tasks as completed, providing a real-time overview of their accomplishments. Additionally, the application features
+    user profiles, allowing individuals to personalize their experience and collaborate effectively with team members.
+    To keep everyone organized and on track, there's a built-in calendar that displays tasks with their respective due
+    dates, ensuring that deadlines are never missed. This all-in-one solution revolutionizes project management, making
+    it easier than ever to stay organized and efficient.</p>
+  <img src="../../static/images/Home.png" width="30%" height="25%" alt="Home.png" class="landingphoto">
+</div>
+<div>
+  <a href="{% url 'login' %}" class="navbar-button">Login</a>
+  <a href="{% url 'signup' %}" class="navbar-button">Sign up</a>
+</div>
+{% endif %}
 
 {% endblock content %}
