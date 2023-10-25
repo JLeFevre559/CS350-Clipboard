@@ -46,8 +46,9 @@ Your Profile Page
         </li>
     </ul>
     <div class="profile-div">
-        <button id="edit-profile-button" class="popup-trigger" data-popup-id="editProfilePopup"
-            data-user-id="{{ user.id }}">Edit Profile</button>
+        <button class="editButton">EDIT TEMPORARILY DISABLED</button>
+        <!-- <button id="edit-profile-button" class="popup-trigger" data-popup-id="editProfilePopup" -->
+            <!-- data-user-id="{{ user.id }}">Edit Profile</button> -->
         <form method="post" action="{% url 'logout' %}">
             {% csrf_token %}
             <button type="submit" class="logoutButton">Logout</button>
