@@ -76,8 +76,9 @@ li{
 
         var listItems = document.getElementsByTagName('li');  // Select all <li> elements that hold tasks
         const taskArrayOfArray = [];  // Create an array to store text content
-        var taskListToFilterByMonth = [];
         var monthNameForEachTask = [];
+        var taskListToFilterByMonth = [];
+        var taskListToFilterByDay = [];
 
         for (var i = 0; i < listItems.length; i++) {
             var textContent = listItems[i].textContent;  // Get the text content of the element
@@ -125,6 +126,7 @@ li{
 
         function renderCalendarNextMonth() {
             var calendar = "";
+            taskListToFilterByMonth = [];
             today.setMonth(today.getMonth() + 1);
             today.setDate(1);
             
@@ -140,7 +142,8 @@ li{
             displayYear = today.getFullYear();
             
             const numbersBetween = generateNumbersBetween(firstDayOfNextMonth, lastDayOfNextMonth);
-
+            taskListToFilterByMonth = seperateTasksByMonth(numbersBetween, today, taskListToFilterByMonth);
+            console.log(taskListToFilterByMonth);
             calendar = createCalendar(calendar,index,numbersBetween,today,finalindex);
 
             document.getElementById("calendarRender").innerHTML = calendar;
@@ -152,6 +155,7 @@ li{
         function renderCalendarLastMonth() {
             var calendar = "";
             taskListToFilterByMonth = [];
+            taskListToFilterByDay = [];
             today.setMonth(today.getMonth() - 1);
             today.setDate(1);
 
@@ -168,6 +172,7 @@ li{
 
             const numbersBetween = generateNumbersBetween(firstDayOfLastMonth, lastDayOfLastMonth);
             taskListToFilterByMonth = seperateTasksByMonth(numbersBetween, today, taskListToFilterByMonth);
+            // taskListToFilterByDay = getTaskDateByDate(taskListToFilterByMonth);
             calendar = createCalendar(calendar,index,numbersBetween,today,finalindex);
 
             document.getElementById("calendarRender").innerHTML = calendar;
@@ -192,17 +197,27 @@ li{
 
             for (let i = 0; i < monthNameForEachTask.length; i++) {
                 const monthToCheck = monthNameForEachTask[i];
-                console.log(shortMonthName +" vs "+monthToCheck);
                 if (shortMonthName !== monthToCheck) {
                     taskListToFilterByMonth.splice(i - sliceCount, 1);
                     sliceCount = sliceCount + 1;
                 }
             }
-            console.log(monthNameForEachTask);
             console.log(taskListToFilterByMonth);
-            console.log(taskArrayOfArray);
+            
+            taskListToFilterByMonth.sort((a, b) => {
+            const dateA = new Date(a[1]);
+            const dateB = new Date(b[1]);
+            return dateA - dateB;
+            });
+
+            console.log(taskListToFilterByMonth);
             return taskListToFilterByMonth
         }
+
+         //function getTaskDateByDate(taskListToFilterByMonth)
+        //{
+            
+        //}
 
         function createCalendar(calendar, index, numbersBetween, Month, finalindex){
             calendar = generateDayOfTheWeek(calendar);
