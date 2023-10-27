@@ -21,10 +21,23 @@
 
 .numberedDayOfTheWeek{
     border: 2px solid rgb(0, 0, 0);
-    padding-top: 10px;
-    padding-bottom: 90px;
-    padding-left: 51px;
-    padding-right: 49px;
+    width: 140px;
+    height: 140px;
+    max-width: 140px;
+    max-height: 140px;
+    text-align: center;
+    padding-bottom: 85px;
+}
+
+.boxedTask{
+    border: 2px solid rgb(0, 0, 0);
+    width: 90px;
+    height: fit-content;
+    margin-left: 25px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
 }
 
 li{
@@ -174,7 +187,8 @@ li{
             taskListToFilterByMonth = seperateTasksByMonth(numbersBetween, today, taskListToFilterByMonth);
             taskListByDay = listTaskIndexByDay(taskListToFilterByMonth);
             console.log(taskListByDay);
-            calendar = createCalendar(calendar,index,numbersBetween,today,finalindex);
+
+            calendar = createSuperCalendar(calendar,index,numbersBetween,today,finalindex, taskListByDay, taskListToFilterByMonth);
 
             document.getElementById("calendarRender").innerHTML = calendar;
             document.getElementById("displayYear").innerHTML = displayYear;
@@ -231,6 +245,15 @@ li{
             return calendar;
         }
 
+        function createSuperCalendar(calendar, index, numbersBetween, Month, finalindex, taskListByDay, taskListToFilterByMonth){ // remove super later
+            calendar = generateDayOfTheWeek(calendar);
+            calendar = generateStartingDayOfWeekSpaces(calendar, index);
+            calendar = generateAllDaysOfTheWeekSuper(calendar, numbersBetween, Month, taskListByDay, taskListToFilterByMonth);
+            calendar = generateEndingDayOfWeekSpace(calendar, finalindex);
+            console.log("createCalendar 2");
+            return calendar;
+        }
+
         function generateNumbersBetween(start, end) {
             if (start > end) {
                 return [];
@@ -268,6 +291,38 @@ li{
             return calendar
         }
 
+        function generateAllDaysOfTheWeekSuper(calendar, numbersBetween, Month, taskListByDay, taskListToFilterByMonth){ // remove super later
+            for (let i = 1; i < numbersBetween.length+1; i++) { //Handles the numbered of the days of the week
+                if("Sunday" == new Date(Month.getFullYear(), Month.getMonth(), i).toLocaleDateString('en-US', options))
+                    calendar += "<tr>";
+                if(taskListByDay.includes(i)){
+                    console.log("I saw "+i+ "in the list");
+                    const matchingValues = taskListByDay.filter(item => item === i);
+                    const totalOccurrences = matchingValues.length;
+                    console.log("I know there are "+totalOccurrences+" of the number "+i);
+                    if(totalOccurrences > 1){
+                        for (let i = 0; i < totalOccurrences; i++) {
+                            console.log('more than one task with this date on task # '+i);
+                            const firstElement = taskListToFilterByMonth.shift();
+                            console.log('Removed:', firstElement);
+                        }
+                        calendar += "<th class=numberedDayOfTheWeek>"+i+"<div class=boxedTask> A task lives here</div></th>";
+                    }
+                    else{
+                        console.log('only one task with this date');
+                        const firstElement = taskListToFilterByMonth.shift();
+                        console.log('Removed:', firstElement);
+                        calendar += "<th class=numberedDayOfTheWeek>"+i+"<div class=boxedTask> A task lives here</div></th>";
+                    }
+                    
+                }else{
+                    calendar += "<th class=numberedDayOfTheWeek>"+i+"</th>";            
+                }
+            }
+            console.log("createsuperdays 2");
+            return calendar
+        }
+
         function generateEndingDayOfWeekSpace(calendar, finalindex){
             if(finalindex >= 0){
                 for (finalindex; finalindex < 6; finalindex++) { 
@@ -276,7 +331,6 @@ li{
             }
             return calendar
         }
-
 
         document.getElementById("next").addEventListener("click", function() {
             renderCalendarNextMonth();
