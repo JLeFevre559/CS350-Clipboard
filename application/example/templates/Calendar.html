@@ -106,6 +106,8 @@ li{
 
         window.onload = function() {
             var calendar = "";
+            taskListToFilterByMonth = [];
+            taskListByDay = [];
             today = new Date();
             
             firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -120,8 +122,9 @@ li{
             displayYear = today.getFullYear();
             
             const numbersBetween = generateNumbersBetween(firstDayOfMonth, lastDayOfMonth);
-                
-            calendar = createCalendar(calendar,index,numbersBetween,today,finalindex);
+            taskListToFilterByMonth = seperateTasksByMonth(numbersBetween, today, taskListToFilterByMonth);
+            taskListByDay = listTaskIndexByDay(taskListToFilterByMonth);
+            calendar = createCalendar(calendar,index,numbersBetween,today,finalindex, taskListByDay, taskListToFilterByMonth);
 
             document.getElementById("calendarRender").innerHTML = calendar;
             document.getElementById("displayYear").innerHTML = displayYear;
@@ -140,6 +143,7 @@ li{
         function renderCalendarNextMonth() {
             var calendar = "";
             taskListToFilterByMonth = [];
+            taskListByDay = [];
             today.setMonth(today.getMonth() + 1);
             today.setDate(1);
             
@@ -156,8 +160,8 @@ li{
             
             const numbersBetween = generateNumbersBetween(firstDayOfNextMonth, lastDayOfNextMonth);
             taskListToFilterByMonth = seperateTasksByMonth(numbersBetween, today, taskListToFilterByMonth);
-            console.log(taskListToFilterByMonth);
-            calendar = createCalendar(calendar,index,numbersBetween,today,finalindex);
+            taskListByDay = listTaskIndexByDay(taskListToFilterByMonth);
+            calendar = createCalendar(calendar,index,numbersBetween,today,finalindex, taskListByDay, taskListToFilterByMonth);
 
             document.getElementById("calendarRender").innerHTML = calendar;
             document.getElementById("displayYear").innerHTML = displayYear;
@@ -186,9 +190,7 @@ li{
             const numbersBetween = generateNumbersBetween(firstDayOfLastMonth, lastDayOfLastMonth);
             taskListToFilterByMonth = seperateTasksByMonth(numbersBetween, today, taskListToFilterByMonth);
             taskListByDay = listTaskIndexByDay(taskListToFilterByMonth);
-            console.log(taskListByDay);
-
-            calendar = createSuperCalendar(calendar,index,numbersBetween,today,finalindex, taskListByDay, taskListToFilterByMonth);
+            calendar = createCalendar(calendar,index,numbersBetween,today,finalindex, taskListByDay, taskListToFilterByMonth);
 
             document.getElementById("calendarRender").innerHTML = calendar;
             document.getElementById("displayYear").innerHTML = displayYear;
@@ -217,7 +219,6 @@ li{
                     sliceCount = sliceCount + 1;
                 }
             }
-            console.log(taskListToFilterByMonth);
             
             taskListToFilterByMonth.sort((a, b) => {
             const dateA = new Date(a[1]);
@@ -225,7 +226,6 @@ li{
             return dateA - dateB;
             });
 
-            console.log(taskListToFilterByMonth);
             return taskListToFilterByMonth
         }
 
@@ -237,20 +237,11 @@ li{
             return taskListByDay;
         }
 
-        function createCalendar(calendar, index, numbersBetween, Month, finalindex){
+        function createCalendar(calendar, index, numbersBetween, Month, finalindex, taskListByDay, taskListToFilterByMonth){ 
             calendar = generateDayOfTheWeek(calendar);
             calendar = generateStartingDayOfWeekSpaces(calendar, index);
-            calendar = generateAllDaysOfTheWeek(calendar, numbersBetween, Month);
+            calendar = generateAllDaysOfTheWeek(calendar, numbersBetween, Month, taskListByDay, taskListToFilterByMonth);
             calendar = generateEndingDayOfWeekSpace(calendar, finalindex);
-            return calendar;
-        }
-
-        function createSuperCalendar(calendar, index, numbersBetween, Month, finalindex, taskListByDay, taskListToFilterByMonth){ // remove super later
-            calendar = generateDayOfTheWeek(calendar);
-            calendar = generateStartingDayOfWeekSpaces(calendar, index);
-            calendar = generateAllDaysOfTheWeekSuper(calendar, numbersBetween, Month, taskListByDay, taskListToFilterByMonth);
-            calendar = generateEndingDayOfWeekSpace(calendar, finalindex);
-            console.log("createCalendar 2");
             return calendar;
         }
 
@@ -282,16 +273,7 @@ li{
             return calendar;
         }
 
-        function generateAllDaysOfTheWeek(calendar, numbersBetween, Month){
-            for (let i = 1; i < numbersBetween.length+1; i++) { //Handles the numbered of the days of the week
-                if("Sunday" == new Date(Month.getFullYear(), Month.getMonth(), i).toLocaleDateString('en-US', options))
-                    calendar += "<tr>";
-                calendar += "<th class=numberedDayOfTheWeek>"+i+ "</th>";            
-            }
-            return calendar
-        }
-
-        function generateAllDaysOfTheWeekSuper(calendar, numbersBetween, Month, taskListByDay, taskListToFilterByMonth){ // remove super later
+        function generateAllDaysOfTheWeek(calendar, numbersBetween, Month, taskListByDay, taskListToFilterByMonth){ 
             for (let i = 1; i < numbersBetween.length+1; i++) { //Handles the numbered of the days of the week
                 if("Sunday" == new Date(Month.getFullYear(), Month.getMonth(), i).toLocaleDateString('en-US', options))
                     calendar += "<tr>";
@@ -319,7 +301,6 @@ li{
                     calendar += "<th class=numberedDayOfTheWeek>"+i+"</th>";            
                 }
             }
-            console.log("createsuperdays 2");
             return calendar
         }
 
