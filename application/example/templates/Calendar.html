@@ -74,10 +74,10 @@ li{
         var lastDayOfLastMonth;
         var firstDayOfLastMonth;
 
-        var listItems = document.getElementsByTagName('li');  // Select all <li> elements
-
-        console.log(listItems);
-        var taskArrayOfArray = [];  // Create an array to store text content
+        var listItems = document.getElementsByTagName('li');  // Select all <li> elements that hold tasks
+        const taskArrayOfArray = [];  // Create an array to store text content
+        var taskListToFilterByMonth = [];
+        var monthNameForEachTask = [];
 
         for (var i = 0; i < listItems.length; i++) {
             var textContent = listItems[i].textContent;  // Get the text content of the element
@@ -88,7 +88,7 @@ li{
         filterShortEntries(taskArrayOfArray);
         console.log(taskArrayOfArray);
 
-        var monthNameForEachTask = []
+        
 
         window.onload = function() {
             var calendar = "";
@@ -151,6 +151,7 @@ li{
 
         function renderCalendarLastMonth() {
             var calendar = "";
+            taskListToFilterByMonth = [];
             today.setMonth(today.getMonth() - 1);
             today.setDate(1);
 
@@ -166,7 +167,7 @@ li{
             displayYear = today.getFullYear();
 
             const numbersBetween = generateNumbersBetween(firstDayOfLastMonth, lastDayOfLastMonth);
-            seperateTasksByMonth(numbersBetween, today);
+            taskListToFilterByMonth = seperateTasksByMonth(numbersBetween, today, taskListToFilterByMonth);
             calendar = createCalendar(calendar,index,numbersBetween,today,finalindex);
 
             document.getElementById("calendarRender").innerHTML = calendar;
@@ -175,12 +176,13 @@ li{
             
         }
 
-        function seperateTasksByMonth(numbersBetween, thisMonth){
+        function seperateTasksByMonth(numbersBetween, thisMonth, taskListToFilterByMonth){
+            taskListToFilterByMonth = taskArrayOfArray.slice();
             monthNameForEachTask = [];
             var sliceCount = 0;
             const monthIndex = thisMonth.getMonth();
             const shortMonthName = shortMonthNames[monthIndex];
-            taskArrayOfArray.forEach(function(taskArray) {
+            taskListToFilterByMonth.forEach(function(taskArray) {
                 if (taskArray && taskArray[1]) {
                     const secondElement = taskArray[1];
                     const firstThreeLetters = secondElement.slice(0, 3);
@@ -192,12 +194,14 @@ li{
                 const monthToCheck = monthNameForEachTask[i];
                 console.log(shortMonthName +" vs "+monthToCheck);
                 if (shortMonthName !== monthToCheck) {
-                    taskArrayOfArray.splice(i - sliceCount, 1);
+                    taskListToFilterByMonth.splice(i - sliceCount, 1);
                     sliceCount = sliceCount + 1;
                 }
             }
             console.log(monthNameForEachTask);
+            console.log(taskListToFilterByMonth);
             console.log(taskArrayOfArray);
+            return taskListToFilterByMonth
         }
 
         function createCalendar(calendar, index, numbersBetween, Month, finalindex){
