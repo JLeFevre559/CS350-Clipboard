@@ -20,4 +20,4 @@
     * I dedicated approximately 12 hours to the Design for Milestone 5
     * Team meetings totaled 6 hours 
   
-* **5-minute Video Demo**: TBA
+* **7ish-minute Video Demo**: https://youtu.be/GBJlvgaSu6M
