@@ -75,6 +75,7 @@ li{
         var firstDayOfLastMonth;
 
         var listItems = document.getElementsByTagName('li');  // Select all <li> elements
+
         console.log(listItems);
         var taskArrayOfArray = [];  // Create an array to store text content
 
@@ -83,7 +84,9 @@ li{
             var textArray = textContent.split('?');  // Split the text at the "?" character
             taskArrayOfArray.push(textArray);
         }
-        console.log(taskArrayOfArray);  // This array will contain ["New task with id ", " Oct. 20, 2023"]
+        
+        filterShortEntries(taskArrayOfArray);
+        console.log(taskArrayOfArray);
 
         var monthNameForEachTask = []
 
@@ -109,6 +112,15 @@ li{
             document.getElementById("calendarRender").innerHTML = calendar;
             document.getElementById("displayYear").innerHTML = displayYear;
             document.getElementById("displayMonth").innerHTML = displayMonth;
+        }
+
+        function filterShortEntries(arr){ // filters out the short entries, misinjections and tasks that don't have a name/duedate/and description
+            for (let i = 0; i < arr.length; i++) { // Iterate through the inner arrays
+                if (arr[i].length < 2) {
+                    arr.splice(i, 1); // Remove the entry
+                    i--; // Decrement j to account for the removed element
+                }
+            }
         }
 
         function renderCalendarNextMonth() {
@@ -172,23 +184,16 @@ li{
                 if (taskArray && taskArray[1]) {
                     const secondElement = taskArray[1];
                     const firstThreeLetters = secondElement.slice(0, 3);
-                    console.log(secondElement);
                     monthNameForEachTask.push(firstThreeLetters); 
                 }
             });
-            console.log(taskArrayOfArray);
+
             for (let i = 0; i < monthNameForEachTask.length; i++) {
                 const monthToCheck = monthNameForEachTask[i];
                 console.log(shortMonthName +" vs "+monthToCheck);
-                
                 if (shortMonthName !== monthToCheck) {
-                    console.log(shortMonthName +" != "+monthToCheck);
-                    console.log(taskArrayOfArray[i]);
-                    console.log(taskArrayOfArray[i - sliceCount]);
                     taskArrayOfArray.splice(i - sliceCount, 1);
                     sliceCount = sliceCount + 1;
-                    console.log(taskArrayOfArray[i]);
-                    console.log(taskArrayOfArray[i - sliceCount]);
                 }
             }
             console.log(monthNameForEachTask);
