@@ -33,7 +33,7 @@
     border: 2px solid rgb(0, 0, 0);
     width: 90px;
     height: fit-content;
-    margin-left: 25px;
+    margin-left: 15px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -42,7 +42,8 @@
 
 li{
     list-style-type: none;
-    font-size: 50px;
+    font-size: 40px;
+    text-align: center;
 }
 
 .hidden {
@@ -62,9 +63,84 @@ li{
         <div class="monthYearBoxDiv"><h2 id="displayMonth" class="text-primary"></h2><h4 id="displayYear" class="text-primary"></h4></div>
         <button id="next"><li>&#10095;</li></button>
     </div>
-    <table id="calendarRender"></table>
+    <table id="calendarRender"></table>    
 
-    <p id="result"></p>
+    <div id="taskPopups"></div>
+
+</div>
+
+
+<!--- Example to use 
+    <div class="task-list">
+        <div>
+          <div class="task">
+            <p><span class="popup-trigger" data-popup-id="popup1">Task 1</span></p>
+          </div>
+          <div class="task">
+            <p><span class="popup-trigger" data-popup-id="popup2">Task 2</span></p>
+          </div>
+          <div class="task">
+            <p><span class="popup-trigger" data-popup-id="popup3">Task 3</span></p>
+          </div>
+        </div>
+    </div>
+
+
+    <div class="popup" id="popup1">
+        <div class="popup-content">
+            <ul>
+                <li>
+                    <p>Task: <b>name</b></p>
+                </li>
+                <li>
+                    <h4>Due Date: 8/18/2015</h4>
+                    <button class="close-popup navbar-button">Close</button>
+                </li>
+            </ul>
+
+            <ul>
+                <li>
+                    <p>Task: <b>name</b></p>
+                </li>
+                <li>
+                    <h4>Due Date: 8/18/2015</h4>
+                    <button class="close-popup navbar-button">Close</button>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+    
+    <div class="popup" id="popup2">
+        <div class="popup-content">
+            <ul>
+                <li>
+                    <p>Task: <b>Design and User Experience</b></p>
+                </li>
+                <li>
+                    <h4>Due Date: 8/31/2015</h4>
+                    <button class="close-popup navbar-button">Close</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="popup" id="popup3">
+        <div class="popup-content">
+            <ul>
+                <li>
+                    <p>Task: <b>Interactive Features and Functionality</b></p>
+                </li>
+                <li>
+                    <h4>Due Date: 8/28/2015</h4>
+                    <button class="close-popup navbar-button">Close</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+-->
+
+
 
     <script> 
         var options = { weekday: 'long' };
@@ -72,6 +148,8 @@ li{
         var shortMonthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         var dayOfTheWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         var ReverseDayOfTheWeek = ["Saturday", "Friday", "Thursday", "Wednesday", "Tuesday", "Monday", "Sunday"];
+        var calendar = "";
+        var taskPopupsHtml = "";
         var today;
         var displayMonth;
         var displayYear;
@@ -92,23 +170,25 @@ li{
         var monthNameForEachTask = [];
         var taskListToFilterByMonth = [];
         var taskListByDay = [];
+        var triggers;
+        var popups;
+        var closeButtons
 
         for (var i = 0; i < listItems.length; i++) {
             var textContent = listItems[i].textContent;  // Get the text content of the element
             var textArray = textContent.split('?');  // Split the text at the "?" character
             taskArrayOfArray.push(textArray);
         }
-        
         filterShortEntries(taskArrayOfArray);
         console.log(taskArrayOfArray);
 
-        
-
         window.onload = function() {
-            var calendar = "";
+            calendar = "";
+            taskPopupsHtml = "";
             taskListToFilterByMonth = [];
             taskListByDay = [];
             today = new Date();
+            
             
             firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
             lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
@@ -124,11 +204,33 @@ li{
             const numbersBetween = generateNumbersBetween(firstDayOfMonth, lastDayOfMonth);
             taskListToFilterByMonth = seperateTasksByMonth(numbersBetween, today, taskListToFilterByMonth);
             taskListByDay = listTaskIndexByDay(taskListToFilterByMonth);
-            calendar = createCalendar(calendar,index,numbersBetween,today,finalindex, taskListByDay, taskListToFilterByMonth);
+            calendar = createCalendar(calendar,index,numbersBetween,today,finalindex, taskListByDay, taskListToFilterByMonth, taskPopupsHtml);
 
             document.getElementById("calendarRender").innerHTML = calendar;
             document.getElementById("displayYear").innerHTML = displayYear;
             document.getElementById("displayMonth").innerHTML = displayMonth;
+            document.getElementById("taskPopups").innerHTML = taskPopupsHtml;
+
+            triggers = document.querySelectorAll('.popup-trigger');
+            popups = document.querySelectorAll('.popup');
+            closeButtons = document.querySelectorAll('.close-popup');
+
+
+                        // Add click event listeners to all trigger elements
+            triggers.forEach(trigger => {
+                trigger.addEventListener('click', function () {
+                    const popupId = this.getAttribute('data-popup-id');
+                    showPopup(popupId);
+                });
+            });
+
+            // Add click event listeners to close buttons
+            closeButtons.forEach(closeButton => {
+                closeButton.addEventListener('click', function () {
+                    const popupId = this.closest('.popup').id;
+                    hidePopup(popupId);
+                });
+            });
         }
 
         function filterShortEntries(arr){ // filters out the short entries, misinjections and tasks that don't have a name/duedate/and description
@@ -141,7 +243,8 @@ li{
         }
 
         function renderCalendarNextMonth() {
-            var calendar = "";
+            calendar = "";
+            taskPopupsHtml = "";
             taskListToFilterByMonth = [];
             taskListByDay = [];
             today.setMonth(today.getMonth() + 1);
@@ -161,16 +264,37 @@ li{
             const numbersBetween = generateNumbersBetween(firstDayOfNextMonth, lastDayOfNextMonth);
             taskListToFilterByMonth = seperateTasksByMonth(numbersBetween, today, taskListToFilterByMonth);
             taskListByDay = listTaskIndexByDay(taskListToFilterByMonth);
-            calendar = createCalendar(calendar,index,numbersBetween,today,finalindex, taskListByDay, taskListToFilterByMonth);
+            calendar = createCalendar(calendar,index,numbersBetween,today,finalindex, taskListByDay, taskListToFilterByMonth, taskPopupsHtml);
 
             document.getElementById("calendarRender").innerHTML = calendar;
             document.getElementById("displayYear").innerHTML = displayYear;
             document.getElementById("displayMonth").innerHTML = displayMonth;
-            
+            document.getElementById("taskPopups").innerHTML = taskPopupsHtml;
+
+            triggers = document.querySelectorAll('.popup-trigger');
+            popups = document.querySelectorAll('.popup');
+            closeButtons = document.querySelectorAll('.close-popup');
+
+                        // Add click event listeners to all trigger elements
+            triggers.forEach(trigger => {
+                trigger.addEventListener('click', function () {
+                    const popupId = this.getAttribute('data-popup-id');
+                    showPopup(popupId);
+                });
+            });
+
+            // Add click event listeners to close buttons
+            closeButtons.forEach(closeButton => {
+                closeButton.addEventListener('click', function () {
+                    const popupId = this.closest('.popup').id;
+                    hidePopup(popupId);
+                });
+            });
         }
 
         function renderCalendarLastMonth() {
-            var calendar = "";
+            calendar = "";
+            taskPopupsHtml = "";
             taskListToFilterByMonth = [];
             taskListByDay = [];
             today.setMonth(today.getMonth() - 1);
@@ -190,11 +314,32 @@ li{
             const numbersBetween = generateNumbersBetween(firstDayOfLastMonth, lastDayOfLastMonth);
             taskListToFilterByMonth = seperateTasksByMonth(numbersBetween, today, taskListToFilterByMonth);
             taskListByDay = listTaskIndexByDay(taskListToFilterByMonth);
-            calendar = createCalendar(calendar,index,numbersBetween,today,finalindex, taskListByDay, taskListToFilterByMonth);
+            calendar = createCalendar(calendar,index,numbersBetween,today,finalindex, taskListByDay, taskListToFilterByMonth, taskPopupsHtml);
 
             document.getElementById("calendarRender").innerHTML = calendar;
             document.getElementById("displayYear").innerHTML = displayYear;
             document.getElementById("displayMonth").innerHTML = displayMonth;
+            document.getElementById("taskPopups").innerHTML = taskPopupsHtml;
+
+            triggers = document.querySelectorAll('.popup-trigger');
+            popups = document.querySelectorAll('.popup');
+            closeButtons = document.querySelectorAll('.close-popup');
+
+                        // Add click event listeners to all trigger elements
+            triggers.forEach(trigger => {
+                trigger.addEventListener('click', function () {
+                    const popupId = this.getAttribute('data-popup-id');
+                    showPopup(popupId);
+                });
+            });
+
+            // Add click event listeners to close buttons
+            closeButtons.forEach(closeButton => {
+                closeButton.addEventListener('click', function () {
+                    const popupId = this.closest('.popup').id;
+                    hidePopup(popupId);
+                });
+            });
             
         }
 
@@ -273,28 +418,24 @@ li{
             return calendar;
         }
 
-        function generateAllDaysOfTheWeek(calendar, numbersBetween, Month, taskListByDay, taskListToFilterByMonth){ 
+        function generateAllDaysOfTheWeek(calendar, numbersBetween, Month, taskListByDay, taskListToFilterByMonth, taskPopupsHtml){ 
             for (let i = 1; i < numbersBetween.length+1; i++) { //Handles the numbered of the days of the week
                 if("Sunday" == new Date(Month.getFullYear(), Month.getMonth(), i).toLocaleDateString('en-US', options))
                     calendar += "<tr>";
                 if(taskListByDay.includes(i)){
-                    console.log("I saw "+i+ "in the list");
                     const matchingValues = taskListByDay.filter(item => item === i);
                     const totalOccurrences = matchingValues.length;
-                    console.log("I know there are "+totalOccurrences+" of the number "+i);
                     if(totalOccurrences > 1){
                         for (let i = 0; i < totalOccurrences; i++) {
-                            console.log('more than one task with this date on task # '+i);
                             const firstElement = taskListToFilterByMonth.shift();
-                            console.log('Removed:', firstElement);
                         }
-                        calendar += "<th class=numberedDayOfTheWeek>"+i+"<div class=boxedTask> A task lives here</div></th>";
+                        calendar += "<th class=numberedDayOfTheWeek>"+i+"<div class=boxedTask><span class=popup-trigger data-popup-id=popup"+i+">Multiple Tasks</span></div></th>";
                     }
                     else{
-                        console.log('only one task with this date');
                         const firstElement = taskListToFilterByMonth.shift();
-                        console.log('Removed:', firstElement);
-                        calendar += "<th class=numberedDayOfTheWeek>"+i+"<div class=boxedTask> A task lives here</div></th>";
+                        taskPopupsHtml = createTaskPopups(taskPopupsHtml, firstElement, totalOccurrences, i) // maybe move it out of this function to be made seperately
+                        console.log(taskPopupsHtml);
+                        calendar += "<th class=numberedDayOfTheWeek>"+i+"<div class=boxedTask>"+firstElement[0]+"</div></th>";
                     }
                     
                 }else{
@@ -303,6 +444,18 @@ li{
             }
             return calendar
         }
+
+        function createTaskPopups(taskPopupsHtml, elementToAdd, totalOccurrencesForDay, i){
+            var count = totalOccurrencesForDay;
+            if (count > 1){
+                console.log("more than one occurrence occured"); 
+            } else{ // test case below
+                taskPopupsHtml += "<div class=popup id=popup"+i+"><div class=popup-content><ul><li><p>Task: <b>"+elementToAdd[0]+"</b></p></li><li><h4>Due Date: "+elementToAdd[1]+"</h4><button class=close-popup navbar-button>Close</button></li></ul></div></div>"
+            }
+            return taskPopupsHtml
+        }
+
+        
 
         function generateEndingDayOfWeekSpace(calendar, finalindex){
             if(finalindex >= 0){
@@ -320,6 +473,22 @@ li{
         document.getElementById("prev").addEventListener("click", function() {
             renderCalendarLastMonth();
         });
+
+        // Function to show a specific popup by ID
+        function showPopup(popupId) {
+            const popup = document.getElementById(popupId);
+            if (popup) {
+                popup.style.display = 'block';
+            }
+        }
+
+        // Function to hide a specific popup by ID
+        function hidePopup(popupId) {
+            const popup = document.getElementById(popupId);
+            if (popup) {
+                popup.style.display = 'none';
+            }
+        }
 
     </script>
 </div>
