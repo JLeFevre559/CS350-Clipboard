@@ -180,6 +180,14 @@ class ProjectDeleteView(LoginRequiredMixin, DeleteView):
         if "delete" in request.POST and request.POST["delete"] == "yes":
             # User confirmed deletion, proceed to delete the project
             self.object = self.get_object()
+            # get all tasks and tasklists associated with the project
+            tasklists = TaskList.objects.filter(project=self.object)
+            tasks = Tasks.objects.filter(task_list__in=tasklists)
+            # delete all tasks and tasklists associated with the project
+            for task in tasks:
+                task.delete()
+            for tasklist in tasklists:
+                tasklist.delete()
             self.object.delete()
             return redirect(self.success_url)
         else:

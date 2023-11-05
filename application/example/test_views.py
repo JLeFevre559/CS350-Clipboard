@@ -77,6 +77,15 @@ class ProjectViewsTestCase(TestCase):
         self.assertEqual(updated_project.name, "Updated Test Project")
 
     def test_project_delete_view(self):
+        # add a task and task list to the project
+        tasklist = TaskList.objects.create(name="Test TaskList", project=self.project)
+        task = Tasks.objects.create(
+            task_name="Test Task",
+            description="Test Task Description",
+            status="Not Started",
+            task_list=tasklist,
+            due_date=self.date,
+        )
         # Test that the project isn't deleted when no is selected
         response = self.client.post(
             reverse("project-delete", args=[str(self.project.id)]),
@@ -92,6 +101,10 @@ class ProjectViewsTestCase(TestCase):
         # Check that the project still exists in the database
         self.assertTrue(Project.objects.filter(pk=self.project.pk).exists())
 
+        # Check that the task list and task still exist in the database
+        self.assertTrue(TaskList.objects.filter(pk=tasklist.pk).exists())
+        self.assertTrue(Tasks.objects.filter(pk=task.pk).exists())
+
         # Check that it can delete the project
         response = self.client.post(
             reverse("project-delete", args=[str(self.project.id)]),
@@ -102,6 +115,13 @@ class ProjectViewsTestCase(TestCase):
         self.assertEqual(response.status_code, 302)  # Redirects to project list
         with self.assertRaises(Project.DoesNotExist):
             Project.objects.get(id=self.project.id)
+        
+        # Check that the task list and task are deleted
+        with self.assertRaises(TaskList.DoesNotExist):
+            TaskList.objects.get(id=tasklist.id)
+
+        with self.assertRaises(Tasks.DoesNotExist):
+            Tasks.objects.get(id=task.id)
 
 
 class ProfileViewsTestCase(TestCase):
