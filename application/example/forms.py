@@ -3,7 +3,7 @@ from django.forms import CharField, EmailField, DateField, SelectDateWidget
 from .models import Project, TaskList, Tasks
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
-import datetime
+from datetime import date
 
 class ProjectForm(forms.ModelForm):
     class Meta:
@@ -15,8 +15,8 @@ class ProjectForm(forms.ModelForm):
 class ProfileCreationForm(UserCreationForm):
     date_of_birth = DateField(
         required=True,
-        widget=SelectDateWidget(years=range(1920, datetime.date.today().year)),
-        initial=datetime.date.today(),
+        widget=SelectDateWidget(years=range(date.today().year, 1920, -1)),
+        initial=date(date.today().year, 1, 1),
     )  # datetime shows a range of values from 1920 - current year
     profile_color = forms.CharField(widget=forms.HiddenInput(), required=False)
 
