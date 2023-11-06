@@ -55,7 +55,7 @@ li{
 <div>
     <ul class="hidden">
         {% for task in allTasks %}
-            <li>{{ task.task_name }}?{{ task.due_date }}</li>
+            <li>{{ task.task_name }}?{{ task.due_date }}?{{ task.description}}</li>
         {% endfor %}
     </ul>
     <div class="monthBoxDiv">
@@ -414,12 +414,12 @@ li{
                 if(value > 1) {
                     for (let i = 0; i < value; i++) {
                             const firstElement = taskListToFilterByMonthPopupList.shift();
-                            taskPopupsHtml += "<ul><li><p>Task: <b>"+firstElement[0]+"</b></p></li><li><h4>Due Date: "+firstElement[1]+"</h4><button class=close-popup navbar-button>Close</button></li></ul>";
+                            taskPopupsHtml += "<ul><li><p>Task: <b>"+firstElement[0]+"</b></p></li><li><p>Description: <b>"+firstElement[2]+"</b></p></li><li><h4>Due Date: "+firstElement[1]+"</h4><button class=close-popup navbar-button>Close</button></li></ul>";
                         }
                     }
                     else{
                         const firstElement = taskListToFilterByMonthPopupList.shift();
-                        taskPopupsHtml += "<ul><li><p>Task: <b>"+firstElement[0]+"</b></p></li><li><h4>Due Date: "+firstElement[1]+"</h4><button class=close-popup navbar-button>Close</button></li></ul>";
+                        taskPopupsHtml += "<ul><li><p>Task: <b>"+firstElement[0]+"</b></p></li><li><p>Description: <b>"+firstElement[2]+"</b></p></li><li><h4>Due Date: "+firstElement[1]+"</h4><button class=close-popup navbar-button>Close</button></li></ul>";
                     }
                 taskPopupsHtml += "</div></div>"
             }
