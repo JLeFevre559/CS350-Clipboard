@@ -188,14 +188,14 @@ li{
             taskListToFilterByMonth = [];
             taskListByDay = [];
             today = new Date();
-            
+            today.setDate(1);
             
             firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
             lastDay = new Date(today.getFullYear(), today.getMonth() + 1, 0);
             firstDayOfMonth = firstDay.getDate();
             lastDayOfMonth = lastDay.getDate();
             firstDayOfWeekName = firstDay.toLocaleDateString('en-US', options);
-            index = ReverseDayOfTheWeek.indexOf(firstDay);
+            index = ReverseDayOfTheWeek.indexOf(firstDayOfWeekName);
             finalindex = dayOfTheWeek.indexOf(lastDay.toLocaleDateString('en-US', options));
 
             displayMonth = months[today.getMonth()];
@@ -215,8 +215,7 @@ li{
             popups = document.querySelectorAll('.popup');
             closeButtons = document.querySelectorAll('.close-popup');
 
-
-                        // Add click event listeners to all trigger elements
+            // Add click event listeners to all trigger elements
             triggers.forEach(trigger => {
                 trigger.addEventListener('click', function () {
                     const popupId = this.getAttribute('data-popup-id');
@@ -435,7 +434,7 @@ li{
                         const firstElement = taskListToFilterByMonth.shift();
                         taskPopupsHtml = createTaskPopups(taskPopupsHtml, firstElement, totalOccurrences, i) // maybe move it out of this function to be made seperately
                         console.log(taskPopupsHtml);
-                        calendar += "<th class=numberedDayOfTheWeek>"+i+"<div class=boxedTask>"+firstElement[0]+"</div></th>";
+                        calendar += "<th class=numberedDayOfTheWeek>"+i+"<div class=boxedTask><span class=popup-trigger data-popup-id=popup"+i+">"+firstElement[0]+"</span></div></th>";
                     }
                     
                 }else{
@@ -453,9 +452,7 @@ li{
                 taskPopupsHtml += "<div class=popup id=popup"+i+"><div class=popup-content><ul><li><p>Task: <b>"+elementToAdd[0]+"</b></p></li><li><h4>Due Date: "+elementToAdd[1]+"</h4><button class=close-popup navbar-button>Close</button></li></ul></div></div>"
             }
             return taskPopupsHtml
-        }
-
-        
+        }       
 
         function generateEndingDayOfWeekSpace(calendar, finalindex){
             if(finalindex >= 0){
