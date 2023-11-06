@@ -71,21 +71,6 @@ li{
 
 
 <!--- Example to use 
-    <div class="task-list">
-        <div>
-          <div class="task">
-            <p><span class="popup-trigger" data-popup-id="popup1">Task 1</span></p>
-          </div>
-          <div class="task">
-            <p><span class="popup-trigger" data-popup-id="popup2">Task 2</span></p>
-          </div>
-          <div class="task">
-            <p><span class="popup-trigger" data-popup-id="popup3">Task 3</span></p>
-          </div>
-        </div>
-    </div>
-
-
     <div class="popup" id="popup1">
         <div class="popup-content">
             <ul>
@@ -172,7 +157,10 @@ li{
         var taskListByDay = [];
         var triggers;
         var popups;
-        var closeButtons
+        var closeButtons;
+        var taskListToFilterByMonthPopupList;
+        var taskListByDayPopupList;
+        var taskOccurrences = 0;
 
         for (var i = 0; i < listItems.length; i++) {
             var textContent = listItems[i].textContent;  // Get the text content of the element
@@ -204,7 +192,10 @@ li{
             const numbersBetween = generateNumbersBetween(firstDayOfMonth, lastDayOfMonth);
             taskListToFilterByMonth = seperateTasksByMonth(numbersBetween, today, taskListToFilterByMonth);
             taskListByDay = listTaskIndexByDay(taskListToFilterByMonth);
+            taskListToFilterByMonthPopupList = Array.from(taskListToFilterByMonth);;
+            taskListByDayPopupList = taskListByDay;
             calendar = createCalendar(calendar,index,numbersBetween,today,finalindex, taskListByDay, taskListToFilterByMonth, taskPopupsHtml);
+            taskPopupsHtml = createTaskPopups(taskPopupsHtml, taskListByDayPopupList, taskListToFilterByMonthPopupList);
 
             document.getElementById("calendarRender").innerHTML = calendar;
             document.getElementById("displayYear").innerHTML = displayYear;
@@ -263,7 +254,11 @@ li{
             const numbersBetween = generateNumbersBetween(firstDayOfNextMonth, lastDayOfNextMonth);
             taskListToFilterByMonth = seperateTasksByMonth(numbersBetween, today, taskListToFilterByMonth);
             taskListByDay = listTaskIndexByDay(taskListToFilterByMonth);
+            
+            taskListToFilterByMonthPopupList = Array.from(taskListToFilterByMonth);;
+            taskListByDayPopupList = taskListByDay;
             calendar = createCalendar(calendar,index,numbersBetween,today,finalindex, taskListByDay, taskListToFilterByMonth, taskPopupsHtml);
+            taskPopupsHtml = createTaskPopups(taskPopupsHtml, taskListByDayPopupList, taskListToFilterByMonthPopupList);
 
             document.getElementById("calendarRender").innerHTML = calendar;
             document.getElementById("displayYear").innerHTML = displayYear;
@@ -274,7 +269,7 @@ li{
             popups = document.querySelectorAll('.popup');
             closeButtons = document.querySelectorAll('.close-popup');
 
-                        // Add click event listeners to all trigger elements
+            // Add click event listeners to all trigger elements
             triggers.forEach(trigger => {
                 trigger.addEventListener('click', function () {
                     const popupId = this.getAttribute('data-popup-id');
@@ -313,7 +308,10 @@ li{
             const numbersBetween = generateNumbersBetween(firstDayOfLastMonth, lastDayOfLastMonth);
             taskListToFilterByMonth = seperateTasksByMonth(numbersBetween, today, taskListToFilterByMonth);
             taskListByDay = listTaskIndexByDay(taskListToFilterByMonth);
+            taskListToFilterByMonthPopupList = Array.from(taskListToFilterByMonth);;
+            taskListByDayPopupList = taskListByDay;
             calendar = createCalendar(calendar,index,numbersBetween,today,finalindex, taskListByDay, taskListToFilterByMonth, taskPopupsHtml);
+            taskPopupsHtml = createTaskPopups(taskPopupsHtml, taskListByDayPopupList, taskListToFilterByMonthPopupList);
 
             document.getElementById("calendarRender").innerHTML = calendar;
             document.getElementById("displayYear").innerHTML = displayYear;
@@ -432,8 +430,6 @@ li{
                     }
                     else{
                         const firstElement = taskListToFilterByMonth.shift();
-                        taskPopupsHtml = createTaskPopups(taskPopupsHtml, firstElement, totalOccurrences, i) // maybe move it out of this function to be made seperately
-                        console.log(taskPopupsHtml);
                         calendar += "<th class=numberedDayOfTheWeek>"+i+"<div class=boxedTask><span class=popup-trigger data-popup-id=popup"+i+">"+firstElement[0]+"</span></div></th>";
                     }
                     
@@ -442,17 +438,7 @@ li{
                 }
             }
             return calendar
-        }
-
-        function createTaskPopups(taskPopupsHtml, elementToAdd, totalOccurrencesForDay, i){
-            var count = totalOccurrencesForDay;
-            if (count > 1){
-                console.log("more than one occurrence occured"); 
-            } else{ // test case below
-                taskPopupsHtml += "<div class=popup id=popup"+i+"><div class=popup-content><ul><li><p>Task: <b>"+elementToAdd[0]+"</b></p></li><li><h4>Due Date: "+elementToAdd[1]+"</h4><button class=close-popup navbar-button>Close</button></li></ul></div></div>"
-            }
-            return taskPopupsHtml
-        }       
+        }   
 
         function generateEndingDayOfWeekSpace(calendar, finalindex){
             if(finalindex >= 0){
@@ -470,6 +456,33 @@ li{
         document.getElementById("prev").addEventListener("click", function() {
             renderCalendarLastMonth();
         });
+
+        function createTaskPopups(taskPopupsHtml, taskListByDayPopupList, taskListToFilterByMonthPopupList){
+            const taskOccurrences = {};
+            for (const element of taskListByDayPopupList) {
+                if (taskOccurrences[element]) {
+                    taskOccurrences[element]++;
+                } else {
+                    taskOccurrences[element] = 1;
+                }
+            }            
+            for (const key in taskOccurrences) {
+                const value = taskOccurrences[key];
+                taskPopupsHtml += "<div class=popup id=popup"+key+"><div class=popup-content>";
+                if(value > 1) {
+                    for (let i = 0; i < value; i++) {
+                            const firstElement = taskListToFilterByMonthPopupList.shift();
+                            taskPopupsHtml += "<ul><li><p>Task: <b>"+firstElement[0]+"</b></p></li><li><h4>Due Date: "+firstElement[1]+"</h4><button class=close-popup navbar-button>Close</button></li></ul>";
+                        }
+                    }
+                    else{
+                        const firstElement = taskListToFilterByMonthPopupList.shift();
+                        taskPopupsHtml += "<ul><li><p>Task: <b>"+firstElement[0]+"</b></p></li><li><h4>Due Date: "+firstElement[1]+"</h4><button class=close-popup navbar-button>Close</button></li></ul>";
+                    }
+                taskPopupsHtml += "</div></div>"
+            }
+            return taskPopupsHtml
+        }    
 
         // Function to show a specific popup by ID
         function showPopup(popupId) {
