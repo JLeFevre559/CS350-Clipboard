@@ -408,6 +408,15 @@ function deleteTaskList(tasklist_id, confirmation){
             if (taskListElement) {
                 taskListElement.remove();
             }
+            // Check if there are no more tasklists
+            const taskLists = document.querySelectorAll('.task-list');
+            if (taskLists.length === 0) {
+                // Display a message saying there are no tasklists
+                const taskListContainer = document.querySelector('.projectdiv');
+                if (taskListContainer) {
+                    taskListContainer.innerHTML = '<h2>No Tasklists available</h2>';
+                }
+            }
         },
         error: function (xhr, textStatus, errorThrown) {
             // Handle errors (e.g., display an error message)
