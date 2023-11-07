@@ -481,8 +481,8 @@ function editTask(taskId, newName, newAssignee, newDueDate, newDescription, newP
             // Handle the success response (e.g., display a message)
             console.log(response.message);
 
-            // Update the task details in the UI
-            // You can update the task details wherever they are displayed in the UI.
+            // Reload the page
+            location.reload();
         },
         error: function (xhr, textStatus, errorThrown) {
             // Handle errors (e.g., display an error message)
