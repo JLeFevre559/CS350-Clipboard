@@ -376,9 +376,19 @@ function editTaskPopup(taskId, taskName, taskAssignee, taskDueDate, taskDescript
     editTaskIdInput.value = taskId;
     editTaskNameInput.value = taskName;
     editTaskAssigneeInput.value = taskAssignee;
-    editTaskDueDateInput.value = taskDueDate;
     editTaskDescriptionInput.value = taskDescription;
     editTaskPriorityInput.value = taskPriority;
+
+    // Convert taskDueDate to a date
+    const date = new Date(taskDueDate);
+
+    // Format the date as YYYY-MM-DD
+    var day = ("0" + date.getDate()).slice(-2);
+    var month = ("0" + (date.getMonth() + 1)).slice(-2);
+
+    var formattedDueDate = date.getFullYear()+"-"+(month)+"-"+(day);
+
+    editTaskDueDateInput.value = formattedDueDate;
 
     showPopup("editTaskPopup");
 }
