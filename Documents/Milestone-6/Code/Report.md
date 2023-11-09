@@ -18,4 +18,4 @@
     * I dedicated approximately 10 hours to the Requirements for Milestone 6
     * Team meetings totaled 6 hours  
   
-* **5-minute Video Demo**: 
+* **5-minute Video Demo**: https://youtu.be/Vj7jtFH3j3M
