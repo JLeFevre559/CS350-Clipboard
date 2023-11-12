@@ -17,6 +17,8 @@
 
 * Show test coverage
 
+* Show burndown graph
+
 ### Release criteria checklist
 
 # Web App Release Criteria
@@ -108,3 +110,8 @@
 ## Feedback and Improvement
 - [-] Mechanism for collecting user feedback and bug reports.
 - [-] Process for prioritizing and implementing improvements and bug fixes.
+
+
+### Client Acceptance Meeting
+
+* The meeting with the client went well, and they were happy with what they got. However, if this were a real work environment with real money on the line it's likely they would have expected the release checklist to be more filled out.
