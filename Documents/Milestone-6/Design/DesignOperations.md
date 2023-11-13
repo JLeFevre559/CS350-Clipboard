@@ -12,4 +12,4 @@ Our code is structured to support core CRUD (Create, Read, Update, Delete) funct
 ### Areas for Improvement
 - **Workflow Automation:** Our current system lacks automated workflows, such as automatic updates of task statuses or project milestones. Introducing automation could streamline many manual processes, increase efficiency, and reduce the potential for human error.
 - **Enhanced Error Handling:** While we have basic error handling mechanisms, there's room for improvement, especially in AJAX-based operations. More sophisticated error handling would improve the reliability and user experience of our application.
-- **Code Modularity and Reusability:** Another area for improvement is in making our code more modular and reusable. Refactoring certain parts of our codebase has lead to better maintainability, easier updates, and the potential for code reuse in future projects.
+- **Code Modularity and Reusability:** Another area for improvement is in making our code more modular and reusable. Refactoring certain parts of our codebase has led to better maintainability, easier updates, and the potential for code reuse in future projects.
