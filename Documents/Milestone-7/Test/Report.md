@@ -12,7 +12,7 @@
     * Doing the entire security audit encompasses so much it was difficult not to miss something.
   
 * **Engineering investment**
-    * I dedicated approximately 8 hours to the Requirements for Milestone 7
+    * I dedicated approximately 12 hours to the Requirements for Milestone 7
     * Team meetings totaled 6 hours  
   
 * **5-minute Video Demo**: 
