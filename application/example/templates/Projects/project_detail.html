@@ -179,8 +179,8 @@
             <input type="hidden" name="tasklist_id" id="editTasklistId" value="">
             <label for="editTasklistName">New Tasklist Name:</label>
             <input type="text" name="new_name" id="editTasklistName" required>
-            <button type="submit">Save</button>
-            <button class="close-popup">Cancel</button>
+            <button type="submit" id="submitButton">Save</button>
+            <button class="close-popup" id="cancelButton">Cancel</button>
         </form>
     </div>
 </div>
@@ -324,6 +324,7 @@ function editTaskList(tasklist_id, name){
             const tasklistHeader = document.querySelector(`[id="${tasklist_id}-text"]`);
             if (tasklistHeader) {
                 tasklistHeader.textContent = name;
+                tasklistHeader.setAttribute("data-task-list-name", name);
             }
         },
         error: function (xhr, textStatus, errorThrown) {
@@ -554,17 +555,37 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Add event listener for form submission
     const editTasklistForm = document.querySelector("#editTasklistForm");
-    editTasklistForm.addEventListener("submit", function (event) {
-        event.preventDefault();
-        const tasklistId = document.querySelector("#editTasklistId").value;
-        const newTasklistName = document.querySelector("#editTasklistName").value;
 
-        // Call the editTaskList function with the updated data
-        editTaskList(tasklistId, newTasklistName);
-
-        // Close the popup
-        hidePopup("editTasklistPopup");
+    // Variable to track whether the form should be submitted
+    let shouldSubmitForm = false;
+    const cancelButton = this.getElementById("cancelButton");
+    cancelButton.addEventListener("click", function () {
+        shouldSubmitForm = false;
     });
+
+    const submitButton = this.getElementById("submitButton");
+    submitButton.addEventListener("click", function () {
+        shouldSubmitForm = true;
+    });
+
+    editTasklistForm.addEventListener("submit", function (event) {
+        if (shouldSubmitForm) {
+            event.preventDefault();
+            const tasklistId = document.querySelector("#editTasklistId").value;
+            const newTasklistName = document.querySelector("#editTasklistName").value;
+
+            // Call the editTaskList function with the updated data
+            editTaskList(tasklistId, newTasklistName);
+
+            // Close the popup
+            hidePopup("editTasklistPopup");
+        }
+        else {
+            event.preventDefault();
+            hidePopup("editTasklistPopup");
+        }
+    });
+
 });
 
 document.addEventListener("DOMContentLoaded", function () {
