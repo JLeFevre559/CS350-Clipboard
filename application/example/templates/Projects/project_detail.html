@@ -179,8 +179,8 @@
             <input type="hidden" name="tasklist_id" id="editTasklistId" value="">
             <label for="editTasklistName">New Tasklist Name:</label>
             <input type="text" name="new_name" id="editTasklistName" required>
-            <button type="submit" id="submitButton">Save</button>
-            <button class="close-popup" id="cancelButton">Cancel</button>
+            <button type="submit" >Save</button>
+            <button type="button" class="close-popup" >Cancel</button>
         </form>
     </div>
 </div>
@@ -215,7 +215,7 @@
                 <option value="Low">Low</option>
             </select>
             <button type="submit">Save</button>
-            <button class="close-popup">Cancel</button>
+            <button type="button" class="close-popup">Cancel</button>
         </form>
     </div>
 </div>
@@ -556,20 +556,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Add event listener for form submission
     const editTasklistForm = document.querySelector("#editTasklistForm");
 
-    // Variable to track whether the form should be submitted
-    let shouldSubmitForm = false;
-    const cancelButton = this.getElementById("cancelButton");
-    cancelButton.addEventListener("click", function () {
-        shouldSubmitForm = false;
-    });
-
-    const submitButton = this.getElementById("submitButton");
-    submitButton.addEventListener("click", function () {
-        shouldSubmitForm = true;
-    });
-
     editTasklistForm.addEventListener("submit", function (event) {
-        if (shouldSubmitForm) {
             event.preventDefault();
             const tasklistId = document.querySelector("#editTasklistId").value;
             const newTasklistName = document.querySelector("#editTasklistName").value;
@@ -579,11 +566,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Close the popup
             hidePopup("editTasklistPopup");
-        }
-        else {
-            event.preventDefault();
-            hidePopup("editTasklistPopup");
-        }
     });
 
 });
