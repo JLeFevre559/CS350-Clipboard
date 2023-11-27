@@ -8,7 +8,7 @@ Project List
 
 
 {% block content %}
-  <div class="projectdiv">
+  <div class="projectsdiv">
     {% for project in projects.projects %}
         <div class="project_list_view">
             <a href="{% url 'project-detail' project.id %}">
