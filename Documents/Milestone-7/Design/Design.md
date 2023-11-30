@@ -13,3 +13,10 @@
     * I changed the tasklists to not match size in the rows, and instead fit the tasks inside of them
         * This was due to feedback we got from real users during milestone 6 that it felt weird to have one tasklist that was really long next to another that was short.
     * I changed the tasklists to work in columns where the elements fit together vertically
+
+# I checked the scalability of Clipboard
+
+    * I checked the scalability of our Vercel deployment
+        * I checked our current usage and compared it to our current and other offered plans.
+    * I checked the scalability of our MongoDB database
+        * I checked our current usage and compared it to our current and other offered plans.
