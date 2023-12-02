@@ -15,4 +15,4 @@
     * I dedicated approximately 12 hours to the Requirements for Milestone 7
     * Team meetings totaled 6 hours  
   
-* **5-minute Video Demo**: 
+* **5-minute Video Demo**: https://youtu.be/NL6qW-PdC78
