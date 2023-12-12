@@ -52,19 +52,54 @@
                     {% for task in tasks %}
                         {% if task.task_list == tasklist %}
                             <div class="task" id = "{{task.id}}-task">
-                                <div class="task-detail-wrapper">
+                                <div class="task-detail-wrapper {{ task.id }}-wrapper">
                                     <p>
-                                        <span class="task-detail-popup-trigger popup-trigger" data-popup-id="task-detail-popup" data-task-id="{{ task.id }}" data-task-assignee="{{ task.assignee }}" 
-                                            data-task-name="{{ task.task_name }}" data-task-due-date="{{ task.due_date }}" data-task-description="{{ task.description }}" 
-                                            data-task-priority="{{ task.priority }}" data-task-status="{{ task.status }}">{{ task.task_name }}:
-                                        </span><span id="{{ task.id }}-status" class="{{ task.status }}">{{ task.status }}</span>
+                                        <span class="task-detail-trigger task-id-{{ task.id }}-inverted" data-task-id="{{ task.id }}">{{ task.task_name }}:</span>
+                                        <span class="task-id-{{ task.id }}-hideable" style="display:none" onclick="hideTaskDetails('{{ task.id }}')">{{ task.task_name }}:</span>
+                                        <span id="{{ task.id }}-status" class="{{ task.status }}">{{ task.status }}</span>
                                     </p>
+                                    <ul>
+                                        <li class = "task-id-{{ task.id }}-hideable" style="display:none"><p>Assigned To: <t id="task-assignee">{{ task.assignee }}</t></p></li>
+                                        <li class = "task-id-{{ task.id }}-hideable" style="display:none">
+                                            <p>Priority: <b id="task-priority">{{ task.priority }}</b> </p>
+                                        </li>
+                                        <li class = "task-id-{{ task.id }}-hideable" style="display:none">
+                                            <p>Description: <p id="task-description">{{ task.description }}</p> </p>
+                                        </li>
+                                        <li class = "task-id-{{ task.id }}-hideable" style="display:none">
+                                            <p>Due Date: <b id="task-due-date">{{ task.due_date }}</b></p>
+                                        </li>
+                                        <li>
+                                            <div class="update-status-button-wrapper">
+                                                <button class="update-status-button button" data-status="In Progress" onclick="updateTaskStatus('{{ task.id }}', 'In Progress')">In Progress</button>
+                                                <button class="update-status-button button" data-status="Done" onclick="updateTaskStatus('{{ task.id }}', 'Done')">Done
+                                                    <img src="{% static '/images/checkmark.png' %}" sizes="32x32">
+                                                </button>
+                                            </div>
+                                        </li>
+                                        <div class="task-id-{{ task.id }}-hideable" style="display:none">
+                                            <div class="popup-task-bottom-buttons">
+                                                <button class="project-button" onclick="hideTaskDetails('{{ task.id }}')">Close</button>
+                                                <div class="popup-task-update-buttons">
+                                                    <button class="edit-button" id ="update-task" data-task="" data-task-name="" 
+                                                        onclick="editTaskPopup('{{ task.id }}', '{{ task.task_name }}', '{{ task.assignee }}', '{{ task.due_date }}', '{{ task.description }}', '{{ task.priority }}')">
+                                                        <img src="{% static '/images/edit.png' %}" sizes="32x32">
+                                                    </button>
+                                                    <button class="trash-button" id ="update-task" data-task=""
+                                                        onclick="showConfirmationPopup('{{ task.id }}', 'task')"> 
+                                                        <img src="{% static '/images/trash.png' %}" sizes="32x32">
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </ul>
                                 </div>
-                                <button class="update-status-button" data-status="In Progress" data-task="{{ task.id }}" onclick="updateTaskStatus('{{ task.id }}', 'In Progress')">In Progress</button>
-                                <button class="update-status-button" data-status="Done" data-task="{{ task.id }}" onclick="updateTaskStatus('{{ task.id }}', 'Done')">Done
-                                    <img src="{% static '/images/checkmark.png' %}" sizes="32x32">
-                                </button>
+                                <div class="show-more-details task-id-{{ task.id }}-inverted">
+                                    <button class="show-more-details-button project-button task-detail-trigger" data-task-id="{{ task.id }}">More...
+                                    </button>
+                                </div>
                             </div>
+                            
                         {% endif %}
                     {% empty %}
                         <h2>No Tasks</h2>
@@ -179,8 +214,8 @@
             <input type="hidden" name="tasklist_id" id="editTasklistId" value="">
             <label for="editTasklistName">New Tasklist Name:</label>
             <input type="text" name="new_name" id="editTasklistName" required>
-            <button type="submit">Save</button>
-            <button class="close-popup">Cancel</button>
+            <button type="submit" >Save</button>
+            <button type="button" class="close-popup" >Cancel</button>
         </form>
     </div>
 </div>
@@ -215,7 +250,7 @@
                 <option value="Low">Low</option>
             </select>
             <button type="submit">Save</button>
-            <button class="close-popup">Cancel</button>
+            <button type="button" class="close-popup">Cancel</button>
         </form>
     </div>
 </div>
@@ -224,6 +259,9 @@
 const triggers = document.querySelectorAll('.popup-trigger');
 const popups = document.querySelectorAll('.popup');
 const closeButtons = document.querySelectorAll('.close-popup');
+
+// Keep track of the last task ID that was clicked
+var lastTaskId = null;
 
 // Function to show a specific popup by ID
 function showPopup(popupId) {
@@ -324,6 +362,7 @@ function editTaskList(tasklist_id, name){
             const tasklistHeader = document.querySelector(`[id="${tasklist_id}-text"]`);
             if (tasklistHeader) {
                 tasklistHeader.textContent = name;
+                tasklistHeader.setAttribute("data-task-list-name", name);
             }
         },
         error: function (xhr, textStatus, errorThrown) {
@@ -554,89 +593,80 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Add event listener for form submission
     const editTasklistForm = document.querySelector("#editTasklistForm");
+
     editTasklistForm.addEventListener("submit", function (event) {
-        event.preventDefault();
-        const tasklistId = document.querySelector("#editTasklistId").value;
-        const newTasklistName = document.querySelector("#editTasklistName").value;
+            event.preventDefault();
+            const tasklistId = document.querySelector("#editTasklistId").value;
+            const newTasklistName = document.querySelector("#editTasklistName").value;
 
-        // Call the editTaskList function with the updated data
-        editTaskList(tasklistId, newTasklistName);
+            // Call the editTaskList function with the updated data
+            editTaskList(tasklistId, newTasklistName);
 
-        // Close the popup
-        hidePopup("editTasklistPopup");
+            // Close the popup
+            hidePopup("editTasklistPopup");
     });
+
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-    const viewTaskButtons = document.querySelectorAll(".task-detail-popup-trigger");
+    const viewTaskButtons = document.querySelectorAll(".task-detail-trigger");
     viewTaskButtons.forEach(function (button) {
         button.addEventListener("click", function () {
             const taskId = this.getAttribute("data-task-id");
-            const taskName = this.getAttribute("data-task-name");
-            const taskStatus = this.getAttribute("data-task-status");
-            const taskAssignee = this.getAttribute("data-task-assignee");
-            const taskDescription = this.getAttribute("data-task-description");
-            const taskDueDate = this.getAttribute("data-task-due-date");
-            const taskPriority = this.getAttribute("data-task-priority");
-            const popup = document.querySelector("#task-detail-popup");
 
-            const taskStatusView = document.querySelector("#task-status");
-            taskStatusView.textContent = taskStatus;
-            taskStatusView.className = taskStatus;
-        
-            // Set the task ID in the data-task-id attribute for update-status-button buttons
-            const updateStatusButtons = popup.querySelectorAll(".update-status-button");
-            updateStatusButtons.forEach(function (updateButton) {
-                updateButton.setAttribute("data-task-id", taskId);
-                updateButton.addEventListener("click", function () {
-                    const newStatus = this.getAttribute("data-status");
-                    updateTaskStatus(taskId, newStatus );
-                    // Update the task status within the popup
-                    if (taskStatusView) {
-                        taskStatusView.textContent = newStatus;
-                        taskStatusView.className = newStatus;
-                    }
-                });
-            });
+            // hide previous task details
+            if(lastTaskId != null && lastTaskId != taskId){
+                hideTaskDetails(lastTaskId);
+            }
+            lastTaskId = taskId;
+            // show new task details
+            showTaskDetails(taskId);
 
-            const deleteButtons = popup.querySelectorAll(".trash-button");
-            deleteButtons.forEach(function(deleteButton){
-                deleteButton.setAttribute("data-task-id", taskId);
-                deleteButton.addEventListener("click", function (){
-                    showConfirmationPopup(taskId, 'task');
-                });
-            });
-
-            const editButtons = popup.querySelectorAll(".edit-button");
-            editButtons.forEach(function(editButton){
-                editButton.setAttribute("data-task-id", taskId);
-                editButton.addEventListener("click", function(){
-                    editTaskPopup(taskId,taskName,taskAssignee,taskDueDate,taskDescription,taskPriority)
-                });
-            });
-
-            const taskNameView = document.querySelector("#task-name");
-            taskNameView.textContent = taskName;
-
-            const taskAssigneeView = document.querySelector("#task-assignee");
-            taskAssigneeView.textContent = taskAssignee;
-
-            const taskDescriptionView = document.querySelector("#task-description");
-            taskDescriptionView.textContent = taskDescription;
-
-            const taskDueDateView = document.querySelector("#task-due-date");
-            taskDueDateView.textContent = taskDueDate;
-
-            const taskIdView = document.querySelector("#update-task");
-            taskIdView.setAttribute("data-task", taskId);
-
-            const taskPriorityView = document.querySelector("#task-priority");
-            taskPriorityView.textContent = taskPriority;
-
-            showPopup("task-detail-popup");
         });
     });
 });
+
+//helper function to show task details
+function showTaskDetails(taskId){
+    // set display of task to block
+    const taskDetailWrapper = document.getElementsByClassName(taskId + "-wrapper")[0];
+    if (taskDetailWrapper) taskDetailWrapper.style.display = "block";
+    const taskElements = document.getElementsByClassName("task-id-" + taskId + "-hideable");
+    //set all task elements to display
+    if (taskElements){
+        for (var i = 0; i < taskElements.length; i++) {
+            taskElements[i].style.display = "block";
+        }
+    }
+    const showMoreDetailsButton = document.getElementsByClassName("task-id-" + taskId + "-inverted");
+    //set inverted button to display none
+    if (showMoreDetailsButton){
+        for (var i = 0; i < showMoreDetailsButton.length; i++) {
+            showMoreDetailsButton[i].style.display = "none";
+        }
+    }
+}
+
+//helper function to hide task details
+function hideTaskDetails(taskId){
+    // reset display style of task detail wrapper to flex
+    const taskDetailWrapper = document.getElementsByClassName(taskId + "-wrapper")[0];
+    if (taskDetailWrapper) taskDetailWrapper.style.display = "flex";
+    // set display of task to none
+    const taskElements = document.getElementsByClassName("task-id-" + taskId + "-hideable");
+    if (taskElements){
+        for (var i = 0; i < taskElements.length; i++) {
+            taskElements[i].style.display = "none";
+        }
+    }
+    const showMoreDetailsButton = document.getElementsByClassName("task-id-" + taskId + "-inverted");
+    //set show more details button to display block
+    if (showMoreDetailsButton){
+        for (var i = 0; i < showMoreDetailsButton.length; i++) {
+            showMoreDetailsButton[i].style.display = "flex";
+        }
+    }
+}
 
 document.addEventListener("DOMContentLoaded", function () {
     const editTaskForm = document.querySelector("#editTaskForm");

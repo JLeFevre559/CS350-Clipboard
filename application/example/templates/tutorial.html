@@ -1,0 +1,91 @@
+{% extends 'theme.html' %}
+
+{% load static %}
+
+{% block title %}Tutorial{% endblock title %}
+
+{% block content %}
+<style>
+    .tutorial-section {
+        border: 2px solid #ccc; /* Gray border */
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 8px; /* Rounded corners */
+    }
+
+    .tutorial-image {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+    }
+</style>
+
+    <h1>Welcome to Clipboard!</h1>
+    <p>Clipboard is designed to help you manage your projects and tasks effectively. Here's a quick guide on how to use the key features of our app.</p>
+
+    <div class="tutorial-section">
+        <h2>Accessing the Application</h2>
+        <p><strong>Homepage:</strong> Start by visiting Clipboard. Here you can view the main features of our app.</p>
+        <img class="tutorial-image" src="{% static 'images/tutorial/tutorial1.png' %}" alt="Homepage Screenshot"/>
+    </div>
+
+    <div class="tutorial-section">
+        <p><strong>Login/Signup:</strong> To access your personal projects and tasks, you'll need to log in. If you don't have an account yet, sign up easily by clicking the “Sign Up” link.</p>
+        <img class="tutorial-image" src="{% static 'images/tutorial/tutorial2.png' %}" alt="Login/Signup Screenshot"/>
+    </div>
+
+    <div class="tutorial-section">
+        <h2>Navigating Through Clipboard</h2>
+        <p><strong>Dashboard:</strong> Once logged in, you'll be taken to your dashboard. This is your control center, where you can navigate to various parts of the app.</p>
+        <img class="tutorial-image" src="{% static 'images/tutorial/tutorial3.png' %}" alt="Dashboard Screenshot"/>
+    </div>
+
+    <div class="tutorial-section">
+        <h2>Managing Your Profile</h2>
+        <p><strong>Viewing Profile:</strong> Click on your profile to view personal information and customize your settings.</p>
+        <img class="tutorial-image" src="{% static 'images/tutorial/tutorial4.png' %}" alt="Profile Screenshot"/>
+    </div>
+
+    <div class="tutorial-section">
+        <h2>Working with Projects</h2>
+        <p><strong>Viewing Projects:</strong> Click on the “Projects” section to see all your ongoing projects.</p>
+        <img class="tutorial-image" src="{% static 'images/tutorial/tutorial5.png' %}" alt="Projects Section Screenshot"/>
+    </div>
+
+    <div class="tutorial-section">
+        <p><strong>Creating a New Project:</strong> To start a new project, simply click on “Create New Project” and fill out the required details.</p>
+        <img class="tutorial-image" src="{% static 'images/tutorial/tutorial6.png' %}" alt="Create Project Screenshot"/>
+    </div>
+
+    <div class="tutorial-section">
+        <p><strong>Editing and Deleting Projects:</strong> Each project can be edited or deleted from its detail page, giving you full control over your project's lifecycle.</p>
+        <img class="tutorial-image" src="{% static 'images/tutorial/tutorial7.png' %}" alt="Edit/Delete Project Screenshot"/>
+    </div>
+
+    <div class="tutorial-section">
+        <h2>Organizing Tasks</h2>
+        <p><strong>Task Management:</strong> Within each project, you can create, view, and manage your tasks and task lists. This helps in breaking down your projects into manageable activities.</p>
+        <img class="tutorial-image" src="{% static 'images/tutorial/tutorial8.png' %}" alt="Task Management Screenshot"/>
+    </div>
+
+    <div class="tutorial-section">
+        <h2>Using the Calendar</h2>
+        <p><strong>Calendar View:</strong> Access our calendar feature to keep track of important dates and deadlines. It’s a great way to stay organized and ahead of your schedule.</p>
+        <img class="tutorial-image" src="{% static 'images/tutorial/tutorial9.png' %}" alt="Calendar View Screenshot"/>
+    </div>
+
+    <div class="tutorial-section">
+        <h2>Getting Help</h2>
+        <p><strong>Tutorial Page:</strong> If you need guidance on how to use Clipboard, visit our Tutorial Page. Here, you’ll find step-by-step instructions and tips to effectively use the app.</p>
+        <img class="tutorial-image" src="{% static 'images/tutorial/tutorial10.png' %}" alt="Tutorial Page Screenshot"/>
+    </div>
+
+    <div class="tutorial-section">
+        <h2>Logging Out</h2>
+        <p><strong>Safe Logout:</strong> After you’re done, remember to log out by clicking on the logout link, ensuring your account remains secure.</p>
+        <img class="tutorial-image" src="{% static 'images/tutorial/tutorial11.png' %}" alt="Logout Screenshot"/>
+    </div>
+
+    <p>We hope this guide helps you get started with Clipboard. If you have any questions or need further assistance, don't hesitate to reach out to our support team. Happy planning and organizing with Clipboard!</p>
+{% endblock content %}

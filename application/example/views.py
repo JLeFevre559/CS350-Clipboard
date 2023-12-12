@@ -433,3 +433,6 @@ def update_profile(request):
         except get_user_model().DoesNotExist:
             return JsonResponse({"error": "User not found"}, status=404)
     return JsonResponse({"error": "Invalid request"}, status=400)
+
+def tutorial(request):
+    return render(request, 'tutorial.html')

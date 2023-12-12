@@ -1,6 +1,6 @@
 **ClipBoard Team Coder Helper**
 
-* Coder/[Design Pattern Calalog](Design%20pattern%20catalog.md)
+* Coder/[Copilot Details](Copilot%20Details.md)
     * Set up Github Copilot
     * Finished creating the Calendar Section of our application.
     * Increased Compatability with Firefox

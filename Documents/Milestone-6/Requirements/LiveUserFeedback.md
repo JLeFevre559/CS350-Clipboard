@@ -13,3 +13,11 @@
 
 ### Izzy A - 
     * Easy to use, simplistic. Icons should probably be shifted and resized to match each other, maybe add a log of edits/notes for tasks.
+
+### Turner A - 
+    * The workflow is very intuitive, I was able to create a simple project with tasks fairly easily. I was a bit annoyed that I couldn’t make a task with no due date, I ended up putting in random dates so that I could finish creating these types of tasks. I also found myself guessing the location of some of the buttons because there isn’t a consistent button style. Although I would usually guess correctly since the layout of the pages is quite good.
+
+### Landon A- 
+    * Clipboard allows for an intuitive and streamlined experience for its users to quickly create project task lists. The main appeal is the zero fluff and lightweight feel that makes it fairly easy to get into with minimal learning.
+
+    I would say my only complaint is that there is no visual indication at a glance of a task’s labeled priority. So a task that’s been labeled as high priority looks the same as a task labeled low priority.

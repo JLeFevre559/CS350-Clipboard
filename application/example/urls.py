@@ -19,6 +19,7 @@ from example.views import (
     delete_task,
     update_task,
     update_profile,
+    tutorial,
 )
 from django.contrib.auth import views as auth_views
 
@@ -47,4 +48,5 @@ urlpatterns = [
     path("delete_task/", delete_task, name="delete_task"),
     path("update_task/", update_task, name="update_task"),
     path("update_profile/", update_profile, name="update_profile"),
+    path('tutorial/', tutorial, name='tutorial'),
 ]
